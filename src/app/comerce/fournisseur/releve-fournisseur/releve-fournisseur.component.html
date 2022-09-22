@@ -1,0 +1,105 @@
+<div class="col-xl-14">
+    <app-card cardTitle="Liste relevé fournisseur" blockClass="table-border-style">
+        <form [formGroup]="formC">
+            <div class="pagination-inner">
+
+                <app-filtre-date (setNewDates)="getReleveDate($event)"></app-filtre-date>
+
+                <div class="col-sm-2" style="z-index: 99;">
+                    <app-autocomplete (addElementEvent)="setFournisseurID($event)"
+                        [keySelected]="keySelectedFournisseur" [objet]="objetFournisseur" [articles]="allFournisseurs"
+                        [idSelected]="idFournisseur" idHtml="client20"
+                        (openAddElementEvent)="openModalAjoutFournisseur()">
+                    </app-autocomplete>
+                </div>
+
+                <div class="col-sm-2">
+                    <select id="greet" (change)="getOption($event.target.value)" style=" border:rgb(200, 198, 198) 2px solid; padding-top: 3px !important; padding-left:1px !important;">
+                        <option value="factureAchat" >Facture achat</option>
+                        <option value="bonReception">Bon reception</option>
+                    </select>
+                </div>
+
+                <button class="btn btn-primary" type="button" (click)="getReleveFournisseur()">Recherche</button>
+
+                <button class="btn btn-info" type="button" (click)="calculerSolde()">Calculer solde</button>
+
+            </div>
+
+
+            <div style="float:right; margin-top: 10px; display: flex; flex-direction: row;">
+                <span style="color: brown; font-weight: 900; margin-top: 5px;">Ancien solde:
+                    {{fonctionPartagesService.getFormaThreeAfterVerguleNomber(soldeBefore)}}</span>
+                <div style="margin-left:auto;">
+                    <app-showelements [items]="itemsG" [itemsVariable]="itemsVariableG"></app-showelements>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped" id="output">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let key of objectKeys(itemsVariableG)">
+                                <div class="th-tableau" (click)="changeCroissante(key)">
+                                    {{itemsG[key]}}
+                                    <div class="buttons-croissante">
+                                        <i class="fas fa-caret-up croissante {{key}}-croissante"></i>
+                                        <i class="fas fa-caret-down croissante {{key}}-croissante"></i>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let itemG of listGl">
+                            <td *ngFor="let key of objectKeys(itemsVariableG)">
+                                <span
+                                    *ngIf=" ['numero', 'type', 'fournisseur', 'modeReglement', 'numCheque'].includes(key)">{{itemG[key]}}</span>
+                                <span *ngIf="key == 'solde'"
+                                    style="float:right;">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(itemG[key])}}</span>
+                                <span *ngIf="key == 'debit'"
+                                    style="color: red; float:right;">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(itemG[key])}}</span>
+                                <span *ngIf="key == 'credit'"
+                                    style="color: green; float:right;">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(itemG[key])}}</span>
+                                <span *ngIf="key == 'dateOperation'"
+                                    style="display:block; width: 100%; text-align: center;">{{getDate(itemG[key])}}</span>
+                            </td>
+                        </tr>
+
+                        <tr *ngFor="let itemG of listGlEmpty">
+                            <td *ngFor="let key of objectKeys(itemsVariableG)">
+                                <span style="color:transparent;">0</span>
+                            </td>
+                        </tr>
+
+                        <tr style="background-color: rgb(224, 183, 183);">
+                            <td *ngFor="let key of objectKeys(itemsVariableG)">
+                                <span style="color:transparent;">0</span>
+                                <span *ngIf="key == 'debit'"
+                                    style="color: red; float:right; font-size: 15px; font-weight: 900;">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(getTotalOfKey(key))}}</span>
+                                <span *ngIf="key == 'credit'"
+                                    style="color: green; float:right; font-size: 15px; font-weight: 900;">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(getTotalOfKey(key))}}</span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div>
+                <span style="margin-left:10px; font-weight: 900; color: brown;">Ancien solde:
+                    {{fonctionPartagesService.getFormaThreeAfterVerguleNomber(soldeBefore)}}</span>
+                <span style="margin-left:10px; font-weight: 900;">Nouveau solde:
+                    {{fonctionPartagesService.getFormaThreeAfterVerguleNomber(soldeCurrente)}}</span>
+                <span style="margin-left:10px; font-weight: 900; color: green; float: right;">Total solde:
+                    {{fonctionPartagesService.getFormaThreeAfterVerguleNomber(soldeBefore + soldeCurrente)}}</span>
+            </div>
+
+            <app-spinner2 *ngIf="isLoading"></app-spinner2>
+            <hr>
+        </form>
+    </app-card>
+
+</div>
+<app-add-element-modal [isLoading]="isLoading" [isOpenModalAjoutElement]="isOpenModalAjoutFournisseur"
+    [idAjoutElementModal]="idAjoutFournisseurModal" (closeModalAjoutElement)="closeModalAjoutFournisseur()"
+    [typeElement]="typeElement"></app-add-element-modal>

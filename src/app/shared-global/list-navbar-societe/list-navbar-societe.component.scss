@@ -1,0 +1,34 @@
+ul{ 
+    list-style: none;
+}
+
+
+
+p{
+    margin-bottom: 0px;
+}
+
+span{
+    padding:3px 10px;
+    margin-left: 3px;
+    width: 100%;
+}
+
+span:hover{
+    background-color: #1abc9c;
+    color: white;
+    border: white;
+    cursor: pointer;
+}
+
+.navbar-list-societe-desactive{
+    display: none;
+}
+
+i{
+    padding-top: 5px;
+}
+
+i:hover{
+    text-shadow: 2px 2px 4px #1abc9c, 0 0 1em blue, 0 0 0.2em blue;
+}

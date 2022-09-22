@@ -1,0 +1,136 @@
+<div class="col-xl-14">
+    <app-card cardTitle="Liste des articles en alert" blockClass="table-border-style">
+        <form [formGroup]="formC">
+            <div class="category-page-wrapper">
+                <div class="result-inner">
+                    <!--Showing 1 to 8 of 10 (2 Pages)-->
+                </div>
+                <div class="pagination-inner">
+                    <ul class="pagination">
+                        <li>
+                            <i _ngcontent-eep-c121="" class="feather icon-camera" (click)="printout()"></i>
+                        </li>
+                        <li>
+                            <i class="fas fa-file-pdf" (click)="generatePDF()"></i>
+                        </li>
+                        <li>
+                            <i class="fas fa-file-excel" (click)="exportexcel()"></i>
+                        </li>
+                    </ul>
+                    <div class="th-tableau2" style="margin-top:5px;">
+                        <select class="form-control form-control-sm"
+                            style="font-size: 12px; max-width: 58px; padding-left: 3px;" formControlName="limit"
+                            (change)="getArticles()">
+                            <option value=3>3</option>
+                            <option value=4>4</option>
+                            <option value=5>5</option>
+                            <option value=10>10</option>
+                        </select>
+
+                        <button (click)="getArticles()" class="btn btn-info ng-tns-c112-14"
+                            style="font-size: 15px; padding:2px; height: 30px; display: inline-block; white-space: nowrap; margin-left: 3px;">
+                            <i class="feather icon-search"></i>
+                        </button>
+
+                        <div style="margin-left:auto;">
+                            <app-showelements [items]="items" [itemsVariable]="itemsVariable"></app-showelements>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-striped" id="output">
+                    <thead>
+                        <tr class="rechercherligne">
+                            <th *ngFor="let key of objectKeys(itemsVariable)">
+                                <div class="form-group">
+                                    <input type="text" placeholder="Recherche" class="form-control"
+                                        [formControlName]="key">
+                                </div>
+                            </th>
+                            <th>
+                            </th>
+                        </tr>
+                    </thead>
+                    <thead>
+                        <tr>
+                            <th *ngFor="let key of objectKeys(itemsVariable)">
+                                <div class="th-tableau" (click)="changeCroissante(key)">
+                                    {{items[key]}}
+                                    <div class="buttons-croissante">
+                                        <i class="fas fa-caret-up croissante {{key}}-croissante"></i>
+                                        <i class="fas fa-caret-down croissante {{key}}-croissante"></i>
+                                    </div>
+                                </div>
+                            </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody  id="test1">
+                        <tr *ngFor="let item of tabSAlerteQTS" >
+                            <td *ngFor="let key of objectKeys(itemsVariable)">
+                                <span *ngIf="fonctionPartages.colonnesQuantites.includes(key)" style="float:right;">{{fonctionPartages.getFormaThreeAfterVerguleNomber(item[key])}}</span>
+                                <span *ngIf="fonctionPartages.colonnesPrix.includes(key)" style="float:right;">{{fonctionPartages.getFormaThreeAfterVerguleQuantite(item[key])}}</span>
+                                <span *ngIf="fonctionPartages.colonnesDates.includes(key)" style="text-align: center; display: block;">{{fonctionPartages.getDate(item[key], 'yyyy-MM-dd')}}</span>
+                                <span *ngIf="fonctionPartages.colonnesOuiNon.includes(key)" style="text-align: center; display: block;"> <i class="fas fa-check-square" style="font-size: 15px;" *ngIf="item[key] == 'oui'"></i> <i class="fas fa-square" style="font-size: 15px;" *ngIf="item[key] != 'oui'"></i> </span>
+                                <span *ngIf="!(fonctionPartages.colonnesDates.includes(key) || fonctionPartages.colonnesQuantites.includes(key) || fonctionPartages.colonnesPrix.includes(key) || fonctionPartages.colonnesOuiNon.includes(key))">{{item[key]}}</span>
+                            </td>
+                            <td>
+                                <a _ngcontent-myx-c121="" [href]="pageDetails+item.id"
+                                   class="btn btn-icon btn-outline-warning" style="margin-right: 5px;">
+                                    <i _ngcontent-myx-c121="" class="feather icon-eye"></i>
+                                </a>
+
+                                <a _ngcontent-myx-c121="" [href]="pageModifie+item.id"
+                                    class="btn btn-icon btn-outline-success" style="margin-right: 5px;">
+                                    <i _ngcontent-myx-c121="" class="feather icon-edit"></i>
+                                </a>
+
+                                <a _ngcontent-myx-c121="" href="javascript:" class="btn btn-icon btn-outline-danger"
+                                    (click)="openModalDelete(item.id,item.reference)">
+                                    <i _ngcontent-myx-c121="" class="feather icon-trash-2"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody  id="test2">
+                        <tr *ngFor="let item of tabSRearpQTS" >
+                            <td *ngFor="let key of objectKeys(itemsVariable)">
+                                <span *ngIf="fonctionPartages.colonnesQuantites.includes(key)" style="float:right;">{{fonctionPartages.getFormaThreeAfterVerguleNomber(item[key])}}</span>
+                                <span *ngIf="fonctionPartages.colonnesPrix.includes(key)" style="float:right;">{{fonctionPartages.getFormaThreeAfterVerguleQuantite(item[key])}}</span>
+                                <span *ngIf="fonctionPartages.colonnesDates.includes(key)" style="text-align: center; display: block;">{{fonctionPartages.getDate(item[key], 'yyyy-MM-dd')}}</span>
+                                <span *ngIf="fonctionPartages.colonnesOuiNon.includes(key)" style="text-align: center; display: block;"> <i class="fas fa-check-square" style="font-size: 15px;" *ngIf="item[key] == 'oui'"></i> <i class="fas fa-square" style="font-size: 15px;" *ngIf="item[key] != 'oui'"></i> </span>
+                                <span *ngIf="!(fonctionPartages.colonnesDates.includes(key) || fonctionPartages.colonnesQuantites.includes(key) || fonctionPartages.colonnesPrix.includes(key) || fonctionPartages.colonnesOuiNon.includes(key))">{{item[key]}}</span>
+                            </td>
+                            <td>
+                                <a _ngcontent-myx-c121="" [href]="pageDetails+item.id"
+                                   class="btn btn-icon btn-outline-warning" style="margin-right: 5px;">
+                                    <i _ngcontent-myx-c121="" class="feather icon-eye"></i>
+                                </a>
+
+                                <a _ngcontent-myx-c121="" [href]="pageModifie+item.id"
+                                    class="btn btn-icon btn-outline-success" style="margin-right: 5px;">
+                                    <i _ngcontent-myx-c121="" class="feather icon-edit"></i>
+                                </a>
+
+                                <a _ngcontent-myx-c121="" href="javascript:" class="btn btn-icon btn-outline-danger"
+                                    (click)="openModalDelete(item.id,item.reference)">
+                                    <i _ngcontent-myx-c121="" class="feather icon-trash-2"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <app-spinner2 *ngIf="isLoading"></app-spinner2>
+            <hr>  
+            <app-pagination [page]="request.page" [totalPage]="totalPage" (setPageEvent)="setPage($event)">
+            </app-pagination>
+        </form>
+        <app-delete-modal [isLoading]="isLoading" [isOpenModalDelete]="isOpenModalDelete"
+            [idDeleteModal]="idDeleteModal" [params1Delete]="params1Delete" [params2Delete]="params2Delete"
+            (deleteItem)="deleteItem()" (closeModalDelete)="closeModalDelete()"></app-delete-modal>
+    </app-card>
+</div>

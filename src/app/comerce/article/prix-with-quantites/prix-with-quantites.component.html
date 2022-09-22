@@ -1,0 +1,165 @@
+
+<!-- Model de modification -->
+<ng-template #contentM #item let-modal >
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Modifier prix <span style="font-size: 13px;">({{article.designation}} - {{article.reference}})</span></h4>
+        <p type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </p>
+    </div>
+    <div class="modal-body">
+          
+            <div class="form-group row">
+                <label for="SousProduit" class="col-sm-3 col-form-label">Sous Produit</label>
+                <div class="col-sm-9">
+                    <select [(ngModel)]="prixWithQuantite.sousProduit" (change)="changeSousProduit()" style="width: 100%; border-color: gray;">
+                        <option value="">Vide</option>
+                        <option *ngFor="let item of article.sousProduits" [value]="item.id">{{item.reference}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="nomPrenom" class="col-sm-3 col-form-label">PrixVenteHT</label>
+                <div class="col-sm-9">
+                    <app-input-number-vergule  [messageErreur]="erreurPrixWithQuantite.prixVenteHT" [field]="prixWithQuantite" key="prixVenteHT" idUnique="{{titre}}prixVenteHT" ></app-input-number-vergule>
+                    <p *ngIf="erreurPrixWithQuantite.prixVenteHT != ''" class="erreur">{{erreurPrixWithQuantite.prixVenteHT}}</p>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="nomPrenom" class="col-sm-3 col-form-label">QuantiteMin</label>
+                <div class="col-sm-9">
+                    <app-input-number-vergule [messageErreur]="erreurPrixWithQuantite.quantiteMin" [field]="prixWithQuantite" key="quantiteMin" idUnique="{{titre}}quantiteMin" ></app-input-number-vergule>
+                    <p *ngIf="erreurPrixWithQuantite.quantiteMin != ''" class="erreur">{{erreurPrixWithQuantite.quantiteMin}}</p>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="nomPrenom" class="col-sm-3 col-form-label">QuantiteMax</label>
+                <div class="col-sm-9">
+                    <app-input-number-vergule  [messageErreur]="erreurPrixWithQuantite.quantiteMax" [field]="prixWithQuantite" key="quantiteMax" idUnique="{{titre}}quantiteMax" ></app-input-number-vergule>
+                    <p *ngIf="erreurPrixWithQuantite.quantiteMax != ''" class="erreur">{{erreurPrixWithQuantite.quantiteMax}}</p>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="" class="col-sm-3 col-form-label">Type tier</label>
+                <div class="col-sm-9">
+                    <select style="width: 100%;" id="typeTier" name="typeTier"
+                        [(ngModel)]="prixWithQuantite.typeTier">
+                        <option  value=""></option>
+                        <option *ngFor="let item of allTypeTiers" [value]="item.id">{{item.libelle}}</option>
+                    </select>
+                </div>
+            </div>
+
+            
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="modifierPrixWithQuantite(1)">Modifier</button>
+    </div>
+</ng-template>
+
+<!-- Model d'ajout -->
+<div class="session-modal-container">
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Ajouter prix <span style="font-size: 13px;">({{article.designation}} - {{article.reference}})</span></h4>
+        <p type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </p>
+    </div>
+    <div class="modal-body">
+            
+            <div class="form-group row">
+                <label for="SousProduit" class="col-sm-3 col-form-label">Sous Produit</label>
+                <div class="col-sm-9">
+                    <select [(ngModel)]="prixWithQuantite.sousProduit" (change)="changeSousProduit()" style="width: 100%; border-color: gray;">
+                        <option value="">Vide</option>
+                        <option *ngFor="let item of article.sousProduits" [value]="item.id">{{item.reference}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="nomPrenom" class="col-sm-3 col-form-label">PrixVenteHT</label>
+                <div class="col-sm-9">
+                    <app-input-number-vergule  [messageErreur]="erreurPrixWithQuantite.prixVenteHT" [field]="prixWithQuantite" key="prixVenteHT" idUnique="{{titre}}prixVenteHT" ></app-input-number-vergule>
+                    <p *ngIf="erreurPrixWithQuantite.prixVenteHT != ''" class="erreur">{{erreurPrixWithQuantite.prixVenteHT}}</p>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="nomPrenom" class="col-sm-3 col-form-label">QuantiteMin</label>
+                <div class="col-sm-9">
+                    <app-input-number-vergule [messageErreur]="erreurPrixWithQuantite.quantiteMin" [field]="prixWithQuantite" key="quantiteMin" idUnique="{{titre}}quantiteMin" ></app-input-number-vergule>
+                    <p *ngIf="erreurPrixWithQuantite.quantiteMin != ''" class="erreur">{{erreurPrixWithQuantite.quantiteMin}}</p>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="nomPrenom" class="col-sm-3 col-form-label">QuantiteMax</label>
+                <div class="col-sm-9">
+                    <app-input-number-vergule  [messageErreur]="erreurPrixWithQuantite.quantiteMax" [field]="prixWithQuantite" key="quantiteMax" idUnique="{{titre}}quantiteMax" ></app-input-number-vergule>
+                    <p *ngIf="erreurPrixWithQuantite.quantiteMax != ''" class="erreur">{{erreurPrixWithQuantite.quantiteMax}}</p>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="" class="col-sm-3 col-form-label">Type tier</label>
+                <div class="col-sm-9">
+                    <select style="width: 100%;" id="typeTier" name="typeTier"
+                        [(ngModel)]="prixWithQuantite.typeTier">
+                        <option  value=""></option>
+                        <option *ngFor="let item of allTypeTiers" [value]="item.id">{{item.libelle}}</option>
+                    </select>
+                </div>
+            </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="enregistrerPrixWithQuantite()">Enregistrer</button>
+    </div>
+</ng-template>
+</div>
+
+<div class="col-xl-14">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th *ngFor="let key of objectKeys(itemsVariable)">{{items[key]}}</th>
+                    <th *ngIf="isDetails == '0'"><button class="btn btn-sm btn-outline-primary" (click)="open(content)">Ajouter</button></th>
+                </tr>
+            </thead>
+            <tbody *ngIf="inisialiserEmptyTab()">
+                <tr *ngFor="let item of prixWithQuantites">
+                    <td *ngFor="let key of objectKeys(itemsVariable)">
+                        <span *ngIf="fonctionPartagesService.colonnesQuantites.includes(key)" style="float:right;">{{fonctionPartagesService.getFormaThreeAfterVerguleQuantite(item[key])}}</span>
+                        <span *ngIf="fonctionPartagesService.colonnesPrix.includes(key)" style="float:right;">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(item[key])}}</span>
+                        <span *ngIf="fonctionPartagesService.colonnesDates.includes(key)" style="text-align: center; display: block;">{{fonctionPartagesService.getDate(item[key], 'yyyy-MM-dd')}}</span>
+                        <span *ngIf="fonctionPartagesService.colonnesOuiNon.includes(key)" style="text-align: center; display: block;"> <i class="fas fa-check-square" style="font-size: 15px;" *ngIf="item[key] == 'oui'"></i> <i class="fas fa-square" style="font-size: 15px;" *ngIf="item[key] != 'oui'"></i> </span>
+                        <span *ngIf="!(key == 'sousProduit' || key == 'typeTier' || fonctionPartagesService.colonnesDates.includes(key) || fonctionPartagesService.colonnesQuantites.includes(key) || fonctionPartagesService.colonnesPrix.includes(key) || fonctionPartagesService.colonnesOuiNon.includes(key))">{{item[key]}}</span>
+                        <span *ngIf="key == 'typeTier'">{{fonctionPartagesService.getLibelleById(item[key], allTypeTiers, 'libelle')}}</span>
+                        <span *ngIf="key == 'sousProduit'">{{fonctionPartagesService.getLibelleByKey(item[key], article.sousProduits, 'reference', 'id')}}</span>
+                    </td>
+                    <td *ngIf="isDetails == '0'">
+                        <button type="button" class="btn btn-icon btn-outline-success button-edit-delete" data-toggle="modal" (click)="openModifier(contentM,item)">
+                            <i class="feather icon-edit"></i>
+                        </button>
+                        <button type="button" class="btn btn-icon btn-outline-danger button-edit-delete" data-toggle="modal" (click)="supprimerPrixWithQuantite(item.id)">
+                            <i class="feather icon-trash-2" ></i>
+                        </button>
+                    </td>
+                </tr>
+
+                <tr *ngFor="let item of tabEmpty">
+                    <td colspan="30">
+                        <span style="color:transparent;">i</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

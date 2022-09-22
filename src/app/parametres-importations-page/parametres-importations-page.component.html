@@ -1,0 +1,143 @@
+<div class="col-xl-14" style="margin:0px;">
+
+    <app-card cardTitle="Parametres Importations" blockClass="table-border-style">
+
+        <div class="row">
+            <div class="col-12">
+                Tableau:
+                <select [(ngModel)]="table" (change)="changerTable()">
+                    <option *ngFor="let item of tables" [value]="item.table">{{item.table}}</option>
+                </select>
+
+                <hr>
+
+                <h2>{{tableSelectionner.table}}</h2>
+
+
+                <hr>
+                <div class="row">
+                    <div  class="col-lg-6" style="display:flex; flex-direction: row; flex-wrap: nowrap; margin-bottom: 10px;">
+
+                        <div  class="table-responsive style-table-all">
+                            <table class="table table-striped" id="output">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">
+                                            Tout les colonnes
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Nom
+                                        </th>
+                                        <th>
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let key of objectKeys(parametresRestant)">
+                                        <td (dblclick)="addKey(key)">
+                                            <span> {{tableSelectionner.champs[key]}} </span>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-success" style="padding: 2px 5px;"
+                                                (click)="addKey(key)">
+                                                <i _ngcontent-myx-c121="" class="fas fa-plus"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div style="  display: flex; align-items: center;">
+                            <div>
+                                <button class="btn btn-success" style="padding: 2px 5px; margin:3px;" (click)="allchecked()">
+                                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                                </button>
+
+                                <button class="btn btn-success" style="padding: 2px 5px; margin:3px;" (click)="allRemoved()">
+                                    <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div #outputSelectionner class="table-responsive style-table-current" #outputSelectionner>
+                            <table class="table table-striped" >
+
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">
+                                            Les colonnes choisies
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Nom
+                                        </th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let key of objectKeys(parametresCurrent)">
+                                        <td (dblclick)="removeKey(key)">
+                                            <span> {{parametresCurrent[key]}} </span>
+                                        </td>
+
+                                        <td>
+                                            <a href="javascript:" class="btn btn-icon btn-outline-info"
+                                                style="width:30px; height: 30px; margin-right: 5px;"
+                                                (click)="deplaceLigne(key, -1)">
+                                                <i _ngcontent-myx-c121="" class="fa fa-arrow-up"></i>
+                                            </a>
+
+                                            <a href="javascript:" class="btn btn-icon btn-outline-info"
+                                                style="width:30px; height: 30px; margin-right: 5px;"
+                                                (click)="deplaceLigne(key, 1)">
+                                                <i _ngcontent-myx-c121="" class="fa fa-arrow-down"></i>
+                                            </a>
+
+                                            <button class="btn btn-danger" style="padding: 2px 5px;"
+                                                (click)="removeKey(key)">
+                                                <i _ngcontent-myx-c121="" class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <hr>
+                        <button *ngIf="!isLoading" class="btn btn-success" (click)="enregistrerParametresImportation()">
+                            Enregistrer
+                        </button>
+
+                        <button *ngIf="isLoading" class="btn btn-primary" type="button" disabled>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Chargement...
+                        </button>
+
+                    </div>
+                </div>
+
+
+                <hr>
+            </div>
+        </div>
+
+
+
+
+
+    </app-card>
+
+
+
+</div>

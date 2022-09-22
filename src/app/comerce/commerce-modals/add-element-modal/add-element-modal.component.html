@@ -1,0 +1,524 @@
+<div id="myModalAjoutElement" [class]="classCss">
+
+    <div style="position: absolute; width: 100%; height: 100%;top: 0px; left:0px;" (click)="closeAjoutElement()">
+    </div>
+
+    <!-- Modal content -->
+    <div class="modal-contentAjoutElement">
+        <div style="display: flex; flex-direction: row; flex-wrap: nowrap;">
+            <span style="font-weight: 800; font-size: 18px; margin-left: 10px; ">{{typeElement}}</span>
+            <span class="closeAjoutElement" (click)="closeAjoutElement()"
+                style="width: 30px; height: 30px; margin-left: auto; text-align: center;"><i
+                    class="fas fa-times"></i></span>
+        </div>
+
+
+        <div class="container" style="position:relative; padding:0px;">
+            <app-spinner2 *ngIf="isLoading"></app-spinner2>
+
+            <div class="col-sm-12" style="padding:0px; margin-bottom: -30px;">
+
+       <!-- <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterCategorie">
+                    <app-ajout-categories isPopup=true (closeModalAjoutCategorie)="closeAjoutElement()"
+                        [isOpenModalAjoutCategorie]="isOpenModalAjoutElement"></app-ajout-categories>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterUniteMesure">
+                    <app-ajout-unite-mesure isPopup=true (closeModalAjoutUniteMesure)="closeAjoutElement()"
+                        [isOpenModalAjoutUniteMesure]="isOpenModalAjoutElement"></app-ajout-unite-mesure>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierUniteMesure">
+                    <app-modifier-unite-mesure isPopup=true (closeModalModifierUniteMesure)="closeAjoutElement()"
+                        [isOpenModalModifierUniteMesure]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-modifier-unite-mesure>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterMarque">
+                    <app-ajout-marque isPopup=true (closeModalAjoutMarque)="closeAjoutElement()"
+                        [isOpenModalAjoutMarque]="isOpenModalAjoutElement"></app-ajout-marque>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterFamille">
+                    <app-ajout-familles isPopup=true (closeModalAjoutFamille)="closeAjoutElement()"
+                        [isOpenModalAjoutFamille]="isOpenModalAjoutElement"></app-ajout-familles>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterSousFamille">
+                    <app-ajout-sous-familles isPopup=true (closeModalAjoutSousFamille)="closeAjoutElement()"
+                        [isOpenModalAjoutSousFamille]="isOpenModalAjoutElement"></app-ajout-sous-familles>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterArticle">
+                    <app-ajouter-article isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModal]="isOpenModalAjoutElement"></app-ajouter-article>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierArticle">
+                    <app-ajouter-article isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModal]="isOpenModalAjoutElement" [id]="idAjoutElementModal"></app-ajouter-article>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.listArticle">
+                    <app-list-article isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModal]="isOpenModalAjoutElement" (selectionLigne)="selectionLigneFunction($event)">
+                    </app-list-article>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.detailsArticle">
+                    <app-details-article isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModal]="isOpenModalAjoutElement" [id]="idAjoutElementModal"></app-details-article>
+                </div>
+
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterExercice">
+                    <app-ajout-exercice isPopup=true (closeModalAjoutExercice)="closeAjoutElement()"
+                        [isOpenModalAjoutExercice]="isOpenModalAjoutElement"></app-ajout-exercice>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierExercice">
+                    <app-modifier-exercice isPopup=true (closeModalModifierExercice)="closeAjoutElement()"
+                        [isOpenModalModifierExercice]="isOpenModalAjoutElement"
+                        [idModifierExerciceModal]="idAjoutElementModal"></app-modifier-exercice>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterClient">
+                    <app-ajouter-client isPopup=true (closeModalAjoutClient)="closeAjoutElement()"
+                        [isOpenModalAjoutClient]="isOpenModalAjoutElement"></app-ajouter-client>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.detailsClient">
+                    <app-details-client isPopup=true [isOpenModal]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-details-client>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierClient">
+                    <app-modifier-client isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModal]="isOpenModalAjoutElement" [id]="idAjoutElementModal"> </app-modifier-client>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.listClient">
+                    <app-list-client isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModal]="isOpenModalAjoutElement" (selectionLigne)="selectionLigneFunction($event)">
+                    </app-list-client>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterFournisseur">
+                    <app-ajouter-fournisseur isPopup=true (closeModalAjoutFournisseur)="closeAjoutElement()"
+                        [isOpenModalAjoutFournisseur]="isOpenModalAjoutElement"></app-ajouter-fournisseur>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.detailsFournisseur">
+                    <app-details-fournisseur isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModal]="isOpenModalAjoutElement" [id]="idAjoutElementModal"></app-details-fournisseur>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierFournisseur">
+                    <app-modifier-fournisseur isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModal]="isOpenModalAjoutElement" [id]="idAjoutElementModal"> </app-modifier-fournisseur>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.listFournisseur">
+                    <app-list-fournisseur isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModal]="isOpenModalAjoutElement" (selectionLigne)="selectionLigneFunction($event)">
+                    </app-list-fournisseur>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterSecteur">
+                    <app-ajout-secteur isPopup=true (closeModalAjoutSecteur)="closeAjoutElement()"
+                        [isOpenModalAjoutSecteur]="isOpenModalAjoutElement"></app-ajout-secteur>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterModeReglement">
+                    <app-ajout-mode-reglement isPopup=true (closeModalAjoutModeReglement)="closeAjoutElement()"
+                        [isOpenModalAjoutModeReglement]="isOpenModalAjoutElement"></app-ajout-mode-reglement>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterTransporteur">
+                    <app-ajout-transporteur isPopup=true (closeModalAjoutTransporteur)="closeAjoutElement()"
+                        [isOpenModalAjoutTransporteur]="isOpenModalAjoutElement"></app-ajout-transporteur>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierTransporteur">
+                    <app-modifier-transporteur isPopup=true (closeModalModifierTransporteur)="closeAjoutElement()"
+                        [isOpenModalAjoutTransporteur]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-modifier-transporteur>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierSousFamille">
+                    <app-modifier-sous-familles isPopup=true (closeModalModifierSousFamille)="closeAjoutElement()"
+                        [isOpenModalModifierSousFamille]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-modifier-sous-familles>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterModele">
+                    <app-ajout-modele isPopup=true (closeModalAjoutModele)="closeAjoutElement()"
+                        [isOpenModalAjoutModele]="isOpenModalAjoutElement"></app-ajout-modele>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierModele">
+                    <app-modifier-modele isPopup=true (closeModalModifierModele)="closeAjoutElement()"
+                        [isOpenModalModifierModele]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-modifier-modele>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierMarque">
+                    <app-modifier-marque isPopup=true (closeModalModifierMarque)="closeAjoutElement()"
+                        [isOpenModalModifierMarque]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-modifier-marque>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterModeLivraison">
+                    <app-ajout-mode-livraison isPopup=true (closeModalAjoutModeLivraison)="closeAjoutElement()"
+                        [isOpenModalAjoutModeLivraison]="isOpenModalAjoutElement"></app-ajout-mode-livraison>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierModeLivraison">
+                    <app-modifier-mode-livraison isPopup=true (closeModalModifierModeLivraison)="closeAjoutElement()"
+                        [isOpenModalModifierModeLivraison]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-modifier-mode-livraison>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierCategorie">
+                    <app-modifier-categories isPopup=true (closeModalModifierCategorie)="closeAjoutElement()"
+                        [isOpenModalModifierCategorie]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-modifier-categories>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierFamille">
+                    <app-modifier-familles isPopup=true (closeModalModifierFamille)="closeAjoutElement()"
+                        [isOpenModalModifierFamille]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-modifier-familles>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterUtilisateur">
+                    <app-ajout-utilisateur isPopup=true (closeModalAjoutUtilisateur)="closeAjoutElement()"
+                        [isOpenModalAjoutUtilisateur]="isOpenModalAjoutElement"></app-ajout-utilisateur>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierUtilisateur">
+                    <app-modifier-utilisateur isPopup=true (closeModalModifierUtilisateur)="closeAjoutElement()"
+                        [isOpenModalModifierUtilisateur]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-modifier-utilisateur>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.detailsUtilisateur">
+                    <app-details-utilisateur isPopup=true (closeModalModifierUtilisateur)="closeAjoutElement()"
+                        [isOpenModalModifierUtilisateur]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-details-utilisateur>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierModeReglement">
+                    <app-modifier-mode-reglement isPopup=true (closeModalModifierModeReglement)="closeAjoutElement()"
+                        [isOpenModalModifierModeReglement]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-modifier-mode-reglement>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterTypeContact">
+                    <app-ajout-type-contact isPopup=true (closeModalAjoutTypeContact)="closeAjoutElement()"
+                        [isOpenModalAjoutTypeContact]="isOpenModalAjoutElement"></app-ajout-type-contact>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierTypeContact">
+                    <app-modifier-type-contact isPopup=true (closeModalModifierTypeContact)="closeAjoutElement()"
+                        [isOpenModalModifierTypeContact]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-modifier-type-contact>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterPersonnel">
+                    <app-ajout-personnel isPopup=true (closeModalAjoutPersonnel)="closeAjoutElement()"
+                        [isOpenModalAjoutPersonnel]="isOpenModalAjoutElement"></app-ajout-personnel>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierPersonnel">
+                    <app-modifier-personnel isPopup=true (closeModalModifierPersonnel)="closeAjoutElement()"
+                        [isOpenModalModifierPersonnel]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-modifier-personnel>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.detailsPersonnel">
+                    <app-details-personnel isPopup=true (closeModalModifierPersonnel)="closeAjoutElement()"
+                        [isOpenModalModifierPersonnel]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-details-personnel>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterTauxTva">
+                    <app-ajout-taux-tva isPopup=true (closeModalAjoutTauxTva)="closeAjoutElement()"
+                        [isOpenModalAjoutTauxTva]="isOpenModalAjoutElement"></app-ajout-taux-tva>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierTauxTva">
+                    <app-modifier-taux-tva isPopup=true (closeModalModifierTauxTva)="closeAjoutElement()"
+                        [isOpenModalModifierTauxTva]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-modifier-taux-tva>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierSecteur">
+                    <app-modifier-secteur isPopup=true (closeModalModifierSecteur)="closeAjoutElement()"
+                        [isOpenModalModifierSecteur]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-modifier-secteur>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterTypeTier">
+                    <app-ajout-type-tier isPopup=true (closeModalAjoutTypeTier)="closeAjoutElement()"
+                        [isOpenModalAjoutTypeTier]="isOpenModalAjoutElement"></app-ajout-type-tier>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierTypeTier">
+                    <app-modifier-type-tier isPopup=true (closeModalModifierTypeTier)="closeAjoutElement()"
+                        [isOpenModalModifierTypeTier]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-modifier-type-tier>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterTypeCompte">
+                    <app-ajout-type-compte isPopup=true (closeModalAjoutTypeCompte)="closeAjoutElement()"
+                        [isOpenModalAjoutTypeCompte]="isOpenModalAjoutElement"></app-ajout-type-compte>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierTypeCompte">
+                    <app-modifier-type-compte isPopup=true (closeModalModifierTypeCompte)="closeAjoutElement()"
+                        [isOpenModalModifierTypeCompte]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-modifier-type-compte>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterTypeFournisseur">
+                    <app-ajout-type-fournisseur isPopup=true (closeModalAjoutTypeFournisseur)="closeAjoutElement()"
+                        [isOpenModalAjoutTypeFournisseur]="isOpenModalAjoutElement"></app-ajout-type-fournisseur>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierTypeFournisseur">
+                    <app-modifier-type-fournisseur isPopup=true
+                        (closeModalModifierTypeFournisseur)="closeAjoutElement()"
+                        [isOpenModalModifierTypeFournisseur]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-modifier-type-fournisseur>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterStatuOpportunite">
+                    <app-ajout-statu-opportunite isPopup=true (closeModalAjoutStatuOpportunite)="closeAjoutElement()"
+                        [isOpenModalAjoutStatuOpportunite]="isOpenModalAjoutElement"></app-ajout-statu-opportunite>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierStatuOpportunite">
+                    <app-modifier-statu-opportunite isPopup=true
+                        (closeModalModifierStatuOpportunite)="closeAjoutElement()"
+                        [isOpenModalModifierStatuOpportunite]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-modifier-statu-opportunite>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterOrdreEmission">
+                    <app-modifier-ordre-emission isPopup=true (closeModalModifierOrdreEmission)="closeAjoutElement()"
+                        [isOpenModalModifierOrdreEmission]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-modifier-ordre-emission>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierOrdreEmission">
+                    <app-modifier-ordre-emission isPopup=true (closeModalModifierOrdreEmission)="closeAjoutElement()"
+                        [isOpenModalModifierOrdreEmission]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-modifier-ordre-emission>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterVariante">
+                    <app-ajout-variante isPopup=true (closeModalModifierVariante)="closeAjoutElement()"
+                        [isOpenModalModifierVariante]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-ajout-variante>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierVariante">
+                    <app-ajout-variante isPopup=true (closeModalModifierVariante)="closeAjoutElement()"
+                        [isOpenModalModifierVariante]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-ajout-variante>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajoutCharge">
+                    <app-ajout-charge-directe isPopup=true (closeModalAjoutElementCharge)="closeAjoutElement()">
+                    </app-ajout-charge-directe>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.voirHistoriqueVente">
+                    <app-historique-vente [isOpenModalVoirHistorique]="isOpenModalAjoutElement"
+                        [id]="idAjoutElementModal" [idClient]="idAjoutPersModal" [typeDocument]="typeDocument">
+                    </app-historique-vente>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.voirHistoriqueAchat">
+                    <app-historique-achat [isOpenModalVoirHistorique]="isOpenModalAjoutElement"
+                        [id]="idAjoutElementModal" [idFour]="idAjoutPersModal" [typeDocument]="typeDocument">
+                    </app-historique-achat>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajoutChauffeur">
+                    <app-ajout-chauffeur-commerce isPopup=true (closeModalAjoutChauffeur)="closeAjoutElement()">
+                    </app-ajout-chauffeur-commerce>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterAgentPremierContact">
+                    <app-ajout-personnel isPopup=true (closeModalAjoutPersonnel)="closeAjoutElement()"
+                        [isOpenModalAjoutPersonnel]="isOpenModalAjoutElement"></app-ajout-personnel>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterAgentCommercial">
+                    <app-ajout-personnel isPopup=true (closeModalAjoutPersonnel)="closeAjoutElement()"
+                        [isOpenModalAjoutPersonnel]="isOpenModalAjoutElement"></app-ajout-personnel>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterCaisse">
+                    <app-ajout-caisse isPopup=true (closeModalAjoutCaisse)="closeAjoutElement()"
+                        [isOpenModalAjoutCaisse]="isOpenModalAjoutElement"></app-ajout-caisse>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierCaisse">
+                    <app-modifier-caisse isPopup=true [id]="idAjoutElementModal"
+                        (closeModalModifierCaisse)="closeAjoutElement()"
+                        [isOpenModalModifierCaisse]="isOpenModalAjoutElement"></app-modifier-caisse>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterAgentRecouvrement">
+                    <app-ajout-personnel isPopup=true (closeModalAjoutPersonnel)="closeAjoutElement()"
+                        [isOpenModalAjoutPersonnel]="isOpenModalAjoutElement"></app-ajout-personnel>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.lignePrixSpecifique">
+                    <app-ligne-prix-specifique (closeModal)="closeAjoutElement()"
+                        [isOpenModal]="isOpenModalAjoutElement" [id]="idAjoutElementModal"></app-ligne-prix-specifique>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterSessionCaisse">
+                    <app-ajout-session-caisse isPopup=true (closeModalAjoutSessionCaisse)="closeAjoutElement()"
+                        [isOpenModalAjoutSessionCaisse]="isOpenModalAjoutElement"></app-ajout-session-caisse>
+                </div>
+
+                <div
+                    *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterEtatGlobal || typeElement == fonctionPartagesService.titreOfModal.modifierEtatGlobal">
+                    <app-etat-global isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModal]="isOpenModalAjoutElement" [id]="idAjoutElementModal"></app-etat-global>
+                </div>
+
+                <div
+                    *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterExpedition || typeElement == fonctionPartagesService.titreOfModal.modifierExpedition">
+                    <app-expedition isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModal]="isOpenModalAjoutElement" [id]="idAjoutElementModal"></app-expedition>
+                </div>
+                <div
+                    *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterMethodeReglement || typeElement == fonctionPartagesService.titreOfModal.modifierMethodeReglement">
+                    <app-ajout-methode-reglement isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModal]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-ajout-methode-reglement>
+                </div>
+
+                <div
+                    *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterFrais || typeElement == fonctionPartagesService.titreOfModal.modifierFrais">
+                    <app-ajout-frais isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModal]="isOpenModalAjoutElement" [id]="idAjoutElementModal"></app-ajout-frais>
+                </div>
+
+                <div
+                    *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterSituationReglement || typeElement == fonctionPartagesService.titreOfModal.modifierSituationReglement">
+                    <app-ajout-situation-reglement isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModal]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-ajout-situation-reglement>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajoutBonAchat">
+                    <app-ajout-bon-achat isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModalAjoutElement]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-ajout-bon-achat>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajoutBonLivraison">
+                    <app-ajout-bon-livraison isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModalAjoutElement]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-ajout-bon-livraison>
+                </div>
+
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajoutSociete">
+                    <app-ajout-societe isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModalAjoutElement]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-ajout-societe>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierSociete">
+                    <app-ajout-societe isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModalAjoutElement]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-ajout-societe>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.detailsSociete">
+                    <app-details-societe isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModalAjoutElement]="isOpenModalAjoutElement" [id]="idAjoutElementModal">
+                    </app-details-societe>
+                </div>
+              
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.listSociete">
+                    <app-list-societe isPopup=true (closeModal)="closeAjoutElement()"
+                         [isOpenModal]="isOpenModalAjoutElement" (selectionLigne)="selectionLigneFunction($event)">
+                    </app-list-societe>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterDemandeOffrePrix">
+                    <app-demande-offre-prix isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModalAjoutElement]="isOpenModalAjoutElement">
+                    </app-demande-offre-prix>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajouterDemandeAchatInterne">
+                    <app-demande-achat-interne isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModalAjoutElement]="isOpenModalAjoutElement">
+                    </app-demande-achat-interne>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajoutProjetClient">
+                    <app-ajout-projet isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModalAjoutElement]="isOpenModalAjoutElement">
+                    </app-ajout-projet>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajoutDevis">
+                    <app-ajout-devis isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModal]="isOpenModalAjoutElement">
+                    </app-ajout-devis>
+                </div>
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajoutCommande">
+                    <app-ajout-commande isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModal]="isOpenModalAjoutElement">
+                    </app-ajout-commande>
+                </div>
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajoutBonCommande">
+                    <app-ajout-bon-commande isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModal]="isOpenModalAjoutElement">
+                    </app-ajout-bon-commande>
+                </div>
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajoutDevisAchat">
+                    <app-devis-achat isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModal]="isOpenModalAjoutElement">
+                    </app-devis-achat>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.ajoutBonReception">
+                    <app-ajout-bon-reception isPopup=true (closeModal)="closeAjoutElement()"
+                        [isOpenModal]="isOpenModalAjoutElement">
+                    </app-ajout-bon-reception>
+                </div> 
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierBonLivraison">
+                    <app-modifier-bon-livraison isPopup=true (closeModalModifier)="closeAjoutElement()"
+                        [id]="idAjoutElementModal">
+                    </app-modifier-bon-livraison>
+                </div>
+
+                <div *ngIf="typeElement == fonctionPartagesService.titreOfModal.modifierBonReception">
+                    <app-modifier-bon-reception isPopup=true (closeModalModifier)="closeAjoutElement()"
+                        [id]="idAjoutElementModal">
+                    </app-modifier-bon-reception> 
+                </div> 
+                 -->
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+</div>

@@ -1,0 +1,119 @@
+
+<!--Make sure the form has the autocomplete function switched off:-->
+  <div [id]="idAutocomplete" class="autocomplete" style="width:100%; position:relative;" (mouseleave)="onMouseOutFilter($event)" (mouseenter)="onMouseEnterFilter($event)">
+    
+    <div style="display: flex; flex-direction: row; flex-wrap: nowrap;" *ngIf="!bordureRed">
+      <button style="width: 0px !important; padding:0px !important; border:none; margin:0px !important;" (focus)="clickSearch()"></button>
+      <span class="button-select-autocomplete"  type=button (click)="clickSearch()" style="padding-left: 0px;">
+        <div style="width: 100%; padding:1px; text-align: left;">
+          <span style="color: transparent; width: 5px !important;">I</span>{{autocompleteValue2}}
+        </div>
+        <i [id]="idAutocompleteUpDown" class="fa fa-caret-down" style="padding:1px; padding-top: 5px;"></i>
+      </span>
+        
+      <button class="btn btn-outline-info" (click)="openAddElement()" style="padding:3px 5px;" type="button">
+        <i class="fa fa-plus autocomplete-button-add"></i>
+      </button>
+
+    </div>
+
+    <div style="display: flex; flex-direction: row; flex-wrap: nowrap;" *ngIf="bordureRed" class="border-erreur">
+      <button style="width: 0px !important; padding:0px !important; border:none; margin:0px !important;" (focus)="clickSearch()"></button>
+      <span class="button-select-autocomplete"  type=button (click)="clickSearch()" style="padding-left: 0px;">
+        <div style="width: 100%; padding:1px; text-align: left;" >
+          <span style="color: transparent; width: 5px !important;">I</span>{{autocompleteValue2}}
+        </div>
+        <i [id]="idAutocompleteUpDown" class="fa fa-caret-down" style="padding:1px; padding-top: 5px;"></i>
+      </span>
+        
+      <button class="btn btn-outline-info" (click)="openAddElement()" style="padding:3px 5px;" type="button">
+        <i class="fa fa-plus autocomplete-button-add"></i>
+      </button>
+
+    </div>
+
+    <div *ngIf="objectKeys(objet).length > 1 && isOpen" class="autocomplete-items autocomplete-items-active" [id]="idAutocompleteItems" >
+       <!-- <div *ngFor="let item of itemsFilter" (click)="clickItem(item)" class="item-list-autocomplete">{{item}}</div>  -->
+       <input autocomplete="off" style="margin: 5px 0px; border:rgb(112, 112, 221) solid 1px; height: 23px; font-size: 12px;" type="text" name="myCountry" placeholder="Recherche"  [ngModel]="autocompleteValue" (keydown)="clickkeydown($event)" [id]="idMyInput" (blur)="focusoutInput()">
+       <!-- <input autocomplete="off" style="margin: 5px 0px; border:rgb(112, 112, 221) solid 1px; height: 23px; font-size: 12px;" type="text" name="myCountry" placeholder="Recherche"  [ngModel]="autocompleteValue" (keydown)="clickkeydown($event)" [id]="idMyInput">-->
+      
+       <div class="autocomplete-table" [id]="idAutocompleteTable" >
+          <table style="width:100%; cursor: pointer; padding:2px; overflow: hidden;">
+            <thead>
+              <tr style="background-color: #8CDDCD; color:rgb(12, 11, 11);" >
+                <th *ngFor="let key of objectKeys(itemsVariable)">{{objet[key]}}</th>
+                
+                <th *ngIf="pageDetails != null">
+                  
+                </th>
+
+                <th style="min-width: auto !important; width: 20px; padding:0px;">
+                  <app-showelements isAutoComplete="oui" [items]="items" [itemsVariable]="itemsVariable" numero="ajouteArticleBL"></app-showelements>
+                </th>
+              </tr>
+            </thead>
+          
+            <tbody id="{{idItemListAutocomplete}}">
+              <tr style="cursor: pointer;" *ngFor="let item of articlesFilter"  [class]="getStyleItemAutoComplete(item.id)" (click)="clickItem(item)">
+                <td *ngFor="let key of objectKeys(itemsVariable)" >
+                  <span *ngIf="fonctionPartagesService.colonnesQuantites.includes(key)" style="float:right;">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(item[key])}}</span>
+                  <span *ngIf="fonctionPartagesService.colonnesPrix.includes(key)" style="float:right;">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(item[key])}}</span>
+                  <span *ngIf="fonctionPartagesService.colonnesDates.includes(key)" style="text-align: center; display: block;">{{fonctionPartagesService.getDate(item[key], 'yyyy-MM-dd')}}</span>
+                  <span *ngIf="fonctionPartagesService.colonnesOuiNon.includes(key)" style="text-align: center; display: block;"> <i class="fas fa-check-square" style="font-size: 15px;" *ngIf="item[key] == 'oui'"></i> <i class="fas fa-square" style="font-size: 15px;" *ngIf="item[key] != 'oui'"></i> </span>
+                  <span *ngIf="!(fonctionPartagesService.colonnesDates.includes(key) || fonctionPartagesService.colonnesQuantites.includes(key) || fonctionPartagesService.colonnesPrix.includes(key) || fonctionPartagesService.colonnesOuiNon.includes(key))">{{item[key]}}</span>
+                </td>
+
+                <td *ngIf="pageDetails != null">
+                    <a class="a-class" (click)="open(contentM, item.id)"> Plus de détails </a>
+                </td>
+
+                <td style="min-width: auto !important; width: 20px;">
+               
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
+
+    <div *ngIf="objectKeys(objet).length == 1 && isOpen" class="autocomplete-items autocomplete-items-active" [id]="idAutocompleteItems">
+      <!-- <div *ngFor="let item of itemsFilter" (click)="clickItem(item)" class="item-list-autocomplete">{{item}}</div>  -->
+      <input autocomplete="off" style="margin: 5px 0px; border:rgb(112, 112, 221) solid 1px; height: 23px; font-size: 12px;" type="text" name="myCountry" placeholder="Recherche"  [ngModel]="autocompleteValue" (keydown)="clickkeydown($event)" [id]="idMyInput" (blur)="focusoutInput()">
+      <!-- <input autocomplete="off" style="margin: 5px 0px; border:rgb(112, 112, 221) solid 1px; height: 23px; font-size: 12px;" type="text" name="myCountry" placeholder="Recherche"  [ngModel]="autocompleteValue" (keydown)="clickkeydown($event)" [id]="idMyInput">-->
+     
+       <div class="autocomplete-table" [id]="idAutocompleteTable">
+         <table style="width:100%; cursor: pointer; padding:2px; overflow: hidden;">
+          <tbody id="{{idItemListAutocomplete}}">
+             <tr style="cursor: pointer;" *ngFor="let item of articlesFilter"  class="item-list-autocomplete" (click)="clickItem(item)">
+               <td *ngFor="let key of objectKeys(objet)" >
+                  <span *ngIf="fonctionPartagesService.colonnesQuantites.includes(key)" style="float:right;">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(item[key])}}</span>
+                  <span *ngIf="fonctionPartagesService.colonnesPrix.includes(key)" style="float:right;">{{fonctionPartagesService.getFormaThreeAfterVerguleQuantite(item[key])}}</span>
+                  <span *ngIf="fonctionPartagesService.colonnesDates.includes(key)" style="text-align: center; display: block;">{{fonctionPartagesService.getDate(item[key], 'yyyy-MM-dd')}}</span>
+                  <span *ngIf="fonctionPartagesService.colonnesOuiNon.includes(key)" style="text-align: center; display: block;"> <i class="fas fa-check-square" style="font-size: 15px;" *ngIf="item[key] == 'oui'"></i> <i class="fas fa-square" style="font-size: 15px;" *ngIf="item[key] != 'oui'"></i> </span>
+                  <span *ngIf="!(fonctionPartagesService.colonnesDates.includes(key) || fonctionPartagesService.colonnesQuantites.includes(key) || fonctionPartagesService.colonnesPrix.includes(key) || fonctionPartagesService.colonnesOuiNon.includes(key))">{{item[key]}}</span>
+               </td>
+             </tr>
+          </tbody>
+         </table>
+       </div>
+   </div>
+
+  </div>
+
+
+  <ng-template #contentM #item let-modal>
+    
+   
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Détail Fournisseur</h4>
+        <p type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </p>
+    </div>
+
+    <!--<app-details-fournisseur isPopup="oui" [idFournisseur]="idFournisseur"></app-details-fournisseur>
+    -->
+
+   
+</ng-template>
+

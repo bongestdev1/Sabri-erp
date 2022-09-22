@@ -1,0 +1,314 @@
+<div *ngIf="isDetails == 'non'" class="col-sm-12" style="padding: 10px;">
+        
+        <div class="form-group row">
+            <label for="codeBarre" class="col-sm-2 col-form-label" style="padding-left: 20px !important;">Article</label>
+            <div class="col-sm-9">
+                <!--<app-autocomplete [bordureRed]="erreurArticle.reference != ''" modeMultiSortie=true
+                    [shemaMultiSortie]="shemaMultiSortie" (addElementEvent)="setArticleID($event)"
+                    [keySelected]="keySelectedArticle" [objet]="shemaArticle2" [articles]="articles"
+                    [idSelected]="itemArticleSelected.article" idHtml="1" [itemsNumberSimple]="shemaArticle2Number"
+                    [itemsNumberQuantite]="shemaArticle2Quantite" (openAddElementEvent)="openModalAjoutArticle()">
+                </app-autocomplete>-->
+
+                <app-autocomplete-article
+                    [bordureRed]="erreurArticle.reference != ''"
+                    [articles]="articles" 
+                    idHtml="1" 
+                    (getAllParametres)="getAllParametres()" 
+                    (addElementEvent)="setArticleID($event)"
+                    [idSelected]="itemArticleSelected.article"
+                    [items]="shemaMultiSortie">
+                </app-autocomplete-article>
+    
+                <p *ngIf="erreurArticle.reference != ''" class="erreur">{{erreurArticle.reference}}
+                </p>
+            </div>
+            <div class="col-sm-1">
+                <button class="btn btn-primary" (click)="openModalHistoriqueVente()"
+                    *ngIf="titreDocument== fonctionPartagesService.titreDocuments.devis || titreDocument== fonctionPartagesService.titreDocuments.bonLivraison || titreDocument== fonctionPartagesService.titreDocuments.commande">H</button>
+                <button class="btn btn-primary" (click)="openModalHistoriqueAchat()"
+                    *ngIf="titreDocument== fonctionPartagesService.titreDocuments.bonAchat || titreDocument== fonctionPartagesService.titreDocuments.bonCommande">H</button>
+            </div>
+        </div>
+        
+        <div class="form-group row" *ngIf="isPrixVenteNotPrixAchat()">
+            <div class="col-sm-2" >
+                <label for="prixVenteHTReel" class=" col-form-label" style="font-size: 12px;">
+                    <span>Prix Vente HT(DT)(U1)</span>
+                </label>
+                
+                <div class="col-sm-12 collapse-input">
+                    <span class="form-control desactive-text-span" name="prixVenteHT222" >{{getNumber(itemArticleSelected.prixVenteHTReel)}} </span>
+                </div>
+                <p *ngIf="erreurArticle.prixVenteHTReel != ''" class="erreur">{{erreurArticle.prixVenteHTReel}}</p>
+            </div>
+            <div class="col-sm-2">
+                <label for="quantiteVente" class="col-form-label" style="font-size: 12px;">Quantité (U1)</label>
+                <div class="col-sm-12" style="padding-left:0px; padding-right:0px;">
+                    <app-input-number-vergule isQuantite="1" [messageErreur]="erreurArticle.quantiteVente != ''" [field]="itemArticleSelected" key="quantiteVente" idUnique="quantiteVente22233" (change)="changeQuantiteVente()"></app-input-number-vergule>
+                </div>
+                <p *ngIf="erreurArticle.quantiteVente != ''" class="erreur">{{erreurArticle.quantiteVente}}</p>
+            </div>
+            <div class="col-sm-2">
+                <label for="unite" class="col-form-label" style="font-size: 12px;">Unité 1</label>
+                <div class="col-sm-12 collapse-input">
+                    <span class="form-control desactive-text-span" name="unite222">{{getUniteById(itemArticleSelected.unite1)}} </span>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <label for="tauxRemise" class="col-form-label" style="font-size: 12px;">Remise (%)</label>
+                <div class="col-sm-12 collapse-input">
+                    <app-input-number-vergule [field]="itemArticleSelected" key="tauxRemise" idUnique="tauxRemise222" (change)="changePrixTotal()"></app-input-number-vergule>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <label for="tauxRemise" class="col-form-label" style="font-size: 12px;">Taux TVA (%)</label>
+                <div class="col-sm-12 collapse-input">
+                    <span class="form-control desactive-text-span" name="tauxTVA222">{{getNumber(itemArticleSelected.tauxTVA)}} </span>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <label for="tauxRemise" class="col-form-label" style="font-size: 12px; text-align: center;">TotalTTC:</label>
+                <div class="col-sm-12">
+                    <span class="form-control desactive-text-span"> <span id="affichePrixTotal" class="headtext"> {{getNumber(itemArticleSelected.totalTTC)}} </span></span>
+                </div>
+            </div>
+        
+        </div>
+
+        <div class="form-group row" *ngIf="!isPrixVenteNotPrixAchat()">
+            <!--Ligne 1-->
+            <div class="col-sm-4" >
+                <div class="row">
+                    <label for="prixFournisseurHTReel" class="col-sm-6" style="font-size: 12px;">
+                        <span>Prix Fournisseur HT(DT)(U1)</span>
+                    </label>
+                    
+                    <div class="col-sm-6 padding-LR-0">
+                        <app-input-number-vergule [field]="itemArticleSelected" key="prixFourn" idUnique="prixFourn222" (change)="changeQuantiteAchat()"></app-input-number-vergule>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4" >
+                <div class="row">
+                    <label for="remiseF" class="col-sm-6" style="font-size: 12px;">
+                        <span>Remise Fournisseur (%)</span>
+                    </label>
+                    
+                    <div class="col-sm-6 padding-LR-0">
+                        <app-input-number-vergule [field]="itemArticleSelected" key="tauxRemise" idUnique="remiseF222" (change)="changePrixTotal()"></app-input-number-vergule>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4" >
+                <div class="row">
+                    <label for="prixVenteHTReel" class="col-sm-6" style="font-size: 12px;">
+                        <span>Prix Achat HT(DT)(U1)</span>
+                    </label>
+                    
+                    <div class="col-sm-6 padding-LR-0">
+                        <span class="form-control desactive-text-span"> <span id="affichePrixTotal" class="headtext"> {{getNumber(itemArticleSelected.prixAchatHTReel)}} </span></span>
+ 
+                        <p *ngIf="erreurArticle.prixVenteHTReel != ''" class="erreur">{{erreurArticle.prixVenteHTReel}}</p>
+                    </div>
+                </div>
+            </div>
+            <!--Ligne 2-->
+            <!--Ligne 1-->
+            
+            <div class="col-sm-4" >
+                <div class="row">
+                    <label for="prixVenteHTReel" class="col-sm-6" style="font-size: 12px;">
+                        <span>Unité 1</span>
+                    </label>
+                    
+                    <div class="col-sm-6 padding-LR-0">
+                        <span class="form-control desactive-text-span" name="unite222">{{getUniteById(itemArticleSelected.unite1)}} </span>                       
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4" >
+                <div class="row">
+                    <label for="prixVenteHTReel" class="col-sm-6" style="font-size: 12px;">
+                        <span>Quantité (U1)</span>
+                    </label>
+                    
+                    <div class="col-sm-6 padding-LR-0">
+                        <app-input-number-vergule isQuantite="1" [messageErreur]="erreurArticle.quantiteVente != ''" [field]="itemArticleSelected" key="quantiteAchat" idUnique="quantiteAchat222" (change)="changeQuantiteAchat()"></app-input-number-vergule>
+                        <p *ngIf="erreurArticle.quantiteVente != ''" class="erreur">{{erreurArticle.quantiteVente}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4" >
+                <div class="row">
+                    <label for="prixVenteHTReel" class="col-sm-6" style="font-size: 12px;">
+                        <span>TotalTTC:</span>
+                    </label>
+                    
+                    <div class="col-sm-6 padding-LR-0">
+                        <span class="form-control desactive-text-span"> <span id="affichePrixTotal" class="headtext"> {{getNumber(itemArticleSelected.totalTTC)}} </span></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group row" style="margin-bottom: 0px;">
+            <div class="col-sm-12" style="text-align: center; margin-top: 10px;">
+                <button type="button" (click)="ajoutArticle()" class="btn btn-success ng-tns-c112-14" style="font-size: 12px; padding:5px; height: 30px; display: inline-block; white-space: nowrap; margin-left: 3px;">
+                    Ajouter Article <i class="fas fa-plus"></i>
+               </button> 
+            </div>
+        </div>
+      
+        <hr>
+   
+</div>
+<div class="col-sm-12">     
+    <div class="form-group row">     
+        <div class="col-sm-12">
+             
+            <p> 
+                <span style="font-size:17px; font-weight: 900;">Liste des articles </span>
+                <span style="float:right;">
+                    <app-showelements [items]="itemsShowsElements" [itemsVariable]="itemsVariableShowsElements"></app-showelements>
+                </span>
+            </p>
+            
+            <div class="table-responsive">
+                
+            <table class="table table-striped" id="output">
+                <thead>
+                    <tr>
+                        <th *ngFor="let key of objectKeys(itemsVariableShowsElements)" >
+                            <div class="th-tableau">
+                                {{shemaArticle[key]}} 
+                            </div>
+                        </th>
+                        
+                        <th *ngIf="isDetails == 'non'">
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="articlesSelected.length > 0">
+
+                    <tr *ngFor="let item of articlesSelected" >
+                      
+                        <td *ngFor="let key of objectKeys(itemsVariableShowsElements)">
+                            
+                            <span *ngIf="!allTabNumbers.includes(key) && key != 'sousProduit' && key != 'unite1' && key != 'unite2' && key != 'prixRevient' && key != 'numero'" >{{item[key]}}</span>
+                           
+                            <span *ngIf="key === 'numero' && item[key]" >{{item[key]}} <span *ngIf="item['numeroBonReception'] != '' && item['numeroBonReception']"> {{'('+item['numeroBonReception']+')'}}</span> </span>
+                            
+                            <div *ngIf="key == 'quantiteVente'" class="col-sm-12 collapse-input">
+                                <app-input-number-vergule *ngIf="isDetails == 'non'" isQuantite="1" [field]="item" [key]="key" [idUnique]="key+item['numero']" (change)="changePrixTotalArray(item['numero'])"></app-input-number-vergule>
+                                <span *ngIf="isDetails == 'oui'" style="float:right;">{{getNumber(item[key])}}</span>
+                            </div>
+                            
+                            <div *ngIf="key == 'quantiteVente2' && item.unite2 != null" class="col-sm-12 collapse-input">
+                                <app-input-number-vergule *ngIf="isDetails == 'non'" isQuantite="1" [field]="item" [key]="key" [idUnique]="key+item['numero']" (change)="changeQuantite2Array(item['numero'])"></app-input-number-vergule>
+                                <span *ngIf="isDetails == 'oui'" style="float:right;">{{getNumber(item[key])}}</span>
+                            </div>
+
+                            <div *ngIf="key == 'prixVenteHTReel'" class="col-sm-12 collapse-input">
+                                <app-input-number-vergule *ngIf="isDetails == 'non'" [field]="item" [key]="key" [idUnique]="key+item['numero']" (change)="changePrixVenteHTReelArray(item['numero'])"></app-input-number-vergule>
+                                <span *ngIf="isDetails == 'oui'" style="float:right;">{{getNumber(item[key])}}</span>
+                            </div>
+
+                            <div *ngIf="key == 'prixVenteHTReel2 && checkIsInfinity(item[key])' && item.unite2 != null" class="col-sm-12 collapse-input">
+                                <app-input-number-vergule *ngIf="isDetails == 'non'" [field]="item" [key]="key" [idUnique]="key+item['numero']" (change)="changePrixVenteHTReel2Array(item['numero'])"></app-input-number-vergule>
+                                <span *ngIf="isDetails == 'oui'" style="float:right;">{{getNumber(item[key])}}</span>
+                            </div>
+
+                            <div *ngIf="key == 'tauxRemise'" class="col-sm-12 collapse-input">
+                                <span *ngIf="isDetails == 'oui'" style="float:right;">{{getNumber(item[key])}}</span>
+                                <app-input-number-vergule *ngIf="isDetails == 'non'" [field]="item" [key]="key" [idUnique]="key+item['numero']" (change)="changeTauxRemise(item['numero'])"></app-input-number-vergule>
+                            </div>
+
+                            <div *ngIf="key == 'remiseParMontant'" class="col-sm-12 collapse-input">
+                                <span *ngIf="isDetails == 'oui'" style="float:right;">{{getNumber(item[key])}}</span>
+                                <app-input-number-vergule *ngIf="isDetails == 'non'" [field]="item" [key]="key" [idUnique]="key+item['numero']" (change)="changeTauxRemise(item['numero'])"></app-input-number-vergule>
+                            </div>
+
+                            <div *ngIf="key == 'remiseParMontant2'" class="col-sm-12 collapse-input">
+                                <span *ngIf="isDetails == 'oui'" style="float:right;">{{getNumber(item[key])}}</span>
+                                <app-input-number-vergule *ngIf="isDetails == 'non'" [field]="item" [key]="key" [idUnique]="key+item['numero']" (change)="changeTauxRemise(item['numero'])"></app-input-number-vergule>
+                            </div>
+
+                            <!--start Prix Achat-->
+                            <div *ngIf="key == 'quantiteAchat'" class="col-sm-12 collapse-input">
+                                <app-input-number-vergule *ngIf="isDetails == 'non'" isQuantite="1" [field]="item" [key]="key" [idUnique]="key+item['numero']" (change)="changePrixTotalArray(item['numero'])"></app-input-number-vergule>
+                                <span *ngIf="isDetails == 'oui'" style="float:right;">{{getNumber(item[key])}}</span>
+                            </div>
+                            
+                            <div *ngIf="key == 'quantiteAchat2' && item.unite2 != null" class="col-sm-12 collapse-input">
+                                <app-input-number-vergule *ngIf="isDetails == 'non'" isQuantite="1" [field]="item" [key]="key" [idUnique]="key+item['numero']" (change)="changeQuantiteAchat2Array(item['numero'])"></app-input-number-vergule>
+                                <span *ngIf="isDetails == 'oui'" style="float:right;">{{getNumber(item[key])}}</span>
+                            </div>
+
+                            <div *ngIf="key == 'prixFourn'" class="col-sm-12 collapse-input">
+                                <app-input-number-vergule *ngIf="isDetails == 'non'" [field]="item" [key]="key" [idUnique]="key+item['numero']" (change)="changePrixTotalArray(item['numero'])"></app-input-number-vergule>
+                                <span *ngIf="isDetails == 'oui'" style="float:right;">{{getNumber(item[key])}}</span>
+                            </div>
+
+                            <!--end prix Achat-->
+                            <span *ngIf="tabNumbersLabel.includes(key) && checkIsInfinity(item[key])" style="float:right;">{{getNumber(item[key])}}</span>
+                           
+                            <span *ngIf="key == 'prixRevient'" style="float:right;">{{getNumber(item['prixRevient'])}}</span>
+                            
+                            <span *ngIf="key == 'sousProduit' ">{{getReferenceSousProduit(item[key], item.article)}}</span>
+                       
+                            <span *ngIf="key == 'unite1' || key == 'unite2'">{{getUniteById(item[key])}}</span>
+                       
+                        </td>
+                   
+                        <td *ngIf="isDetails == 'non'">
+                            <a *ngIf="item.numero != 1" href="javascript:" class="btn btn-icon btn-outline-info" style="width:30px; height: 30px; margin-right: 5px;" (click)="deplaceLigne(item.numero - 1, -1)">
+                                <i _ngcontent-myx-c121="" class="fa fa-arrow-up"></i>
+                            </a>
+                            <a *ngIf="item.numero != articlesSelected.length" href="javascript:" class="btn btn-icon btn-outline-info" style="width:30px; height: 30px; margin-right: 5px;" (click)="deplaceLigne(item.numero - 1, 1)">
+                                <i _ngcontent-myx-c121="" class="fa fa-arrow-down"></i>
+                            </a>
+                            <a  href="javascript:" class="btn btn-icon btn-outline-danger" style="width:30px; height: 30px;" (click)="openModalDelete(item.numero, item.reference)">
+                                <i _ngcontent-myx-c121="" class="feather icon-trash-2"></i>
+                            </a>
+                        </td>
+                    </tr>
+
+                </tbody>
+                <tbody *ngIf="initialisationEmptyTable()">
+                    <tr *ngFor="let item of emptyTable">
+                      <td style="text-align: center;" colspan="50">
+                        <span style="color:transparent;">i</span>
+                      </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+</div>
+<app-delete-modal [isLoading]="isLoading" [isOpenModalDelete]="isOpenModalDelete" [idDeleteModal]="numeroItemDelete" [params1Delete]="params1Delete" [params2Delete]="params2Delete" (deleteItem)="deleteItem()" (closeModalDelete)="closeModalDelete()" ></app-delete-modal>
+
+<app-delete-modal [isLoading]="isLoading" [isOpenModalDelete]="isOpenModalConfirmationTVATimbreFiscal"
+(confirmeeAction)="confirmeeTVATimbreFiscal()" (nonConfirmeeAction)="nonConfirmeeAction()" (closeModalDelete)="closeConfirmationTVATimbreFiscal()" titre="Confirmation" body="Voulez-vous ajouter la taxe sur la valeur ajoutée et le prix du timbre fiscal ?"></app-delete-modal>
+
+<app-delete-modal [isOpenModalDelete]="isOpenModalConfirmationPlafondRemise"
+(confirmeeAction)="confirmeePlafondRemise()" (nonConfirmeeAction)="nonConfirmeePlafondRemise()" (closeModalDelete)="closeConfirmationPlafondRemise()" titre="Attention" body="Attention, votre remise depasse le plafond remise de ce article !!" libelleButtonConfirmee="remplacer le plafond" libelleButtonNonConfirmee="non remplacer le plafond"></app-delete-modal>
+
+<app-delete-modal [isOpenModalDelete]="isOpenModalInsererClientDabord"
+(closeModalDelete)="closeInsererClientDabord()" titre="Attention" [body]="messageInsererClientDabord" isAlert="1" ></app-delete-modal>
+
+<app-delete-modal [isOpenModalDelete]="isOpenModalBlockedStockNegative"
+(closeModalDelete)="closeBlockedStockNegative()" titre="Attention" body="L'article est indisponible en stock." isAlert="1" ></app-delete-modal>
+
+<app-delete-modal [isOpenModalDelete]="isOpenModalStockMax"
+(confirmeeAction)="confirmeeStockMax()" (nonConfirmeeAction)="closeStockMax()" (closeModalDelete)="closeStockMax()" titre="Attention" [body]="messageStockMax"></app-delete-modal>
+
+<app-add-element-modal [isLoading]="isLoading" [isOpenModalAjoutElement]="isOpenModalAjoutElement" [typeDocument]="typeDocument"
+    [idAjoutElementModal]="idAjoutElementModal" (closeModalAjoutElement)="closeModalAjoutElement()" [idAjoutPersModal]="idAjoutPersModal"
+    [typeElement]="typeElement"></app-add-element-modal>
+

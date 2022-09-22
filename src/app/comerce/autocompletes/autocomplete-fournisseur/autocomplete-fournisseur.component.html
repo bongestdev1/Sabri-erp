@@ -1,0 +1,18 @@
+  <app-auto-complete-input
+ [items] = "items"
+ [idSelected] = "idSelected"
+ [bordureRed] = "bordureRed"
+ [idHtml] = "idHtml"
+ [articles]="articles"
+ content="contentM"
+ (addElementEvent)="setFournisseur($event)"
+ (detailsElementEvent)="detailsFournisseur()"
+ (listElementEvent)="listFournisseur()"
+ [keySelected]="keySelected"
+>
+</app-auto-complete-input>
+
+
+<app-add-element-modal [isOpenModalAjoutElement]="isOpenModalAjoutElement"
+    [idAjoutElementModal]="idAjoutElementModal" (closeModalAjoutElement)="closeModalAjoutElement()"
+    [typeElement]="typeElement" (selectionLigne)="selectionLigneFunction($event)"></app-add-element-modal>

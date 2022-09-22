@@ -1,0 +1,26 @@
+.class-societe{
+    border:1px solid gray; 
+    padding:10px;
+}
+
+.class-societe:hover{
+    background-color: #1abc9c;
+    color: white;
+    border: white;
+}
+
+p{
+    
+}
+
+.style-button-edit{
+    margin-left: auto;
+    color:white;
+    padding:2px 5px;
+    border: white solid 1px;
+}
+
+.style-button-edit:hover{
+    color: #1abc9c;
+    border: #1abc9c solid 1px;
+}

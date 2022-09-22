@@ -1,0 +1,193 @@
+
+
+    <div class="col-sm-12" style="padding: 10px;" *ngIf="showAddExpedation == false && newExpedition.articles.length != 0">
+        <span style="color: rgb(167, 170, 15); font-weight: 900;"> <i class="fas fa-exclamation-triangle"></i> Votre bon de livraison est partiellement expédié </span>
+        <button *ngIf="isDetails == 'non'" class="btn btn-success" style="float:right;" (click)="showAddExpedation = true">Nouvelle Expedition</button>
+    </div>
+
+    <div class="col-sm-12" style="padding: 10px;" *ngIf="newExpedition.articles.length == 0">
+        <span style="color: rgb(26, 192, 26); font-weight: 900;"> <i class="fas fa-check"></i> Tous vôtres articles sont expédiés </span>
+    </div>
+    
+    <div class="col-sm-12" style="padding: 10px;" *ngIf="showAddExpedation == true && newExpedition.articles.length != 0">
+        <form *ngIf="isDetails == 'non'" action="javascript:">
+            
+            <h3>Nouvelle Expedition</h3>
+            
+            <div class="col-sm-12">
+                <form action="javascript:">
+                    
+                    <div class="form-group row">
+                       
+                        <div class="col-sm-12" >
+                            <label for="transporteur" class=" col-form-label" style="font-size: 12px;">Transporteur</label>
+                            <div class="col-sm-12" style="padding:0px;">
+                                 <input type="text" class="form-control desactive-text-input" name="transporteur" id="transporteur"
+                                      [(ngModel)]="newExpedition.transporteur">
+                            </div>
+                            
+                            <p *ngIf="erreurExpedition.transporteur != ''" class="erreur">{{erreurExpedition.transporteur}}</p>
+                             
+                        </div>
+                        <div class="col-sm-12" style=" margin-top: 10px;">
+                             
+                            <h5>Liste des newExpedition.articles</h5>
+                            <table class="table table-striped" id="output" style="width: 100%; overflow-x: auto;">
+                                <thead>
+                                    <tr>
+                                        <th *ngFor="let key of objectKeys(shemaArticle)" >
+                                            <div class="th-tableau">
+                                                {{shemaArticle[key]}} 
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody *ngIf="newExpedition.articles.length > 0">
+                
+                                    <tr *ngFor="let item of newExpedition.articles" >
+                                      
+                                        <td *ngFor="let key of objectKeys(shemaArticle)">
+                                            
+                                            <span *ngIf="!allTabNumbers.includes(key)" >{{item[key]}}</span>
+        
+                                            <div *ngIf="tabNumbers.includes(key)" class="col-sm-12 collapse-input">
+                                                <input type="number" class="form-control desactive-text-input collapse-input-table" [name]="key+item['numero']" [id]="key+item['numero']"
+                                                     [(ngModel)]="item[key]" (focus)="showInput2($event)" (ngModelChange)="changeQuantiteRestant()" >
+                                            
+                                                <span [attr.name]="key+item['numero']" class="form-control desactive-text-span collapse-input-table" (click)="showInput($event)" >{{getNumber(item[key])}} </span>
+                                            </div>
+        
+                                            <span *ngIf="tabNumbersLabel.includes(key)" >{{getNumber(item[key])}}</span>
+        
+                                        </td>
+                                  
+                                    </tr>
+                
+                                </tbody>
+        
+                                <tbody *ngIf="newExpedition.articles.length == 0">
+                                    <tr>
+                                      <td style="text-align: center;" colspan="100" >
+                                        <span style="color: rgb(26, 192, 26); font-weight: 900;"> <i class="fas fa-check"></i> Tous vôtres articles sont expédiés </span>
+                                      </td>
+                                    </tr>
+                                </tbody>
+        
+                            </table>
+            
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="form-group row" style="margin-bottom: 0px;">
+                
+                <div class="col-sm-12" style="text-align: center; margin-top: 10px;">
+                    <button (click)="addNewExpedition()" type="button" class="btn btn-success ng-tns-c112-14" style="font-size: 12px; padding:5px; height: 30px; display: inline-block; white-space: nowrap; margin-left: 3px;">
+                        Ajouter Expedition <i class="fas fa-plus"></i>
+                   </button> 
+                </div>
+
+            </div>
+            
+        </form>
+    </div>
+
+   
+    <div class="col-sm-12">
+        <form action="javascript:">
+            <div style="width: 100% !important; margin:0px;">
+
+                <div class="col-sm-12" style=" margin-top: 10px;">
+
+                    <h3>Liste des expeditions</h3>
+                 
+                    <div class="table-responsive">
+   
+                   <table class="table table-striped" id="output" style="width: 100%; overflow-x: auto;">
+                        <thead>
+                            <tr>
+                                <th *ngFor="let key of objectKeys(shemaExpedition)" style="text-align: center;">
+                                    <div class="th-tableau">
+                                        {{shemaExpedition[key]}} 
+                                    </div>
+                                </th>
+                                <th>
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody *ngFor="let itemExpedition of expeditions">
+        
+                            <tr>
+                              
+                                <td *ngFor="let key of objectKeys(shemaExpedition)" style="text-align: center;">
+                                    
+                                      <span *ngIf="['numero','date','heure','nbrArticles'].includes(key) == false">{{itemExpedition[key]}}</span>
+                                      <span *ngIf="key == 'numero'">{{getNumeroExpedition(itemExpedition['date'])}}</span>
+                                      <span *ngIf="key == 'date'">{{getDate(itemExpedition['date'])}}</span>
+                                      <span *ngIf="key == 'heure'">{{getTime(itemExpedition['date'])}}</span>
+                                      <span *ngIf="key == 'nbrArticles'">{{itemExpedition.articles.length}}</span>
+                                      
+                                </td>
+                                <td>
+                                    <button class="btn btn-success" style="padding: 5px;" name="{{itemExpedition['date']}}" (click)="showList($event)">
+                                        Détails
+                                    </button>
+                                </td>
+
+                            </tr>
+
+                            <tr class="list-article desactive-list-article" id="{{itemExpedition['date']}}">
+                                <td style="text-align: center; background-color: rgb(53, 233, 158);" colspan="100">
+                              
+                                    <table class="table table-striped" id="output" style="width: 100%; overflow-x: auto; display: block;">
+                                        <thead>
+                                            <tr>
+                                                <th *ngFor="let key of objectKeys(shemaExpeditionLigne)" >
+                                                    <div class="th-tableau">
+                                                        {{shemaExpeditionLigne[key]}} 
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngFor="let item of itemExpedition.articles">
+            
+                                            <tr>
+                                              
+                                                <td *ngFor="let key of objectKeys(shemaExpeditionLigne)">
+                                                    
+                                                      <span>{{item[key]}}</span>   
+                
+                                                </td>
+                
+                                            </tr>
+    
+                                        </tbody>
+
+                                    </table>
+
+                                </td>
+                            </tr>
+        
+                        </tbody>
+
+                        <tbody *ngIf="expeditions.length == 0">
+                            <tr>
+                              <td style="text-align: center;" colspan="9">
+                                Vide
+                              </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                    </div>
+    
+                </div>
+            </div>
+        </form>
+    </div>
+
+

@@ -1,0 +1,341 @@
+<div class="row">
+    <!-- Partie formulaire à Gauche en haut -->
+    <div class="col-md-6" *ngIf="isModifierReglement">
+        <form action="javascript:">
+
+            <div class="form-group row">
+                <label for="numero" class="col-sm-4 col-form-label">Numero</label>
+                <div class="col-sm-8 collapse-input">
+                    <span class="form-control desactive-text-span" name="numero">{{reglement.numero}}</span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="tresorerie" class="col-sm-4 col-form-label">Tresorerie</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="tresorerie" id="tresorerie"
+                        placeholder="Entrer tresorerie" [(ngModel)]="reglement.tresorerie">
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label for="numCheque" class="col-sm-4 col-form-label">Numero de cheque</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="numCheque" id="numCheque" (focus)="showInput($event)"
+                        placeholder="Entrer numCheque" [(ngModel)]="reglement.numCheque">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="dateReglement" class="col-sm-4 col-form-label">Date reglement</label>
+                <div class="col-sm-8">
+                    <input type="date" class="form-control" name="dateReglement" id="dateReglement"
+                        placeholder="Entrer dateReglement" [(ngModel)]="reglement.dateReglement">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="dateEncaissement" class="col-sm-4 col-form-label">Date encaissement </label>
+                <div class="col-sm-8">
+                    <input type="date" class="form-control" name="dateEncaissement" id="dateEncaissement"
+                        placeholder="Entrer dateEncaissement" [(ngModel)]="reglement.dateEncaissement ">
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label for="dateEcheance" class="col-sm-4 col-form-label">Date echeance</label>
+                <div class="col-sm-8">
+                    <input type="date" class="form-control" name="dateEcheance" id="dateEcheance"
+                        placeholder="Entrer dateEcheance" [(ngModel)]="reglement.dateEcheance">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="notes" class="col-sm-4 col-form-label">Notes</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="notes" id="notes" placeholder="Entrer notes"
+                        [(ngModel)]="reglement.notes">
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="col-md-6" *ngIf="isModifierReglement">
+        <form action="javascript:">
+
+            <div class="form-group row">
+                <label for="Client" class="col-sm-4 col-form-label">{{parametres2.typeTier}}</label>
+                <div class="col-sm-8">
+                    <app-autocomplete (addElementEvent)="setClientID($event)" [keySelected]="keySelectedClient"
+                        [objet]="objetClient" [articles]="parametres.allClients" [idSelected]="reglement.client"
+                        idHtml="Reglement1" (openAddElementEvent)="openModalAjoutClient()"
+                        [bordureRed]="erreurReglement.client != ''">
+                    </app-autocomplete>
+
+                    <p *ngIf="erreurReglement.client != ''" class="erreur">{{erreurReglement.client}}</p>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label for="modeReglement" class="col-sm-4 col-form-label">Mode de reglement</label>
+                <div class="col-sm-8">
+                    <app-autocomplete (addElementEvent)="setModeReglementID($event)"
+                        [keySelected]="keySelectedModeReglement" [objet]="objetModeReglement"
+                        [articles]="parametres.allModeReglements" [idSelected]="reglement.modeReglement"
+                        idHtml="Reglement3" (openAddElementEvent)="openModalAjoutModeReglement()"
+                        [bordureRed]="erreurReglement.modeReglement != ''">
+                    </app-autocomplete>
+
+                    <p *ngIf="erreurReglement.modeReglement != ''" class="erreur">{{erreurReglement.modeReglement}}</p>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="modeReglement" class="col-sm-4 col-form-label">Situation reglement</label>
+                <div class="col-sm-8">
+                    <app-autocomplete (addElementEvent)="setSituationReglementID($event)"
+                        [keySelected]="keySelectedSituationReglement" [objet]="objetSituationReglement"
+                        [articles]="parametres.allSituationRegs" [idSelected]="reglement.situationReglement"
+                        idHtml="Reglement4" (openAddElementEvent)="openModalAjoutSituationReglement()"
+                        [bordureRed]="erreurReglement.situationReglement != ''">
+                    </app-autocomplete>
+
+                    <p *ngIf="erreurReglement.situationReglement != ''" class="erreur">
+                        {{erreurReglement.situationReglement}}</p>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="montant" class="col-sm-4 col-form-label">Montant</label>
+                <div class="col-sm-8">
+                    <app-input-number-vergule [field]="reglement" key="montant" idUnique="montant"
+                        [messageErreur]="erreurReglement.montant" (change)="setlitterage()">
+                    </app-input-number-vergule>
+
+                    <p *ngIf="erreurReglement.montant != ''" class="erreur">{{erreurReglement.montant}}</p>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="modeReglement" class="col-sm-4 col-form-label">Reste Liltrages</label>
+                <div class="col-sm-8">
+                    <span class="form-control desactive-span" name="reste">
+                        {{fonctionPartagesService.getFormaThreeAfterVerguleNomber(reglement.reste)}}
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="modeReglement" class="col-sm-4 col-form-label">Activer Liltrage</label>
+                <div class="col-sm-8">
+                    <input type="checkbox" [checked]="reglement.activerLiltrage == 'oui'" (click)="setModeLiltrage()">
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="col-md-6" *ngIf="!isModifierReglement">
+        <form action="javascript:">
+
+            <div class="form-group row">
+                <label for="numero" class="col-sm-4 col-form-label">Numero</label>
+                <div class="col-sm-8 collapse-input">
+                    <span class="form-control desactive-text-span" name="numero">{{reglement.numero}}</span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="tresorerie" class="col-sm-4 col-form-label">Tresorerie</label>
+                <div class="col-sm-8">
+
+                    <span class="form-control desactive-text-span" name="tresorerie">{{reglement.tresorerie}}</span>
+
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label for="numCheque" class="col-sm-4 col-form-label">Numero de cheque</label>
+                <div class="col-sm-8">
+
+                    <span class="form-control desactive-text-span" name="numCheque">{{reglement.numCheque}}</span>
+
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="dateEcheance" class="col-sm-4 col-form-label">Date echeance</label>
+                <div class="col-sm-8">
+
+                    <span class="form-control desactive-text-span"
+                        name="dateEcheance">{{getDate(reglement.dateEcheance)}}</span>
+
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="dateEcheance" class="col-sm-4 col-form-label">Date reglement</label>
+                <div class="col-sm-8">
+
+                    <span class="form-control desactive-text-span"
+                        name="dateEcheance">{{getDate(reglement.dateReglement)}}</span>
+
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="dateEcheance" class="col-sm-4 col-form-label">Date encaissement </label>
+                <div class="col-sm-8">
+
+                    <span class="form-control desactive-text-span"
+                        name="dateEcheance">{{getDate(reglement.dateEncaissement )}}</span>
+
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="notes" class="col-sm-4 col-form-label">Notes</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="notes" id="notes" placeholder="Entrer notes"
+                        [(ngModel)]="reglement.notes">
+
+                    <!--<span class="form-control desactive-text-span" name="notes">{{reglement.notes}}</span>
+                    -->
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="col-md-6" *ngIf="!isModifierReglement">
+        <form action="javascript:">
+
+
+            <div class="form-group row">
+                <label for="Client" class="col-sm-4 col-form-label">{{parametres2.typeTier}}</label>
+                <div class="col-sm-8">
+
+                    <span class="form-control desactive-text-span"
+                        name="client">{{getClientRaisonSociale(reglement.client)}}</span>
+
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label for="modeReglement" class="col-sm-4 col-form-label">Mode de reglement</label>
+                <div class="col-sm-8">
+                    <span class="form-control desactive-text-span"
+                        name="modeReglement">{{getModeReglementLibelle(reglement.modeReglement)}}</span>
+
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="montant" class="col-sm-4 col-form-label">Montant</label>
+                <div class="col-sm-8 collapse-input">
+                    <span class="form-control desactive-span" name="montant">
+                        {{fonctionPartagesService.getFormaThreeAfterVerguleNomber(reglement.montant)}}
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="modeReglement" class="col-sm-4 col-form-label">Reste</label>
+                <div class="col-sm-8">
+                    <span class="form-control desactive-span" name="reste">
+                        {{fonctionPartagesService.getFormaThreeAfterVerguleNomber(reglement.reste)}}
+                    </span>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+
+    <div class="col-md-12">
+
+        <div class="table-responsive"
+            *ngIf="(reglement.activerLiltrage == 'oui' || parametres.bonLivraisons.length > 0)">
+            <hr>
+            <app-spinner2 *ngIf="isLoading"></app-spinner2>
+
+            <button type="button" class="btn btn-info ng-tns-c112-14" *ngIf="!isLoading"
+                style="font-size: 12px; padding:5px; height: 30; margin-right: 0px; float:right;"
+                (click)="liltrageAutomatique()">
+                Liltrage Automatique <i class="fa fa-industry" aria-hidden="true"></i>
+            </button>
+
+            <button type="button" class="btn btn-danger ng-tns-c112-14" *ngIf="!isLoading && avecLiltrage"
+                style="font-size: 12px; padding:5px; height: 30; margin-right: 0px; float:right;"
+                (click)="supprimerLiltrageClick()">
+                Supprimer Liltrage <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+
+            <table class="table table-striped" id="output">
+                <thead>
+                    <tr>
+                        <th *ngFor="let key of objectKeys(itemsVariableG)">
+                            <div class="th-tableau" (click)="changeCroissante(key)">
+                                {{itemsVariableG[key]}}
+                                <div class="buttons-croissante">
+
+                                    <i class="fas fa-caret-up croissante {{key}}-croissante"></i>
+                                    <i class="fas fa-caret-down croissante {{key}}-croissante"></i>
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let itemG of parametres.bonLivraisons">
+                        <td *ngFor="let key of objectKeys(itemsVariableG)">
+                            <span *ngIf="key == 'numero'">{{itemG[key]}}</span>
+                            <span style="float:right; "
+                                *ngIf="['montantTotal', 'montantPaye', 'restPayer'].includes(key)">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(itemG[key])}}</span>
+                            <input type="checkbox" *ngIf="key == 'isPayee'" [checked]="itemG[key] == 'oui'"
+                                (click)="setIsPayee(itemG.id)">
+                            <span *ngIf="key == 'date'"
+                                style="text-align: center; display: block;">{{getDate(itemG[key])}}</span>
+
+                            <div *ngIf="key == 'montantAPayer'" class="col-md-12 collapse-input"
+                                style="padding-left: 0px !important; padding-right: 0px !important;">
+                                <app-input-number-vergule [field]="itemG" [key]="key" [idUnique]="itemG.id + key"
+                                    (change)="setlitterage()">
+                                </app-input-number-vergule>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="javascript:" class="btn btn-icon btn-outline-info"
+                                style="width:30px; height: 30px; margin-right: 5px;"
+                                (click)="deplaceLigne(itemG.id, -1)">
+                                <i _ngcontent-myx-c121="" class="fa fa-arrow-up"></i>
+                            </a>
+
+                            <a href="javascript:" class="btn btn-icon btn-outline-info"
+                                style="width:30px; height: 30px; margin-right: 5px;"
+                                (click)="deplaceLigne(itemG.id, 1)">
+                                <i _ngcontent-myx-c121="" class="fa fa-arrow-down"></i>
+                            </a>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+<app-add-element-modal [isLoading]="isLoading" [isOpenModalAjoutElement]="isOpenModalAjout"
+    [idAjoutElementModal]="idAjoutModal" (closeModalAjoutElement)="closeModalAjout()" [typeElement]="typeElement">
+</app-add-element-modal>

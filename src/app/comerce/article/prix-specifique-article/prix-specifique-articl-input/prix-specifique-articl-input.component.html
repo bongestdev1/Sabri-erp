@@ -1,0 +1,141 @@
+<div class="row">
+    <div class="col-sm-12">
+        <app-card [hidHeader]="true" *ngIf="idArticle == ''">
+            <div class="form-group row" style="justify-content: space-between !important;">
+                <div class="text-titre">
+                    <h3>Ajouter Prix Spécifique</h3>
+                </div>
+                <div class="left-button">
+                    <button *ngIf="!isLoading" class="btn btn-primary float-left" (click)="ajoutInventaire()">
+                        Enregister
+                    </button>
+                    <button *ngIf="isLoading" class="btn btn-primary" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Chargement...
+                    </button>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <form action="javascript:">
+                        <div class="form-group row">
+                            <label for="categorie" class="col-sm-4 col-form-label">Catégorie</label>
+                            <div class="col-sm-8">
+                                <app-autocomplete (addElementEvent)="setCategorieID($event)"
+                                    [keySelected]="keySelectedCategorie" [objet]="objetCategorie"
+                                    [articles]="allCategories" [idSelected]="parametresGlobal.categorie" [idHtml]="30"
+                                    (openAddElementEvent)="openModalAjoutCategorie()">
+                                </app-autocomplete>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <div class="col-sm-6">
+                    <form action="javascript:">
+                        <div class="form-group row">
+                            <label for="categorie" class="col-sm-4 col-form-label">Article</label>
+                            <div class="col-sm-8">
+                                <app-autocomplete modeMultiSortie=true
+                                    [shemaMultiSortie]="shemaMultiSortie" (addElementEvent)="setArticle2ID($event)"
+                                    [keySelected]="keySelectedArticle" [objet]="shemaArticle2" [articles]="allArticles"
+                                    [idSelected]="parametresGlobal.article" idHtml="3" [itemsNumberSimple]="shemaArticle2Number"
+                                    [itemsNumberQuantite]="shemaArticle2Quantite">
+                                </app-autocomplete>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                
+                <div class="col-md-6">
+                    <form action="javascript:">
+                        <div class="form-group row">
+                            <label for="typeTier" class="col-sm-4 col-form-label">Type Tier</label>
+                            <div class="col-sm-8">
+                                <app-autocomplete (addElementEvent)="setTypeTierID($event)"
+                                    [keySelected]="keySelectedTypeTier" [objet]="objetTypeTier"
+                                    [articles]="allTypeTiers" [idSelected]="parametresGlobal.typeTier" [idHtml]="900"
+                                    (openAddElementEvent)="openModalAjoutTypeTier()">
+                                </app-autocomplete>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-md-6">
+                    <form action="javascript:">
+                        <div class="form-group row">
+                            <label for="client" class="col-sm-4 col-form-label">Client</label>
+                            <div class="col-sm-8">
+                                <app-autocomplete (addElementEvent)="setClientID($event)"
+                                    [keySelected]="keySelectedClient" [objet]="objetClient" [articles]="allClients"
+                                    [idSelected]="parametresGlobal.client" [idHtml]="800"
+                                    (openAddElementEvent)="openModalAjoutClient()">
+                                </app-autocomplete>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-md-12">
+                    <button style="float:right; margin-right: 0px;" class="btn btn-info" *ngIf="!isLoading" (click)="afficherEnciennes()">Recherche</button>
+                    <button style="float:right; margin-right: 0px;" *ngIf="isLoading" class="btn btn-info" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Chargement...
+                    </button>
+                </div>
+
+                <div class="col-md-12">
+                    
+                    <app-prix-specifique-articles-list [articles]="articles"
+                    [allTypeTiers]="allTypeTiers" [allClients]="allClients"
+                    [allFrais]="allFrais"
+                    [allArticles]="allArticles" [isLoading]="isLoading"
+                    (getAllParametres)="getAllParametres()"
+                    (ajouterArticle)="ajouterArticle($event)" [errorList]="errorList"
+                    (setNewList)="setNewList($event)"></app-prix-specifique-articles-list>
+   
+                </div>
+
+            </div>
+        </app-card>
+
+        <div *ngIf="idArticle != ''">
+
+            <div class="form-group row" style="justify-content: space-between !important;">
+                <div class="text-titre">
+                    <h3>Ajouter Prix Spécifique</h3>
+                </div>
+                <div class="left-button">
+                    <button *ngIf="!isLoading" class="btn btn-primary float-left" (click)="ajoutInventaire()">
+                        Enregister
+                    </button>
+                    <button *ngIf="isLoading" class="btn btn-primary" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Chargement...
+                    </button>
+                </div>
+            </div>
+
+            <hr>
+
+            <app-prix-specifique-articles-list [idArticle]="idArticle" [articles]="articles"
+                [allTypeTiers]="allTypeTiers" [allClients]="allClients" [allArticles]="allArticles"
+                [isLoading]="isLoading" (getAllParametres)="getAllParametres()"
+                (ajouterArticle)="ajouterArticle($event)" [errorList]="errorList" (setNewList)="setNewList($event)"
+                [allFrais]="allFrais">
+                
+            </app-prix-specifique-articles-list>
+        </div>
+
+    </div>
+</div>
+
+<app-add-element-modal [isLoading]="isLoading" [isOpenModalAjoutElement]="isOpenModalAjoutElement"
+    [idAjoutElementModal]="idAjoutElementModal" (closeModalAjoutElement)="closeModalAjoutElement()"
+    [typeElement]="typeElement"></app-add-element-modal>

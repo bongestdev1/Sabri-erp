@@ -1,0 +1,205 @@
+<!-- Model de modification -->
+<ng-template #contentM let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Modification Adresse</h4>
+        <p type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </p>
+    </div>
+    <div class="modal-body">
+        <form action="javascript:">
+
+            <div class="form-group row">
+                <label for="titre" class="col-sm-3 col-form-label">Titre</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="titre" placeholder="Titre" name="titre"
+                        [(ngModel)]="titre">
+
+                    <p *ngIf="erreurtitre != ''" class="erreur">{{erreurtitre}}</p>
+                    </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="pays" class="col-sm-3 col-form-label">Pays</label>
+                <div class="col-sm-9">
+                    <input type="text" name="pays" class="form-control" id="pays" placeholder="Pays"
+                        [(ngModel)]="pays">
+                    <p *ngIf="erreurpays != ''" class="erreur">{{erreurpays}}</p>
+                </div>
+            </div>
+            
+            <div class="form-group row">
+                <label for="gouvernorat" class="col-sm-3 col-form-label">Gouvernorat</label>
+                <div class="col-sm-9">
+                    <input type="text" name="gouvernorat" class="form-control" id="gouvernorat" placeholder="gouvernorat"
+                        [(ngModel)]="gouvernorat">
+                  
+                    <p *ngIf="erreurgouvernorat != ''" class="erreur">{{erreurgouvernorat}}</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="delegation" class="col-sm-3 col-form-label">Délégation</label>
+                <div class="col-sm-9">
+                    <input type="text" name="delegation" class="form-control" id="delegation" placeholder="delegation"
+                    [(ngModel)]="delegation">
+              
+                    <p *ngIf="erreurdelegation != ''" class="erreur">{{erreurdelegation}}</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="localite" class="col-sm-3 col-form-label">Localité</label>
+                <div class="col-sm-9">
+                    <input type="text" name="localite" class="form-control" id="localite" placeholder="localite"
+                    [(ngModel)]="localite">
+              
+                    <p *ngIf="erreurlocalite != ''" class="erreur">{{erreurlocalite}}</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="codePostale" class="col-sm-3 col-form-label">Code Postale</label>
+                <div class="col-sm-9">
+                    
+                    <input type="text" name="codePostale" class="form-control" id="codePostale" placeholder="codePostale"
+                    [(ngModel)]="codePostale">
+              
+                    <p *ngIf="erreurcodePostale != ''" class="erreur">{{erreurcodePostale}}</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="adresse" class="col-sm-3 col-form-label">Adresse</label>
+                <div class="col-sm-9">
+                    
+                    <input type="text" name="adresse" class="form-control" id="adresse" placeholder="adresse"
+                    [(ngModel)]="adresse">
+                    <p *ngIf="erreuradresse != ''" class="erreur">{{erreuradresse}}</p>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)=" modifierAdresse(1)">Modifier</button>
+    </div>
+</ng-template>
+<!-- Model d'ajout -->
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Ajouter Adresse</h4>
+        <p type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </p>
+    </div>
+    <div class="modal-body">
+        <form action="javascript:">
+            <div class="form-group row">
+                <label for="titre" class="col-sm-3 col-form-label">Titre</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="titre" placeholder="Titre" name="titre"
+                        [(ngModel)]="titre">
+                    <p *ngIf="erreurtitre != ''" class="erreur">{{erreurtitre}}</p>
+                    </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="pays" class="col-sm-3 col-form-label">Pays</label>
+                <div class="col-sm-9">
+                    <input type="text" name="pays" class="form-control" id="pays" placeholder="Pays"
+                        [(ngModel)]="pays">
+                    <p *ngIf="erreurpays != ''" class="erreur">{{erreurpays}}</p>
+                </div>
+            </div>
+            
+            <div class="form-group row">
+                <label for="gouvernorat" class="col-sm-3 col-form-label">Gouvernorat</label>
+                <div class="col-sm-9">
+                    <input type="text" name="gouvernorat" class="form-control" id="gouvernorat" placeholder="gouvernorat"
+                        [(ngModel)]="gouvernorat">
+                  
+                    <p *ngIf="erreurgouvernorat != ''" class="erreur">{{erreurgouvernorat}}</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="delegation" class="col-sm-3 col-form-label">Délégation</label>
+                <div class="col-sm-9">
+                    <input type="text" name="delegation" class="form-control" id="delegation" placeholder="delegation"
+                    [(ngModel)]="delegation">
+              
+                    <p *ngIf="erreurdelegation != ''" class="erreur">{{erreurdelegation}}</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="localite" class="col-sm-3 col-form-label">Localité</label>
+                <div class="col-sm-9">
+                    <input type="text" name="localite" class="form-control" id="localite" placeholder="localite"
+                    [(ngModel)]="localite">
+              
+                    <p *ngIf="erreurlocalite != ''" class="erreur">{{erreurlocalite}}</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="codePostale" class="col-sm-3 col-form-label">Code Postale</label>
+                <div class="col-sm-9">
+                    
+                    <input type="text" name="codePostale" class="form-control" id="codePostale" placeholder="codePostale"
+                    [(ngModel)]="codePostale">
+              
+                    <p *ngIf="erreurcodePostale != ''" class="erreur">{{erreurcodePostale}}</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="adresse" class="col-sm-3 col-form-label">Adresse</label>
+                <div class="col-sm-9">
+                    
+                    <input type="text" name="adresse" class="form-control" id="adresse" placeholder="adresse"
+                    [(ngModel)]="adresse">
+                    <p *ngIf="erreuradresse != ''" class="erreur">{{erreuradresse}}</p>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="enregistrerAdresse()">Enregistrer</button>
+    </div>
+</ng-template>
+
+<div class="col-xl-14">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>IDPays</th>
+                    <th>Titre</th>
+                    <th>IDGouvernorat</th>
+                    <th>IDDelegation</th>
+                    <th>IDLocalité</th>
+                    <th>Code Postale</th>
+                    <th>Adresse</th>
+                    <th><button class="btn btn-sm btn-outline-primary" (click)="open(content)">Ajouter</button></th>
+                </tr>
+            </thead>
+            <tbody *ngIf="inisialiserEmptyTab()">
+                <tr *ngFor="let item of autreAdresse">
+                    <td>{{item.pays}}</td>       
+                    <td>{{item.titre}}</td>
+                    <td>{{item.gouvernorat}}</td>
+                    <td>{{item.delegation}}</td>
+                    <td>{{item.localite}}</td>
+                    <td>{{item.codePostale}}</td>
+                    <td>{{item.adresse}}</td>
+                    <td>
+                        <button type="button" class="btn btn-icon btn-outline-success" data-toggle="modal"
+                            (click)="openM(contentM, item.id)" style="margin-right: 5px;"><i
+                                class="feather icon-edit"></i></button>
+                        <button type="button" class="btn btn-icon btn-outline-danger" data-toggle="modal"><i
+                                class="feather icon-trash-2" (click)="supprimerAdresse(item.id)"></i></button>
+                    </td>
+                </tr>
+
+                <tr *ngFor="let item of tabEmpty">
+                    <td colspan="30">
+                        <span style="color:transparent;">i</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,64 @@
+.modalDelete {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1035; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  .modalDelete-open {
+      display: block;
+  }
+
+  /* Modal Content/Box */
+  .modal-contentDelete {
+    background-color: #fefefe;
+    margin: 50px auto; /* 15% from the top and centered */
+    margin-bottom: 0px;
+    padding: 5px;
+    border: 1px solid #888;
+    width: fit-content; /* Could be more or less, depending on screen size */
+    position: relative;
+    z-index: 1000;
+
+  }
+  
+  /* The Close Button */
+  .closeDelete {
+    color: #aaa;
+    float: right;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .closeDelete:hover,
+  .closeDelete:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+
+  @media screen and (max-width: 1000px) {
+    .modal-contentDelete {
+      margin: 0px; /* 15% from the top and centered */
+      margin-top: 20px;
+      padding: 20px;
+      width: 100%; /* Could be more or less, depending on screen size */
+    }
+    
+  }  
+
+  .span-style{
+    font-weight: 900;
+  }
+
+  .style-button{
+    height: 30px;
+    margin:0px;
+  }

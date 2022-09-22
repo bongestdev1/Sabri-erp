@@ -1,0 +1,26 @@
+<section id="slider" style="margin-top:8%; background-color:#1abc9c; height:100%;">
+    
+    <div class="slider-3" style="width: fit-content; margin:0 auto;">
+        <form [formGroup]="formC">
+                                <h1>Email de récupération</h1> 
+                                <!--<p>Si vous n'avez pas de compte d'utilisateur, vous pouvez en créer un - <a style="color: white;" [routerLink]="['/Inscription']">c'est gratuit.</a> </p>
+                                -->
+                                
+                                <label for="exampleFormControlInput1" class="form-label">Email</label>
+                                <input type="email" class="form-control" formControlName="email"  id="email" placeholder="">
+                              
+                                <p class="erreur">{{erreurLogin.email}}
+                                </p>
+                                  
+                                <app-loading *ngIf="isLoading"></app-loading>
+                               
+                                <div style="width: 100%;">
+                                    <input type="submit" id='submit' (click)="envoyer()"  value="Envoyer">  
+                                </div>
+                            </form>
+                        </div>
+                      
+                
+</section>
+
+

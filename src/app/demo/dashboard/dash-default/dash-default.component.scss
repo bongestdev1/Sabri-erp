@@ -1,0 +1,55 @@
+.container {
+  .main {
+    display: flex;
+
+    .right {
+      flex: 0.5;
+      padding: 20px;
+      .card {
+        h5 {
+          text-align: center;
+          font-size: 25px;
+          font-weight: bold;
+          font-family: Georgia, "Times New Roman", Times, serif;
+          color: #387c44;
+        }
+        .dlm {
+          text-align: right;
+        }
+
+        .table-striped > tbody > tr:nth-child(odd) > td,
+        .table-striped > tbody > tr:nth-child(odd) > th {
+          background-color: #dcdcdc; // Choose your own color here
+        }
+
+        .table-hover tbody tr:hover td {
+          background-color: #d0e0dd ;
+        }
+      }
+    }
+    .left {
+      flex: 0.5;
+      padding: 20px;
+
+      .card {
+        h5 {
+          text-align: center;
+          font-size: 25px;
+          font-weight: bold;
+          font-family: Georgia, "Times New Roman", Times, serif;
+          color: #387c44;
+        }
+        .ChiffreAffaire {
+          text-align: right;
+        }
+        .table-striped > tbody > tr:nth-child(odd) > td,
+        .table-striped > tbody > tr:nth-child(odd) > th {
+          background-color: #dcdcdc; // Choose your own color here
+        }
+        .table-hover tbody tr:hover td {
+          background-color: #d0e0dd ;
+        }
+      }
+    }
+  }
+}

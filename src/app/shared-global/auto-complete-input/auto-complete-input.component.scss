@@ -1,0 +1,101 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font: 16px Arial;  
+  }
+  
+  /*the container must be positioned relative:*/
+  .autocomplete {
+    position: relative;
+    display: inline-block;
+  }
+  
+  
+  
+  
+  input[type=submit] {
+    background-color: DodgerBlue;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  th, td{
+    padding:1px !important;
+    font-size: 12px;
+    border:1px solid gray;
+    white-space: nowrap;
+  }
+  
+  .autocomplete-items {
+    position: absolute;
+    display: none;
+    border: 1px solid rgb(219, 219, 219);
+    border-top: none;
+    z-index: 99;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: auto;
+    padding:3px;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;
+    background-color: white;
+  }
+
+  .autocomplete-items-active{
+    display: block;
+  }
+  
+  .autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #fff; 
+    border-bottom: 1px solid #d4d4d4; 
+  }
+  
+  /*when hovering an item:*/
+  .autocomplete-items div:hover {
+    background-color: white; 
+  }
+
+  .item-list-autocomplete:hover{
+    cursor: pointer;
+    background-color: rgb(85, 152, 219); 
+    border-bottom: 1px solid #d4d4d4; 
+  }
+  
+  /*when navigating through the items using the arrow keys:*/
+  .autocomplete-active {
+    background-color: DodgerBlue !important; 
+    color: #ffffff; 
+  }
+
+  .item-list-autocomplete:hover th,td{
+    font-size: 13px;
+  }
+
+.autocomplete-table{
+  width:100%; 
+  height:auto; 
+  overflow-y: auto; 
+  padding:0px !important; 
+  overflow-x: auto;
+}
+
+.autocomplete-table th{
+  font-family: "Open Sans", sans-serif;
+}
+  
+.button-select-autocomplete{
+  display: flex;
+  flex-direction: row; 
+  flex-wrap: nowrap; 
+  width: 100%;
+  background-color: white;
+  border: rgb(211, 211, 211) solid 2px;
+}
+
+.a-class:hover{
+  text-decoration: underline;
+}

@@ -1,0 +1,63 @@
+.headtext{
+    font-size: 100%;
+    animation-name: head;
+    animation-duration: 100ms;
+    animation-iteration-count: 1;
+}
+
+/*
+#affichePrixTotal{
+    animation-delay: 2s;
+}*/
+
+@keyframes head {
+    0% {font-size:100%;}
+    50% {font-size:120%;}
+    100% {font-size:100%;}
+}
+
+.collapse-input-table{
+    width: 100px;
+    padding:5px;
+    height: 23px;
+}
+
+input{
+    width: 100% !important;
+    height: 23px;
+}
+
+.desactive-text-span{
+    height: 23px;
+    padding-top: 0px !important;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    width: 100% !important;
+}
+
+.collapse-input{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+td, th{
+    min-width: 120px !important;
+    padding: 5px !important;
+    font-size: 12px !important;
+}
+
+label{
+    font-size: 12px;
+    padding:5px !important;
+}
+.btn-primary{
+    padding: 2px;
+    width: 28px;
+    height: 29px;
+}
+
+
+
+
+
+

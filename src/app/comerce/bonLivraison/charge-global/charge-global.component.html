@@ -1,0 +1,77 @@
+<!-- Model de modification -->
+<ng-template #contentM let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Ajouter Charge</h4>
+        <p type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </p>
+    </div>
+    <div class="modal-body">
+        <div class="form-group row">
+            <label for="charge" class="col-sm-4 col-form-label">Charge</label>
+            <div class="col-sm-8">
+                <app-autocomplete (addElementEvent)="setChargeID($event)" [keySelected]="keySelectedCharge"
+                    [objet]="objetCharge" [articles]="allCharges" [idSelected]="charge.id"
+                    idHtml="ajoutCharge" (openAddElementEvent)="openModalAjoutCharge()">
+                </app-autocomplete>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="montant" class="col-sm-4 col-form-label">Montant</label>
+            <div class="col-sm-8">
+                <app-input-number-vergule [field]="charge" key="montant" idUnique="montantnt123">
+                </app-input-number-vergule>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button *ngIf="!isLoading" class="btn btn-primary" type="button" (click)="ajoutCharge()">
+            Ajouter
+        </button>
+    </div>
+
+</ng-template>
+
+<div class="table-responsive">
+    <app-spinner2 *ngIf="isLoading"></app-spinner2>
+
+    <button type="button" class="btn btn-info ng-tns-c112-14" *ngIf="!isLoading"
+        style="font-size: 12px; padding:5px; height: 30; margin-right: 0px; float:right;" (click)="open(contentM)">
+        Ajouter Charge <i class="fa fa-plus" aria-hidden="true"></i>
+    </button>
+
+    <table class="table table-striped" id="output">
+        <thead>
+            <tr>
+                <th *ngFor="let key of objectKeys(itemsVariableG)">
+                    <div class="th-tableau" (click)="changeCroissante(key)">
+                        {{itemsVariableG[key]}}
+                        <div class="buttons-croissante">
+
+                            <i class="fas fa-caret-up croissante {{key}}-croissante"></i>
+                            <i class="fas fa-caret-down croissante {{key}}-croissante"></i>
+                        </div>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let itemG of charges">
+                <td *ngFor="let key of objectKeys(itemsVariableG)">
+                    <span>{{itemG[key]}}</span>
+                    <span *ngIf="key == 'charge'">{{itemG.libelle}}</span>
+                </td>
+            </tr>
+
+            <tr *ngIf="charges.length == 0">
+                <td colspan="20" style="text-align: center;">
+                    Vide
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<app-add-element-modal [isLoading]="isLoading" [isOpenModalAjoutElement]="isOpenModalAjoutElement"
+    [idAjoutElementModal]="idAjoutElementModal" (closeModalAjoutElement)="closeModalAjoutElement()"
+    [typeElement]="typeElement"></app-add-element-modal>

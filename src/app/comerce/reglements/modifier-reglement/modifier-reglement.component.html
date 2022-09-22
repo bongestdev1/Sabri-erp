@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="col-sm-12">
+        <app-card [hidHeader]="true">
+            <!-- Partie Header -->
+            <div class="form-group row" style="justify-content: space-between !important;">
+                <div class="text-titre">
+                    <h3>Modifier {{parametres2.titreAjouter}}</h3>
+                </div>
+                <div class="left-button" >
+                    <button *ngIf="!isLoading" class="btn btn-primary" type="button" (click)="ajoutReglement()">
+                        Enregister
+                    </button>
+                    
+                    <button *ngIf="isLoading" class="btn btn-primary" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Chargement...
+                    </button>
+                </div>
+            </div>
+            <hr>
+
+            <app-reglement-input  
+            [reglement]="reglement"
+            [parametres]="parametres"
+            [parametres2]="parametres2"
+            [isLoading]="isLoading"
+            [ancienBonLivraisons]="ancienBonLivraisons"
+            [erreurReglement]="erreurReglement"
+            (getBonLivraison)="getBonLivraison()"
+            (getAllParametres)="getAllParametres()"
+            [avecLiltrage]="ancienReglement.montant != this.ancienReglement.reste"
+            (supprimerLiltrage)="supprimerLiltrage()"
+            >
+            </app-reglement-input>
+
+
+        </app-card>
+    </div>
+</div>

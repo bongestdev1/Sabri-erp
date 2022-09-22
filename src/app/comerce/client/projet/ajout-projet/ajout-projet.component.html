@@ -1,0 +1,115 @@
+<div class="row">
+    <div class="col-sm-12">
+        <app-card [hidHeader]="true">
+            <!-- Partie Header -->
+            <div *ngIf="!isPopup" class="form-group row" style="justify-content: space-between !important;">
+                <div class="text-titre">
+                    <h3>Ajouter un projet</h3>
+                </div>
+                <div class="left-button">
+                    <button *ngIf="!isLoading" class="btn btn-primary" type="button" (click)="ajoutProjet()">
+                        Enregister
+                    </button>
+                    <button *ngIf="isLoading" class="btn btn-primary" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Chargement...
+                    </button>
+                </div>
+            </div>
+            <hr *ngIf="!isPopup">
+            <div class="row">
+                <!-- Partie formulaire à Gauche en haut -->
+                <div class="col-md-6">
+                    <form action="javascript:">
+                        <div class="form-group row">
+                            <label for="libelle" class="col-sm-3 col-form-label">Libelle</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="libelle" id="libelle"
+                                    placeholder="Enter libelle" [(ngModel)]="projet.libelle">
+                                <p *ngIf="erreurProjet.libelle != ''" class="erreur">{{erreurProjet.libelle}}</p>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="adresse" class="col-sm-3 col-form-label">Adresse</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="adresse" id="adresse"
+                                    placeholder="Enter adresse" [(ngModel)]="projet.adresse">
+                                <p *ngIf="erreurProjet.adresse != ''" class="erreur">{{erreurProjet.adresse}}</p>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="client" class="col-sm-3 col-form-label">Client</label>
+                            <div class="col-sm-9">
+                                <app-autocomplete (addElementEvent)="setClientID($event)"
+                                    [keySelected]="keySelectedClient" [bordureRed]="erreurProjet.client != ''"
+                                    [objet]="objetClient" [articles]="clients" [idSelected]="projet.client" [idHtml]="5"
+                                    (openAddElementEvent)="openModalAjoutClient()"></app-autocomplete>
+                                <p *ngIf="erreurProjet.client != ''" class="erreur">{{erreurProjet.client}}</p>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="enCours" class="col-sm-3 col-form-label">En Cours</label>
+                            <div class="col-sm-9">
+                                <select [(ngModel)]="projet.enCours" id="enCours" name="enCours" style="width: 100%;">
+                                    <option value=true>Vrai</option>
+                                    <option value=false>Faux</option>
+                                </select>
+                                <p *ngIf="erreurProjet.enCours != ''" class="erreur">{{erreurProjet.enCours}}</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- Partie formulaire à Droite en haut -->
+                <div class="col-md-6">
+                    <form action="javascript:">
+                        <div class="form-group row">
+                            <label for="budjet" class="col-sm-3 col-form-label">Budjet</label>
+                            <div class="col-sm-9">
+                                <app-input-number-vergule [messageErreur]="erreurProjet.budjet" [field]="projet" key="budjet" idUnique="budjet2">
+                                </app-input-number-vergule>
+                                <p *ngIf="erreurProjet.budjet != ''" class="erreur">{{erreurProjet.budjet}}</p>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="totalVente" class="col-sm-3 col-form-label">Total Vente</label>
+                            <div class="col-sm-9">
+                                <app-input-number-vergule  [field]="projet" key="totalVente" idUnique="totalVente2" [isEditable]="false">
+                                </app-input-number-vergule>
+                               
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="totalReglement" class="col-sm-3 col-form-label">Total Reglement</label>
+                            <div class="col-sm-9">
+                                <app-input-number-vergule [field]="projet" key="totalReglement" idUnique="totalReglement2" [isEditable]="false">
+                                </app-input-number-vergule>
+                               
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <hr *ngIf="isPopup">
+
+            <div *ngIf="isPopup" class="form-group row" style="justify-content: space-between !important;">
+                <div class="text-titre">
+                </div>
+                <div class="left-button">
+                    <button *ngIf="!isLoading" class="btn btn-primary" type="button" (click)="ajoutProjet()">
+                        Enregister
+                    </button>
+                    <button *ngIf="isLoading" class="btn btn-primary" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Chargement...
+                    </button>
+                </div>
+            </div>
+     
+        </app-card>
+    </div>
+</div>
+
+<app-add-element-modal [isLoading]="isLoading" [isOpenModalAjoutElement]="isOpenModalAjoutClient"
+    [idAjoutElementModal]="idAjoutClientModal" (closeModalAjoutElement)="closeModalAjoutClient()"
+    [typeElement]="typeElement"></app-add-element-modal>

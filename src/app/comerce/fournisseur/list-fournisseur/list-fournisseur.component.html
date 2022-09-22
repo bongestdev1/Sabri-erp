@@ -1,0 +1,21 @@
+<app-list-client    
+  apiDelete = "/fournisseurs/deleteFournisseur"
+  apiList = "/fournisseurs/listFournisseurs"
+  titre = "Liste Fournisseurs"
+  titre2 = "Fournisseur"
+  pageDetails = "/fournisseur/details/"
+  pageModifie = "/fournisseur/modifier/"
+  pageAjoute = "/fournisseur/ajout"
+
+  titreFile = "Liste de fournisseurs"
+  nameFile = "liste_Fournisseurs"
+  [isPopup]="isPopup"
+  (closeModal)="closeModalFunction()"
+  [isOpenModal]="isOpenModal"
+  (selectionLigne)="selectionLigneFunction($event)"
+  [modeTiere]="modeTiere"
+  
+> 
+
+</app-list-client>
+

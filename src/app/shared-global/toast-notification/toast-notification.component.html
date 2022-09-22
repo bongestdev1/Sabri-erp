@@ -1,0 +1,25 @@
+<!-- The Modal -->
+<div id="myModalToast" [class]="classCss">
+    <div style="position:relative; width: 100%; display: flex; flex-direction: row; flex-wrap: nowrap;">
+        <!-- Modal content -->
+        <div class="partieToast1" [style]="styleWidth">
+        </div>
+        <div class="partieToast2" style="width: 100%;">
+            <div class="modal-contentToast" [style]="typeToast">
+                <div class="container" style="position:relative;">
+                    <div class="col-sm-12">
+                        <div class="row" style="font-weight: 500; font-size: 15px; color:white;">
+                            <p style="margin-bottom: 5px; width: 100%; text-align: center;" class="section">
+                                <i *ngIf="typeToast.indexOf('red') == -1" class="fa fa-check"
+                                    style="margin-top: 3px; margin-right: 10px; font-size: 20px; color:#1abc9c; background-color: white; border-radius: 15px; padding:5px;"></i>
+                                <i *ngIf="typeToast.indexOf('red') != -1" class="fa fa-times"
+                                    style="margin-top: 3px; margin-right: 10px; font-size: 20px; color:red; background-color: white; border-radius: 15px; padding:5px 10px;"></i>
+                                <span style="font-weight: 700;">{{params1Toast}}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

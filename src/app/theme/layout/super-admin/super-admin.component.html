@@ -1,0 +1,33 @@
+
+
+<div class="content-fluid h-100">
+    <div class="col-sm-12 h-100" style="min-height:100%;">
+
+        <div class="row">
+            <div class="col-sm-6" style="background:white; ">
+                <span style="font-size:20px; padding:10px; font-weight: 900; display:block;">{{informationsService.societeCurrent}}</span> 
+            </div>
+            <div class="col-sm-6" style="background:white; ">
+                <button style="float:right; font-size: 20px; padding:5px; margin:5px;" (click)="deconnexion()"><i class="fas fa-power-off"></i> </button>
+            </div>
+        </div>
+
+        <div class="row justify-content-center h-100" >
+        
+            <div class="col-sm-2" style="padding-left: 0px; padding-right: 0px; background:#2c3e50;">
+                <h1 style="color:white; font-size: 20px; text-align: center; padding:10px;">Super-Admin</h1>
+            
+                <ul class="list-dashboard">
+                    <li> <a [routerLink]="['/dashboard-admin/societe']">Societe</a></li>
+                </ul>
+            </div>
+        
+            <div class="col-sm-10" style="padding-top:20px; background-color: rgb(150, 150, 150);">
+               <router-outlet></router-outlet>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+

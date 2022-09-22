@@ -1,0 +1,47 @@
+<perfect-scrollbar *ngIf="this.flatConfig['layout'] === 'vertical'" (clickOutside)="navMob()" [excludeBeforeClick]="true" [exclude]="'#mobile-collapse'" id="nav-ps-flat-able" ngClass="flat-able-scroll" [style.max-width]="'300px'" [style.max-height]="'calc(200vh - 56px)'" [usePSClass]="'flat-able'" [disabled]="null">
+  <div class="navbar-content style-sous-list-nav-collapse">
+
+    <div class="user">
+      <div class="main-menu-header">
+        <img class="img-radius" *ngIf="fonctionsPartages.parametres.logo === ''" src="assets/images/user/istockphoto-476085198-170667a.jpg" alt="User-Profile-Image">
+        <img class="img-radius" *ngIf="fonctionsPartages.parametres.logo !== ''" [src]="informationsGenerale.baseUrl+'/'+fonctionsPartages.parametres.logo" alt="User-Profile-Image">
+        
+        <div class="user-details" (click)="isNavProfile = !isNavProfile">
+          <span *ngIf="user.role">{{user.nom}} {{user.prenom}}</span>
+          <div id="more-details" *ngIf="user.role">{{user.role.libelle}}<i class="fa m-l-5" [ngClass]="{'fa-chevron-up': isNavProfile, 'fa-chevron-down': !isNavProfile }"></i></div>
+        </div>
+      </div>
+      <div class="collapse" id="nav-user-link" *ngIf="isNavProfile" [style.display]="'block'">
+        <ul class="list-inline">
+          <li class="list-inline-item"><a href="javascript:"><i class="feather icon-user m-r-5"></i></a></li>
+          <li class="list-inline-item"><a href="javascript:"><i class="feather icon-mail m-r-5"></i><small class="badge badge-pill badge-primary">5</small></a></li>
+          <li class="list-inline-item"><a (click)="logout()" href="javascript:" class="text-danger"><i class="feather icon-power m-r-5"></i></a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <ul class="nav pcoded-inner-navbar" (clickOutside)="fireOutClick()">
+      <ng-container *ngFor="let item of navigation">
+        <app-nav-group *ngIf="item.type=='group'" [item]="item"></app-nav-group>
+        <app-nav-collapse *ngIf="item.type=='collapse'" [item]="item"></app-nav-collapse>
+        <app-nav-item *ngIf="item.type=='item'" [item]="item"></app-nav-item>
+      </ng-container>
+    </ul>
+
+  </div>
+
+</perfect-scrollbar>
+
+<div *ngIf="this.flatConfig['layout'] === 'horizontal'" #navbarWrapper class="navbar-content sidenav-horizontal" id="layout-sidenav">
+  <a href="javascript:" class="sidenav-horizontal-prev" [ngClass]="prevDisabled" (click)="scrollMinus()"></a>
+  <div class="sidenav-horizontal-wrapper">
+    <ul #navbarContent id="side-nav-horizontal" class="nav pcoded-inner-navbar sidenav-inner" (clickOutside)="fireLeave()" (mouseleave)="fireLeave()">
+      <ng-container *ngFor="let item of navigation">
+        <app-nav-group *ngIf="item.type=='group'" [item]="item"></app-nav-group>
+        <app-nav-collapse *ngIf="item.type=='collapse'" [item]="item"></app-nav-collapse>
+        <app-nav-item *ngIf="item.type=='item'" [item]="item"></app-nav-item>
+      </ng-container>
+    </ul>
+  </div>
+  <a href="javascript:" class="sidenav-horizontal-next" [ngClass]="nextDisabled" (click)="scrollPlus()"></a>
+</div>

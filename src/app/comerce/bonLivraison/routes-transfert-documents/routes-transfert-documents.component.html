@@ -1,0 +1,40 @@
+
+
+<!-- start Devis -->
+
+<!--<button *ngIf="modeTransfert && titreDocument == fonctionPartagesService.titreDocuments.devis" class="btn btn-danger float-left" (click)="transfertBonLivraison()">
+    Transfert Bon Livraison
+</button>-->
+<button *ngIf="modeTransfert && titreDocument == fonctionPartagesService.titreDocuments.devis" class="btn btn-danger float-left" (click)="transfertCommande()">
+    Transfert Commande
+</button>  
+
+<!-- end Devis -->
+
+<!-- start Commande -->
+
+<button *ngIf="modeTransfert && titreDocument == fonctionPartagesService.titreDocuments.commande" class="btn btn-danger float-left" (click)="transfertBonLivraisonCommande()">
+    Transfert Bon Livraison
+</button>  
+
+<!-- end Commande -->
+
+<!-- start Bon Livraison -->
+
+<button *ngIf="modeTransfert && titreDocument == fonctionPartagesService.titreDocuments.bonLivraison" class="btn btn-danger float-left" (click)="transfertBonRetourClient()">
+    Transfert Bon Retour Client
+</button>
+
+<!-- end Bon Livraison -->
+
+<!-- start Bon Achat -->
+<button *ngIf="modeTransfert && titreDocument == fonctionPartagesService.titreDocuments.bonAchat" class="btn btn-danger float-left" (click)="transfertBonRetourFournisseur()">
+    Transfert Bon Retour Fournisseur
+</button>
+<!-- end Bon Achat -->
+
+<!-- start Bon Commande -->
+<button *ngIf="modeTransfert && titreDocument == fonctionPartagesService.titreDocuments.bonCommande" (click)="transfertBonAchat()" class="btn btn-danger float-left" >
+    Transferer Bon Achat
+</button>
+<!-- end Bon Commande -->

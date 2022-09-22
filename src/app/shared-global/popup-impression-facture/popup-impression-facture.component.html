@@ -1,0 +1,80 @@
+<div id="myModalAjoutElement" [class]="generationPdfFacture.classCss" >
+
+    <div style="position: absolute; width: 100%; height: 100%;top: 0px; left:0px;" (click)="generationPdfFacture.closePopup()">
+    </div>
+
+    <!-- Modal content -->
+    <div class="modal-contentAjoutElement">
+        <div style="display: flex; flex-direction: row; flex-wrap: nowrap;">
+            <span style="font-weight: 800; font-size: 18px; margin-left: 10px; ">Type Impression</span>
+            <span class="closeAjoutElement" (click)="generationPdfFacture.closePopup()"
+                style="width: 30px; height: 30px; margin-left: auto; text-align: center;"><i
+                    class="fas fa-times"></i></span>
+        </div>
+
+
+        <div class="container" style="position:relative; padding:0px;">
+            <app-spinner2 *ngIf="generationPdfFacture.isLoading"></app-spinner2>
+            <hr>
+            <div class="col-sm-12">
+
+                <input type="radio" name="format" value="A4" id="a4impressionfacture" (click)="generationPdfFacture.setFormat('A4')" checked>
+                <label for="a4impressionfacture">A4</label>
+
+                <input type="radio" name="format" value="A5" id="a5impressionfacture" (click)="generationPdfFacture.setFormat('A5')">
+                <label for="a5impressionfacture">A5</label>
+ <!--end modal societe-->
+        
+            </div>
+
+            <hr>
+
+            <div class="col-sm-12" *ngIf="generationPdfFacture.typeDoc === fonctionPartagesService.titreDocuments.factureVente">
+
+                <input type="radio" name="typeOrgannisation" value=0 id="typeOrgannisation0" (click)="generationPdfFacture.setTypeOrgannisation(0)" checked>
+                <label for="typeOrgannisation0">Chaque bon livraison seule</label>
+                 <br>
+               
+                <input type="radio" name="typeOrgannisation" value=1 id="typeOrgannisation1" (click)="generationPdfFacture.setTypeOrgannisation(1)">
+                <label for="typeOrgannisation1">Lignes bon livraison sans addition</label>
+                <br>
+               
+                <input type="radio" name="typeOrgannisation" value=2 id="typeOrgannisation2" (click)="generationPdfFacture.setTypeOrgannisation(2)">
+                <label for="typeOrgannisation2">Lignes bon livraison avec addition</label>
+ <!--end modal societe-->
+        
+            </div>
+
+            <div class="col-sm-12" *ngIf="generationPdfFacture.typeDoc === fonctionPartagesService.titreDocuments.factureAchat">
+
+                <input type="radio" name="typeOrgannisation" value=0 id="typeOrgannisation0" (click)="generationPdfFacture.setTypeOrgannisation(0)" checked>
+                <label for="typeOrgannisation0">Chaque bon réception seule</label>
+                 <br>
+               
+                <input type="radio" name="typeOrgannisation" value=1 id="typeOrgannisation1" (click)="generationPdfFacture.setTypeOrgannisation(1)">
+                <label for="typeOrgannisation1">Lignes bon réception sans addition</label>
+                <br>
+               
+                <input type="radio" name="typeOrgannisation" value=2 id="typeOrgannisation2" (click)="generationPdfFacture.setTypeOrgannisation(2)">
+                <label for="typeOrgannisation2">Lignes bon réception avec addition</label>
+ <!--end modal societe-->
+        
+            </div>
+
+            <hr *ngIf="generationPdfFacture.typeDoc === fonctionPartagesService.titreDocuments.factureAchat || generationPdfFacture.typeDoc === fonctionPartagesService.titreDocuments.factureVente">
+            
+            <div style="margin: 20px 0px;">
+                <button class="btn btn-info" style=" display: block;
+                float: right;"  (click)="generationPdfFacture.imprimerPdf()">Imprimer PDF</button>
+                <br>
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+
+</div>

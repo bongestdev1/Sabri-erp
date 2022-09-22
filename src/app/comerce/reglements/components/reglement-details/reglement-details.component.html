@@ -1,0 +1,138 @@
+<div class="row">
+    <!-- Partie formulaire à Gauche en haut -->
+    <div class="col-md-6">
+        <form action="javascript:">
+            
+            <div class="form-group row">
+                <label for="numero" class="col-sm-4 col-form-label">Numero</label>
+                <div class="col-sm-8 collapse-input">
+                    <span class="form-control desactive-text-span" name="numero">{{reglement.numero}}</span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="tresorerie" class="col-sm-4 col-form-label">Tresorerie</label>
+                <div class="col-sm-8">
+                
+                    <span class="form-control desactive-text-span" name="tresorerie">{{reglement.tresorerie}}</span>
+      
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label for="numCheque" class="col-sm-4 col-form-label">Numero de cheque</label>
+                <div class="col-sm-8">
+
+                    <span class="form-control desactive-text-span" name="numCheque">{{reglement.numCheque}}</span>
+      
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="dateEcheance" class="col-sm-4 col-form-label">Date echeance</label>
+                <div class="col-sm-8">
+                    
+                    <span class="form-control desactive-text-span" name="dateEcheance">{{getDate(reglement.dateEcheance)}}</span>
+      
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="notes" class="col-sm-4 col-form-label">Notes</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="notes" id="notes"
+                        placeholder="Entrer notes" [(ngModel)]="reglement.notes">
+
+                    <span class="form-control desactive-text-span" name="notes">{{reglement.notes}}</span>
+      
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="col-md-6">
+        <form action="javascript:">
+            
+            
+            <div class="form-group row">
+                <label for="Client" class="col-sm-4 col-form-label">{{parametres2.typeTier}}</label>
+                <div class="col-sm-8">
+
+                    <span class="form-control desactive-text-span" name="client">{{getClientRaisonSociale(reglement.client)}}</span>
+      
+                </div>
+            </div>
+
+            
+            <div class="form-group row">
+                <label for="modeReglement" class="col-sm-4 col-form-label">Mode de reglement</label>
+                <div class="col-sm-8">
+                    <span class="form-control desactive-text-span" name="modeReglement">{{getModeReglementLibelle(reglement.modeReglement)}}</span>
+      
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label for="montant" class="col-sm-4 col-form-label">Montant</label>
+                <div class="col-sm-8 collapse-input">
+                    <span class="form-control desactive-span" name="montant">
+                        {{fonctionPartagesService.getFormaThreeAfterVerguleNomber(reglement.montant)}}
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="modeReglement" class="col-sm-4 col-form-label">Reste</label>
+                <div class="col-sm-8">
+                    <span class="form-control desactive-span" name="reste">
+                        {{fonctionPartagesService.getFormaThreeAfterVerguleNomber(reglement.reste)}}
+                    </span>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="table-responsive">
+        <hr>
+        <app-spinner2 *ngIf="isLoading"></app-spinner2>
+
+        <table class="table table-striped" id="output">
+            <thead>
+                <tr>
+                    <th *ngFor="let key of objectKeys(itemsVariableG)">
+                            {{itemsVariableG[key]}}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let itemG of parametres.bonLivraisons">
+                    <td *ngFor="let key of objectKeys(itemsVariableG)">
+                   
+                        <span *ngIf="key == 'numero'">{{itemG[key]}}</span>
+                        <span *ngIf="['montantTotal', 'montantPaye', 'restPayer'].includes(key)">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(itemG[key])}}</span>
+                        
+                        <input type="checkbox" *ngIf="key == 'isPayee'" [checked]="itemG[key] == 'oui'">
+                        
+                        <span *ngIf="key == 'date'">{{getDate(itemG[key])}}</span>
+                        
+                        <div *ngIf="key == 'montantAPayer'" class="col-md-12 collapse-input" style="padding-left: 0px !important; padding-right: 0px !important;">
+                            
+                            <span 
+                                class="form-control desactive-text-span collapse-input-table"
+                                style="margin-left:0px !important; margin-right:0px !important; width: 100% !important; ">
+                                {{fonctionPartagesService.getFormaThreeAfterVerguleNomber(itemG[key])}} 
+                            </span>
+
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>

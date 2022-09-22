@@ -1,0 +1,12 @@
+<div class="category-page-wrapper">
+  <div class="result-inner">
+    <!--Showing 1 to 8 of 10 (2 Pages)-->
+  </div>
+  <div class="pagination-inner">
+    <ul class="pagination">
+      <li *ngFor="let e of tabPagination" (click)="setPage(e.page)" [class]="e.className"> <a> {{e.page}} </a> </li>
+      <li (click)="setNextPage()"><a>&gt;</a></li>
+      <li (click)="setLastPage()"><a>&gt;|</a></li>
+    </ul>
+  </div>
+</div>

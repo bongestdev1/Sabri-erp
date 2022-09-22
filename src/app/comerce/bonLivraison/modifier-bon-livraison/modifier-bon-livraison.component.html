@@ -1,0 +1,13 @@
+<app-controle-acces [avoirAccee]="informationGenerale.verifierAccee('modifierBonLivraison')"></app-controle-acces>
+
+
+<app-input-bon-livraison
+     *ngIf="informationGenerale.verifierAccee('modifierBonLivraison')"
+     [titreCrud]="fonctionPartagesService.titreCrud.modifier"
+     [pageList]="pageList"
+
+     (closeModal)="closeModalModifierEvent()"
+     [isPopup]="isPopup"
+     [id]="id"
+
+></app-input-bon-livraison>

@@ -1,0 +1,18 @@
+export interface PlanPreventif{
+    id?:string,
+    libelle?:string,
+    operationPreventif?:string,
+    machine?:string,
+    dernierDate?:string,
+    prochaineDate?:string,
+    periodicite?:number,
+    alerteAvant?:number,
+    interne?:string,
+    dureeExecution?:number,
+    montant?:number,
+    notes?:string,
+    fournisseur?:string,
+    societeRacine?:string,
+    techniciens?:Array<any>,
+    listTaches?:Array<any>,
+}

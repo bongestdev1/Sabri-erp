@@ -1,0 +1,131 @@
+<!-- Model de modification -->
+<ng-template #contentM let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Modification Complement</h4>
+        <p type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </p>
+    </div>
+    <div class="modal-body">
+        <form action="javascript:">
+            <div class="form-group row">
+                <label for="type" class="col-sm-3 col-form-label">Type</label>
+                <div class="col-sm-9">
+                    <input type="text" name="type" value="Tiers" readonly class="form-control" id="type">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="complement" class="col-sm-3 col-form-label">Complement</label>
+                <div class="col-sm-9">
+                    <input type="text" name="complement" class="form-control" id="complement" [(ngModel)]="complement">
+              
+                    <p *ngIf="erreurComplement != ''" class="erreur">{{erreurComplement}}</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="impriment" class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-9">
+                    <label for="impriment" class="col-sm-3 col-form-label"></label>
+                    <input type="checkbox" class="custom-control-input" id="impriment" (click)="clickImprimable()" [checked]="imprimable == 'oui'" >
+                    <label class="custom-control-label" for="impriment">Imprimable</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="valeur" class="col-sm-3 col-form-label">Valeur</label>
+                <div class="col-sm-9">
+                    <input type="text" name="valeur" class="form-control" id="valeur" [(ngModel)]="valeur" >
+                    <p *ngIf="erreurValeur != ''" class="erreur">{{erreurValeur}}</p>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="modifierComplement(1)">Modifier</button>
+    </div>
+</ng-template>
+<!-- Model d'ajout -->
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Ajouter Complement</h4>
+        <p type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </p>
+    </div>
+    <div class="modal-body">
+        <form action="javascript:">
+            <div class="form-group row">
+                <label for="type" class="col-sm-3 col-form-label">Type</label>
+                <div class="col-sm-9">
+                    <input type="text" name="type" value="Tiers" readonly class="form-control" id="type">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="complement" class="col-sm-3 col-form-label">Complement</label>
+                <div class="col-sm-9">
+                    <input type="text" name="complement" class="form-control" id="complement" [(ngModel)]="complement">
+              
+                    <p *ngIf="erreurComplement != ''" class="erreur">{{erreurComplement}}</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="impriment" class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-9">
+                    <label for="impriment" class="col-sm-3 col-form-label"></label>
+                    <input type="checkbox" class="custom-control-input" id="impriment" (click)="clickImprimable()" [checked]="imprimable == 'oui'" >
+                    <label class="custom-control-label" for="impriment">Imprimable</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="valeur" class="col-sm-3 col-form-label">Valeur</label>
+                <div class="col-sm-9">
+                    <input type="text" name="valeur" class="form-control" id="valeur" [(ngModel)]="valeur" >
+                    <p *ngIf="erreurValeur != ''" class="erreur">{{erreurValeur}}</p>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="enregistrerComplement()">Enregistrer</button>
+    </div>
+</ng-template>
+
+<div class="col-xl-14">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Type Complement</th>
+                    <th>Complement</th>
+                    <th>Valeur</th>
+                    <th>Imprimable</th>
+                    <th>
+                        <button class="btn btn-sm btn-outline-primary" (click)="open(content)">Ajouter</button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody *ngIf="inisialiserEmptyTab()">
+                <tr *ngFor="let item of complements">
+                    <td>{{item.type}}</td>
+                    <td>{{item.complement}}</td>
+                    <td>{{item.valeur}}</td>
+                    <td>{{item.imprimable}}</td>
+                    <td>
+                        <button type="button" class="btn btn-icon btn-outline-success" data-toggle="modal"
+                            (click)="openM(contentM, item)" style="margin-right: 5px;"><i
+                                class="feather icon-edit"></i></button>
+                        <button type="button" class="btn btn-icon btn-outline-danger" data-toggle="modal"><i
+                                class="feather icon-trash-2" (click)="supprimerComplement(item.id)"></i></button>
+                    </td>
+                </tr>
+
+                <tr *ngFor="let item of tabEmpty">
+                    <td colspan="30">
+                        <span style="color:transparent;">i</span>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>

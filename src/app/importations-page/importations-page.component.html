@@ -1,0 +1,145 @@
+<div class="row">
+    <div class="col-sm-12">
+        <app-card [hidHeader]="true">
+            <!-- Partie Header -->
+
+            <div class="row">
+                <div class="col-12">
+                    Tableau:
+                    <select [(ngModel)]="table" (change)="changerTable()">
+                        <option *ngFor="let item of tables" [value]="item.table">{{item.table}}</option>
+                    </select>
+
+                    <hr>
+                </div>
+            </div>
+
+            <div class="form-group row" style="justify-content: space-between !important;">
+                <div class="col-md-12">
+                    <div class="text-titre">
+                        <h3>Importations Excel {{tableSelectionner.table}}</h3>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <!-- Partie formulaire à Gauche en haut -->
+
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <label for="plan" class="col-sm-2 col-form-label">Fichier vide (.xlsx)</label>
+
+                            <div class="col-sm-10">
+                                <button class="btn btn-primary" (click)="telechargerExel()"> Télécharger Fichier Type
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="plan" class="col-sm-2 col-form-label">Importer Fichier (.xlsx)</label>
+                            <div class="col-sm-5">
+                                <input #fileInput id="file" type="file" class="form-control" style="padding:0px; height: 34px;"
+                                    [(ngModel)]="componentField" (change)="selectedM($event)">
+                            </div>
+
+
+                            <div class="col-sm-5">
+                                <button *ngIf="!isLoading" class="btn btn-primary" (click)="importFichierArticles()">
+                                    Visualiser les données </button>
+                                <button *ngIf="!isLoading && articles.length > 0" class="btn btn-info" style="margin-left:5px;"
+                                    (click)="saveFichierArticles()"> Importer </button>
+                                <button *ngIf="isLoading" class="btn btn-primary" type="button" disabled>
+                                    <span class="spinner-border spinner-border-sm" role="status"
+                                        aria-hidden="true"></span>
+                                    Chargement...
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <hr>
+            <div class="row">
+                <div class="col-md-12">
+                    <span style="font-size: 15px; color:green"><i class="fas fa-square"></i>({{getLength('bien')}}) Ok</span>
+                    <span style="font-size: 15px; color:#ff8000"><i class="fas fa-square"></i>({{getLength('double')}}) Double</span>
+                    <span style="font-size: 15px; color:red"><i class="fas fa-square"></i>({{getLength('erreur')}}) Erreur</span>
+ 
+                    <div style="float:right;">
+                        <button class="btn btn-primary" (click)="doublonsSupprimer()" style="margin-left: 5px;">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                            doublons</button>
+                        
+                        <button class="btn btn-primary" (click)="erreursSupprimer()" style="margin-left: 5px;">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                            erreurs</button>
+                    </div>
+                      
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="output">
+
+                            <thead>
+                                <tr>
+                                    <th colspan="100">
+                                         Votre fichier
+                                    </th>
+                                </tr>
+                            </thead>
+                            <thead>
+                                <tr>
+                                    <th *ngFor="let key of objectKeys(parametresCurrent)">
+                                        {{parametresCurrent[key]}}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of articles" [style]="getStyleOfLigne(item.message)">
+                                    <td *ngFor="let key of objectKeys(parametresCurrent)">
+                                        <span *ngIf="fonctionPartagesService.colonnesQuantites.includes(key)"
+                                            style="float:right;">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(item[key])}}</span>
+                                        <span *ngIf="fonctionPartagesService.colonnesPrix.includes(key)"
+                                            style="float:right;">{{fonctionPartagesService.getFormaThreeAfterVerguleQuantite(item[key])}}</span>
+                                        <span *ngIf="fonctionPartagesService.colonnesDates.includes(key)"
+                                            style="text-align: center; display: block;">{{fonctionPartagesService.getDate(item[key],
+                                            'yyyy-MM-dd')}}</span>
+                                        <span *ngIf="fonctionPartagesService.colonnesOuiNon.includes(key)"
+                                            style="text-align: center; display: block;"> <i class="fas fa-check-square"
+                                                style="font-size: 15px;" *ngIf="item[key] == 'oui'"></i> <i
+                                                class="fas fa-square" style="font-size: 15px;"
+                                                *ngIf="item[key] != 'oui'"></i> </span>
+                                        <span
+                                            *ngIf="!(fonctionPartagesService.colonnesDates.includes(key) || fonctionPartagesService.colonnesQuantites.includes(key) || fonctionPartagesService.colonnesPrix.includes(key) || fonctionPartagesService.colonnesOuiNon.includes(key))">{{item[key]}}</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </app-card>
+
+
+        <div class="session-modal-container">
+            <ng-template #content let-modal>
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal-basic-title">Résultat d'importation</h4>
+                    <p type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                        <span aria-hidden="true">&times;</span>
+                    </p>
+                </div> 
+                <div class="modal-body">
+                    <p style="font-size: 15px; color:green"><i class="fas fa-square"></i>Elements enregistrées : {{resultat.bien}}</p>
+                    <p style="font-size: 15px; color:red"><i class="fas fa-square"></i>Elements non enregistrées : {{resultat.erreur}}</p>
+                </div>
+
+            </ng-template>
+        </div>
+          

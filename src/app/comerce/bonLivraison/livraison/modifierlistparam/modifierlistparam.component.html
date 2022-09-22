@@ -1,0 +1,94 @@
+<app-card [hidHeader]="true">
+
+    <div class="row">
+        <!-- Partie formulaire à Gauche en haut -->
+        <div class="col-md-12 min-Width">
+            <form action="javascript:">
+                <div class="form-group row">
+                    <label for="nom" class="col-sm-4 col-form-label">Id Format</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="idFormat" id="idFormat" [(ngModel)]="paramlivraison.idFormat" style="width:270px ;">
+                       
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="nom" class="col-sm-4 col-form-label">typeDoc</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="typeDoc" id="typeDoc" [(ngModel)]="paramlivraison.typeDoc" style="width:270px ;">
+                       
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="nom" class="col-sm-4 col-form-label">Champ</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="champ" id="champ" [(ngModel)]="paramlivraison.champ" style="width:270px ;">
+                        <p *ngIf="erreurparamliv.nom != ''" class="erreur">{{erreurparamliv.nom}}</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="numVehicule" class="col-sm-4 col-form-label">Libelle</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="libelle" id="libelle"
+                            [(ngModel)]="paramlivraison.libelle"style="width:270px ;">
+
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="gsm" class="col-sm-4 col-form-label">width</label>
+                    <div class="col-sm-8">
+                        <input type="number" class="form-control" name="width" id="width" [(ngModel)]="paramlivraison.width"style="width:270px ;">
+                        <p *ngIf="erreurparamliv.width != ''" class="erreur">{{erreurparamliv.width}}</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="tel" class="col-sm-4 col-form-label">Ordre</label>
+                    <div class="col-sm-8">
+                        <input type="number" class="form-control" name="ordre" id="ordre" [(ngModel)]="paramlivraison.ordre"style="width:270px ;">
+                        <p *ngIf="erreurparamliv.ordre != ''" class="erreur">{{erreurparamliv.ordre}}</p>
+                     </div>
+                </div>
+                <div class="form-group row">
+                    <label for="email" class="col-sm-4 col-form-label">Visibilité</label>
+                    <div class="col-sm-8">
+
+                          <select class="mb-3 form-control" name="visibilite" id="visibilite" [(ngModel)]="paramlivraison.visibilite" style="width: 270px">
+                            <option value="" >Veuillez Selectionné Votre Choix</option>
+                            <option value="oui">OUI</option>
+                            <option value="non">NON</option>
+                           
+                        </select>
+                    </div>
+                   
+                </div>
+                <div class="form-group row">
+                    <label for="tel" class="col-sm-4 col-form-label">Alignement</label>
+                    <div class="col-sm-8">
+                    <select class="mb-3 form-control" name="alignement" id="alignement" [(ngModel)]="paramlivraison.alignement" style="width: 270px">
+                        <option value="" >Veuillez Selectionné Votre Alignm</option>
+                        <option value="left">Gauche</option>
+                        <option value="right">Droite</option>
+                        <option value="center">Centre</option>
+                       
+                    </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <hr style="width: 100%; margin-top: 10px; margin-bottom: 5px;">
+
+    <div style="padding: 10px; text-align: right; padding-top:0px; padding-bottom:0px; width: 100%;">
+
+        <button *ngIf="!isLoading" class="btn btn-primary" type="button" (click)="modifierParamliv()">
+            Modifier
+        </button>
+       <button *ngIf="isLoading" class="btn btn-primary" type="button" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Chargement...
+        </button>
+
+    </div>
+
+</app-card>
+

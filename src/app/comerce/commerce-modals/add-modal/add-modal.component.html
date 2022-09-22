@@ -1,0 +1,57 @@
+<!-- The Modal -->
+<div id="myModalDelete" [class]="classCss">
+
+  <div style="position: absolute; width: 100%; height: 100%;top: 0px; left:0px;" (click)="closeAdd()">
+  </div>
+
+  <!-- Modal content -->
+  <div class="modal-contentDelete">
+    <div style="display: flex; flex-direction: row; flex-wrap: nowrap;">
+      <span style="font-weight: 800; font-size: 18px; margin-left: 10px; ">Ajouter {{name}}</span>
+      <span class="closeDelete" (click)="closeAdd()"
+        style="width: 30px; height: 30px; margin-left: auto; text-align: center;"><i class="fas fa-times"></i></span>
+    </div>
+
+    <hr style="width: 100%; margin-top: 5px; margin-bottom: 20px;">
+
+    <div class="container" style="position:relative;">
+      <app-spinner2 *ngIf="isLoading"></app-spinner2>
+
+      <div class="col-sm-12">
+
+
+        <div class="row" style="font-weight: 500; font-size: 15px;">
+
+          <div class="form-group row" *ngFor="let key of objectKeys(request)">
+            <label for="libelle" class="col-sm-3 col-form-label">{{key}}</label>
+            <div class="col-sm-9">
+              <input type="input" class="form-control" name="libelle" id="libelle"
+                [(ngModel)]="request[key]">
+              <p *ngIf="requestErreur[key]" class="erreur">{{requestErreur[key]}}</p>
+            </div>
+          </div>
+
+        </div>
+
+
+
+      </div>
+
+    </div>
+
+    <hr style="width: 100%; margin-top: 10px; margin-bottom: 5px;">
+
+    <div style="padding: 10px; text-align: right; padding-top:0px; padding-bottom:0px;">
+
+      <button class="btn btn-danger" (click)="closeAdd()" style="width: fit-content;">
+        Annuler
+      </button>
+      <button class="btn btn-success" (click)="add()" style="width: fit-content; margin-left: 5px;">
+        Confirmée
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

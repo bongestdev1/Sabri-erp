@@ -1,0 +1,59 @@
+<table class="table table-striped" id="output">
+    <thead>
+        <tr>
+            <th>
+                Type 
+            </th>
+            <th>
+                <div class="col-sm-12">
+                    Montant HT
+                </div>
+            </th>
+
+            <th>
+                <div class="col-sm-12">
+                    Taux TVA
+                </div>
+            </th>
+
+            <th>
+                <div class="col-sm-12">
+                    Montant TTC
+                </div>
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr *ngFor="let item of listFrais">
+
+            <td>
+              {{getType(item.frais)}}
+            </td>
+
+            <td>
+                <app-input-number-vergule *ngIf="isModifiable == 'oui'" [field]="item" key="montant" idUnique="montant{{item.frais}}"
+                (ngModelChange)="changePrix()"></app-input-number-vergule>
+
+                <div class="col-sm-12 collapse-input" *ngIf="isModifiable != 'oui'">
+                    <span class="form-control desactive-text-span collapse-input-table" >{{getNumber(item['montant'])}} </span>
+                </div>
+            </td>
+
+            <td>
+                <div class="col-sm-12 collapse-input">
+                    <span class="form-control desactive-text-span collapse-input-table" >{{getNumber(getTaux(item['frais']))}} </span>
+                </div>
+            </td>
+
+            <td>
+                <div class="col-sm-12 collapse-input">
+                    <span class="form-control desactive-text-span collapse-input-table" >{{getNumber(getMontantTTC(item['frais'], item['montant']))}} </span>
+                </div>
+            </td>
+        
+        </tr>
+
+    </tbody>
+</table>

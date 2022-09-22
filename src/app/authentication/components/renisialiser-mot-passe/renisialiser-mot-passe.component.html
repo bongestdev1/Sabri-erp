@@ -1,0 +1,25 @@
+<section id="slider" style="margin-top:8%; background-color:#1abc9c; height:100%;">
+
+  <div class="slider-3" style="width: fit-content; margin:0 auto;">
+
+    <form [formGroup]="formC">
+      <h1>Réinitialiser votre mot de passe</h1>
+
+      <label for="exampleFormControlInput588" class="form-label">Nouveau mot de passe</label>
+      <input type="password" class="form-control" formControlName="newPassword" id="newPassword" placeholder="">
+      <p class="erreur">{{erreurLogin.newPassword}}</p>
+
+      <label for="exampleFormControlTextarea589" class="form-label">Confirmer mot de passe</label>
+      <input type="password" class="form-control" formControlName="newPasswordValidate" id="newPasswordValidate">
+      <p class="erreur">{{erreurLogin.newPasswordValidate}}</p>
+
+      <app-loading *ngIf="isLoading"></app-loading>
+
+      <div style="width: 100%;">
+        <input type="submit" id='submit' (click)="envoyer()" value="Enregistrer">
+      </div>
+    </form>
+
+  </div>
+
+</section>

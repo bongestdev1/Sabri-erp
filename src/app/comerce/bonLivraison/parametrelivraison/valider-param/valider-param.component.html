@@ -1,0 +1,85 @@
+<app-card [hidHeader]="true">
+    <div class="row">
+        <!-- Partie formulaire à Gauche en haut -->
+        <div class="col-md-12 min-Width">
+            <form action="javascript:">
+
+                <div class="form-group row">
+                    <label for="email" class="col-sm-4 col-form-label">Veuillez sélectionner votre choix</label>
+
+                    <select class="mb-3 form-control" name="idFormat" id="idFormat"
+                        [(ngModel)]="paramlivraison.idFormat" style="width: 270px; margin-right: 10px;">
+                        <option value=""> Selectionné Votre Format</option>
+
+                        <option value="A5">A5</option>
+                        <option value="A4">A4</option>
+
+                    </select>
+
+                    <select class="mb-3 form-control" name="typeDoc" id="typeDoc" [(ngModel)]="paramlivraison.typeDoc"
+                        style="width: 270px">
+                        <option value=""> Selectionné Votre Activiter</option>
+
+                        <option value="BL">Bon de Livraison</option>
+                        <option value="CMD">Bon de Commande</option>
+
+                    </select>
+                    <button class="btn btn-primary" type="button" (click)="Valider();open(mymodal,format,doc)"> Valider
+                    </button>
+
+                </div>
+                
+                <button class="btn btn-primary" type="button" (click)="open1(mymodal1,id)"> Parametre Bas et en tète Pdf
+                </button>
+
+            </form>
+        </div>
+    </div>
+
+    <hr style="width: 100%; margin-top: 10px; margin-bottom: 5px;">
+
+
+</app-card>
+
+
+
+   
+    
+  <ng-template #mymodal let-modal>
+
+    <div class="modal-header">
+
+       
+
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+
+            <span aria-hidden="true">×</span>
+
+        </button>
+
+</div>
+        <app-modifier-param [idFormat]="format" [typeDoc]="doc" class="modal-body" style="width: 800px;">
+           
+        </app-modifier-param>
+       
+</ng-template>
+
+<ng-template #mymodal1 let-modal>
+
+    <div class="modal-header">
+
+       
+
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+
+            <span aria-hidden="true">×</span>
+
+        </button>
+
+</div>
+        <app-header-andfooter-pdf  class="modal-body" style="width: 800px;">
+           
+        </app-header-andfooter-pdf>
+       
+</ng-template>
+

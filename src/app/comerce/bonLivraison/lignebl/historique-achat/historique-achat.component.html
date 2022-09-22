@@ -1,0 +1,50 @@
+<div>
+    <hr>
+    <form [formGroup]="formC">
+        <div class="category-page-wrapper">
+            <div class="result-inner">
+                <!--Showing 1 to 8 of 10 (2 Pages)-->
+            </div>
+            <div class="pagination-inner">
+                <div class="th-tableau2" style="margin-top:5px;">
+                    <select class="form-control form-control-sm"
+                        style="font-size: 12px; max-width: 58px; padding-left: 3px;" formControlName="limit"
+                        (change)="voirHistoriqueAchat(id,idFour,typeDocument)">
+                        <option value=10>10</option>
+                        <option value=100>100</option>
+                        <option value=200>200</option>
+                        <option value=300>300</option>
+                    </select>
+
+                    <div style="margin-left:auto;">
+                        <app-showelements [items]="items" [itemsVariable]="itemsVariable"></app-showelements>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped" id="output">
+                <thead>
+                    <tr>
+                        <th *ngFor="let key of objectKeys(itemsVariable)">
+                            <div class="th-tableau" (click)="changeCroissante(key)">
+                                {{key}}
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr *ngFor="let item of historiques">
+                        <td *ngFor="let key of objectKeys(itemsVariable)">{{item[key]}}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <br>
+
+        </div>
+    </form>
+</div>

@@ -1,0 +1,44 @@
+
+<!--Make sure the form has the autocomplete function switched off:-->
+<div [id]="idAutocomplete" class="autocomplete" style="width:100%; position:relative;" (mouseleave)="onMouseOutFilter($event)" (mouseenter)="onMouseEnterFilter($event)">
+    
+    <div style="display: flex; flex-direction: row; flex-wrap: nowrap;">
+      <input autocomplete="off" class="form-control" type="text" name="myCountry" placeholder="Recherche"  [ngModel]="autocompleteValue" (keydown)="clickkeydown($event)" [id]="idMyInput" (blur)="focusoutInput()" (focus)="clickSearch()" (ngModelChange)="openSearch()">
+        
+      <button class="btn btn-outline-info" (click)="detailsElement()" style="padding:1px 5px;" type="button" (focusin)="closeSearch()">
+        <i class="fas fa-list"></i>
+      </button>
+
+      <button class="btn btn-outline-info" (click)="listElement()" style="padding:1px 5px;" type="button">
+        <i class="fas fa-cog ng-star-inserted"></i>
+      </button>
+
+    </div>
+
+    <div *ngIf="isOpen" class="autocomplete-items autocomplete-items-active" [id]="idAutocompleteItems" >
+        <div class="autocomplete-table" [id]="idAutocompleteTable" >
+          <table style="width:100%; cursor: pointer; padding:2px; overflow: hidden;">
+            <tbody id="{{idItemListAutocomplete}}">
+            
+              <tr style="cursor: pointer;" *ngFor="let item of articlesFilter" [class]="getStyleItemAutoComplete(item.id)" (click)="clickItem(item)">
+                <td>
+                  <span *ngFor="let key of objectKeys(items)" >
+                    <span *ngIf="fonctionPartagesService.colonnesQuantites.includes(key) && key != 'qteEnStock'" >{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(item[key])}}</span>
+                    <span *ngIf="key === 'qteEnStock'" style="font-weight: 900; font-size:14px; color:red;" >{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(item[key])}}</span>
+                    <span *ngIf="fonctionPartagesService.colonnesPrix.includes(key) && key != 'prixAchat' && key != 'prixVenteHT'" >{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(item[key])}}</span>
+                    <span *ngIf="key === 'prixAchat' || key === 'prixVenteHT'" style="font-weight: 900; font-size:14px; color:blue;">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(item[key])}} DT</span>
+                    <span *ngIf="fonctionPartagesService.colonnesDates.includes(key)" >{{fonctionPartagesService.getDate(item[key], 'yyyy-MM-dd')}}</span>
+                    <span *ngIf="fonctionPartagesService.colonnesOuiNon.includes(key)" > <i class="fas fa-check-square" style="font-size: 15px;" *ngIf="item[key] == 'oui'"></i> <i class="fas fa-square" style="font-size: 15px;" *ngIf="item[key] != 'oui'"></i> </span>
+                    <span *ngIf="!( key === 'prixVenteHT' || key === 'prixAchat' || key === 'qteEnStock' || fonctionPartagesService.colonnesDates.includes(key) || fonctionPartagesService.colonnesQuantites.includes(key) || fonctionPartagesService.colonnesPrix.includes(key) || fonctionPartagesService.colonnesOuiNon.includes(key))">{{item[key]}}</span>
+                    <span *ngIf="checkLastElment(key, items)">//</span>
+                  </span>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+    </div>
+
+</div>
+

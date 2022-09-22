@@ -1,0 +1,197 @@
+<div class="row">
+    <div class="col-sm-12">
+        <app-card [hidHeader]="true">
+            <!-- Partie Header -->
+            <div class="form-group row" style="justify-content: space-between !important;">
+                <div class="text-titre">
+                    <h3>Parametres Global</h3>
+                </div>
+                <div class="left-button">
+                    <button *ngIf="!isLoading" class="btn btn-primary" type="button" (click)="ajoutFrais()">
+                        Enregister
+                    </button>
+                    <button *ngIf="isLoading" class="btn btn-primary" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Chargement...
+                    </button>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <!-- Partie formulaire à Gauche en haut -->
+                <div class="col-md-12">
+                    <form action="javascript:">
+                        <div class="form-group row">
+                            <label for="libelle" class="col-sm-3 col-form-label">Nombre de chiffres apres le
+                                vergule(nombre normale)</label>
+                            <div class="col-sm-9">
+                                <input type="number" class="form-control" name="nombreChiffresApresVerguleNormale"
+                                    id="nombreChiffresApresVerguleNormale" placeholder="Enter type"
+                                    [(ngModel)]="parametres.nombreChiffresApresVerguleNormale">
+                                <p *ngIf="erreurParametres.nombreChiffresApresVerguleNormale != ''" class="erreur">
+                                    {{erreurParametres.nombreChiffresApresVerguleNormale}}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label for="libelle" class="col-sm-3 col-form-label">Nombre de chiffres apres le
+                                vergule(Quantite)</label>
+                            <div class="col-sm-9">
+                                <input type="number" class="form-control" name="nombreChiffresApresVerguleQuantite"
+                                    id="nombreChiffresApresVerguleQuantite" placeholder="Enter type"
+                                    [(ngModel)]="parametres.nombreChiffresApresVerguleQuantite">
+                                <p *ngIf="erreurParametres.nombreChiffresApresVerguleQuantite != ''" class="erreur">
+                                    {{erreurParametres.nombreChiffresApresVerguleQuantite}}</p>
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+
+                            <label for="libelle" class="col-sm-3 col-form-label">Timbre Fiscale</label>
+                            <div class="col-sm-9">
+                                <input type="number" class="form-control" name="prixTimbreFiscale"
+                                    id="prixTimbreFiscale" placeholder="Enter type"
+                                    [(ngModel)]="parametres.prixTimbreFiscale">
+                                <p *ngIf="erreurParametres.prixTimbreFiscale != ''" class="erreur">
+                                    {{erreurParametres.prixTimbreFiscale}}</p>
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+
+                            <label for="libelle" class="col-sm-3 col-form-label">Taux de FODEC</label>
+                            <div class="col-sm-9">
+                                <input type="number" class="form-control" name="tauxFodec" id="tauxFodec"
+                                    placeholder="Enter type" [(ngModel)]="parametres.tauxFodec">
+                                <p *ngIf="erreurParametres.tauxFodec != ''" class="erreur">
+                                    {{erreurParametres.tauxFodec}}</p>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+
+                            <label for="libelle" class="col-sm-3 col-form-label">Coefficient retenue d'impôt</label>
+                            <div class="col-sm-9">
+                                <input type="number" class="form-control" name="coefficientRetenueImpot"
+                                    id="coefficientRetenueImpot" placeholder="Enter type"
+                                    [(ngModel)]="parametres.coefficientRetenueImpot">
+                                <p *ngIf="erreurParametres.coefficientRetenueImpot != ''" class="erreur">
+                                    {{erreurParametres.coefficientRetenueImpot}}</p>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="exerciceSelectionner" class="col-sm-3 col-form-label">Client Sélectionner</label>
+                            <div class="col-sm-9">
+                                <app-autocomplete (addElementEvent)="setClientID($event)" [keySelected]="keySelectedClient"
+                                    [objet]="objetClient" [articles]="allClients" [idSelected]="parametres.clientPardefault"
+                                    idHtml="releveClient22" (openAddElementEvent)="openModalAjoutClient()">
+                                </app-autocomplete>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="exerciceSelectionner" class="col-sm-3 col-form-label">Mode reglement Sélectionner</label>
+                            <div class="col-sm-9">
+                                <app-autocomplete (addElementEvent)="setModeReglementID($event)" [keySelected]="keySelectedModeReglement"
+                                    [objet]="objetModeReglement" [articles]="allModeReglements" [idSelected]="parametres.modeReglementPardefault"
+                                    idHtml="releve22" (openAddElementEvent)="openModalAjoutModeReglement()">
+                                </app-autocomplete>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="stock" class="col-sm-3 col-form-label">Unité de mesure par defaut</label>
+                            <div class="col-sm-9">
+                                <app-autocomplete (addElementEvent)="setUniteMesureID1($event)"
+                                    keySelected="libelle"
+                                    [objet]="objetUniteMesure" [articles]="uniteMesures"
+                                    [idSelected]="parametres.uniteMesurePardefault" idHtml="ajoutUniteMesure1"
+                                    (openAddElementEvent)="openModalAjoutUniteMesure()">
+                                </app-autocomplete>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="stock" class="col-sm-3 col-form-label">Societe transport par defaut</label>
+                            <div class="col-sm-9">
+                                <app-autocomplete (addElementEvent)="setSocieteID($event)"
+                                    keySelected="raisonSociale"
+                                    [objet]="{raisonSociale:'raisonSociale'}" [articles]="allSocietes"
+                                    [idSelected]="parametres.societeTransport" idHtml="ajoutSocieteTransport1"
+                                    (openAddElementEvent)="openModalAjoutSociete()">
+                                </app-autocomplete>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="validationStockBonAchat" class="col-sm-8 col-form-label">Validation de stock par bon Achat</label>
+                            <div class="col-sm-4">
+                                <input type="checkbox" name="validationStockBonAchat" id="validationStockBonAchat" (click)="clickIsValid2()"
+                                [checked]="parametres.validationStockBonAchat == 'oui'">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label for="validationUpdatePrixAchatFromBonAchat" class="col-sm-8 col-form-label">Validation de modification prix achat à partir de bon achat</label>
+                            <div class="col-sm-4">
+                                <input type="checkbox" name="validationUpdatePrixAchatFromBonAchat" id="validationUpdatePrixAchatFromBonAchat" (click)="clickIsvalidationUpdatePrixAchatFromBonAchat()"
+                                [checked]="parametres.validationUpdatePrixAchatFromBonAchat == 'oui'">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label for="validationTimbreFiscaleBonRec" class="col-sm-8 col-form-label">Bon Reception avec timbre fiscale</label>
+                            <div class="col-sm-4">
+                                <input type="checkbox" name="validationTimbreFiscaleBonRec" id="validationTimbreFiscaleBonRec" (click)="clickIsTimbreFiscaleBonRec()"
+                                [checked]="parametres.validationTimbreFiscaleBonRec == 'oui'">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label for="validationTimbreFiscaleBonLiv" class="col-sm-8 col-form-label">Bon Livraison avec timbre fiscale</label>
+                            <div class="col-sm-4">
+                                <input type="checkbox" name="validationTimbreFiscaleBonLiv" id="validationTimbreFiscaleBonLiv" (click)="clickIsTimbreFiscaleBonLiv()"
+                                [checked]="parametres.validationTimbreFiscaleBonLiv == 'oui'">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="plan" class="col-sm-4 col-form-label">Logo</label>
+                            
+                            <div class="col-sm-4">
+                                <input #fileInput id="file" type="file" class="form-control" style="padding:0px; height: 34px;"
+                                (change)="selectedM($event)">
+                            </div>
+
+                            <div class="col-sm-4">
+                               
+                               <img *ngIf="!imageSelected && parametres.logo !== ''" [src]="informationGenerale.baseUrl + '/' + parametres.logo" style="max-width:100%; margin-bottom: 20px; max-height: 300px;">
+                               <img *ngIf="imageSelected" [src]="imageSelected" style="max-width:100%; margin-bottom: 20px; max-height: 300px;">
+                          
+                            </div>
+                        </div>
+                        
+                        
+                    </form>
+
+                    <div class="form-group row">
+                        <label for="exerciceSelectionner" class="col-sm-3 col-form-label">Exercice Sélectionner</label>
+                        <div class="col-sm-9">
+                            <select [(ngModel)]="variableGlobal.exerciceSelectionner"
+                                style="width: 100%; border-color: gray;">
+                                <option value=0></option>
+                                <option *ngFor="let item of exercices" [value]="item.exercice">{{item.exercice}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </app-card>
+
+        
+    </div>
+</div>

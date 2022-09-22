@@ -1,0 +1,16 @@
+<ul style=" padding-left: 10px; padding-top: 3px;">
+    <li *ngFor="let item of newSocietes">
+        <p style="display: flex; flex-direction: row;"> 
+            <i class="fas fa-plus navbar-list-societe-i" (click)="displaySousList($event)"></i> 
+            <i class="fas fa-minus navbar-list-societe-i navbar-list-societe-desactive" (click)="displaySousList($event)"></i> 
+            <span style=" display:block;" (click)="clickItem(item)">{{item.raisonSociale}}</span>
+        </p>
+        
+        <div class="navbar-list-societe-div navbar-list-societe-desactive" >
+            <app-list-navbar-societe (closeModal)="closeModelSelected()" [id]="item.id" [societes]="societes"></app-list-navbar-societe>
+        </div>
+    </li>
+</ul>
+
+
+

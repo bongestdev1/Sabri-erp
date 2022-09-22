@@ -1,0 +1,24 @@
+<!-- The Modal -->
+<div id="mymodalParametresSocietes" [class]="classCss">
+
+  <!-- Modal content -->
+  <div class="modal-contentDelete" style="text-align: center;">
+
+    <div style="display: flex; flex-direction: row; flex-wrap: nowrap;">
+      <span
+        style="min-width: 250px; font-weight: 800; font-size: 18px; text-align: center;">Selectionner
+        Societes</span>
+    </div>
+
+    <hr style="width: 100%; margin-top: 5px; margin-bottom: 20px;">
+
+    <div class="container" style="position:relative;">
+      <app-spinner2 *ngIf="isLoading"></app-spinner2>
+      <div class="col-sm-12">
+        <app-list-navbar-societe (closeModal)="closeAdd()" id="" [societes]="societes"></app-list-navbar-societe>
+      </div>
+    </div>
+
+  </div>
+
+</div>

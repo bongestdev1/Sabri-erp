@@ -1,0 +1,163 @@
+<!-- Model de ajouter -->
+<ng-template #contentM #item let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{titreCrud}} sous produit <span
+                style="font-size: 13px;">({{article.designation}} - {{article.reference}})</span></h4>
+        <p type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </p>
+    </div>
+    <div class="modal-body">
+        <form action="javascript:">
+
+            <div style="border:2px solid blue; padding:5px;">
+                <div class="form-group row">
+                    <label for="" class="col-sm-3 col-form-label">Variante</label>
+                    <div class="col-sm-9">
+                        <select style="width: 100%;" id="variante" name="variante" [(ngModel)]="itemVariante.variante"
+                            (change)="selectVariante()">
+                            <option *ngFor="let item of variantes" [value]="item.libelle">{{item.libelle}}</option>
+                        </select> 
+
+                        <!-- <app-autocomplete (addElementEvent)="setVarianteID($event)" [keySelected]="keySelectedVariante"
+                            [objet]="objetVariante" [articles]="variantes" idHtml="ajoutArticle0"
+                            (openAddElementEvent)="openModalAjoutVariante()">
+                        </app-autocomplete> -->
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="" class="col-sm-3 col-form-label">Valeur</label>
+                    <div class="col-sm-9">
+                        <select style="width: 100%;" id="valeur" name="valeur" [(ngModel)]="itemVariante.valeur">
+                            <option *ngFor="let item of valeurs" [value]="item.valeur">{{item.valeur}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <button type="button" class="btn btn-primary" (click)="ajouterVariante()"
+                            style="float:right; padding:5px;">Ajouter</button>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="form-group row">
+                <label for="" class="col-sm-3 col-form-label">Variantes</label>
+                <div class="col-sm-9">
+                    <div id="{{titre}}variantes" style="width: 100%; padding:4px 0px;">// <span
+                            *ngFor="let item of sousProduit.variantes"> {{item.variante}} : {{item.valeur}} <button
+                                class="btn btn-danger" style="padding:0px 5px; height:20px;"
+                                (click)="supprimerVariante(item)">-</button> // </span></div>
+                    <p *ngIf="erreurSousProduit.variantes != ''" class="erreur">{{erreurSousProduit.variantes}}
+                    </p>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="" class="col-sm-3 col-form-label">Reference</label>
+                <div class="col-sm-9">
+                    <input type="input" class="form-control" name="{{titre}}reference" id="{{titre}}reference"
+                        [(ngModel)]="sousProduit.reference">
+                    <p *ngIf="erreurSousProduit.reference != ''" class="erreur">{{erreurSousProduit.reference}}
+                    </p>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="" class="col-sm-3 col-form-label">Impact Prix</label>
+                <div class="col-sm-9">
+                    <app-input-number-vergule [field]="sousProduit" key="impactPrix" idUnique="{{titre}}impactPrix">
+                    </app-input-number-vergule>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="" class="col-sm-3 col-form-label">Impact Poids</label>
+                <div class="col-sm-9">
+                    <app-input-number-vergule [field]="sousProduit" key="impactPoids" idUnique="{{titre}}impactPoids">
+                    </app-input-number-vergule>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button *ngIf="titreCrud == 'Ajouter'" type="button" class="btn btn-primary"
+            (click)="enregistrerSousProduit()">{{titreCrud}}</button>
+        <button *ngIf="titreCrud == 'Modifier'" type="button" class="btn btn-primary"
+            (click)="modifierSousProduit() ">{{titreCrud}}</button>
+    </div>
+</ng-template>
+
+
+<div class="col-xl-14">
+    <p>
+        <span style="font-size:17px; font-weight: 900;">Sous Produits </span>
+        <span style="float:right;">
+            <app-showelements [items]="items" [itemsVariable]="itemsVariable"></app-showelements>
+        </span>
+    </p>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th *ngFor="let key of objectKeys(itemsVariable)">{{items[key]}}</th>
+                    <th *ngIf="isDetails == '0'"><button class="btn btn-sm btn-outline-primary"
+                            (click)="open(contentM)">Ajouter</button></th>
+                </tr>
+            </thead>
+            <tbody *ngIf="inisialiserEmptyTab()">
+                <tr *ngFor="let item of sousProduits">
+                    <td *ngFor="let key of objectKeys(itemsVariable)">
+                        <span *ngIf="fonctionPartagesService.colonnesQuantites.includes(key)"
+                            style="float:right;">{{fonctionPartagesService.getFormaThreeAfterVerguleQuantite(item[key])}}</span>
+                        <span *ngIf="fonctionPartagesService.colonnesPrix.includes(key)"
+                            style="float:right;">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(item[key])}}</span>
+                        <span *ngIf="fonctionPartagesService.colonnesDates.includes(key)"
+                            style="text-align: center; display: block;">{{fonctionPartagesService.getDate(item[key],
+                            'yyyy-MM-dd')}}</span>
+                        <span *ngIf="fonctionPartagesService.colonnesOuiNon.includes(key)"
+                            style="text-align: center; display: block;"> <i class="fas fa-check-square"
+                                style="font-size: 15px;" *ngIf="item[key] == 'oui'"></i> <i class="fas fa-square"
+                                style="font-size: 15px;" *ngIf="item[key] != 'oui'"></i> </span>
+                        <span
+                            *ngIf="!(key == 'variantes' || fonctionPartagesService.colonnesDates.includes(key) || fonctionPartagesService.colonnesQuantites.includes(key) || fonctionPartagesService.colonnesPrix.includes(key) || fonctionPartagesService.colonnesOuiNon.includes(key))">{{item[key]}}</span>
+
+                        <span *ngIf="key == 'variantes'">
+                            <span *ngFor="let variante of item[key]">
+                                {{variante.variante +':'+variante.valeur+';'}}
+                            </span>
+                        </span>
+
+                    </td>
+                    <td *ngIf="isDetails == '0'">
+                        <button type="button" class="btn btn-icon btn-outline-success button-edit-delete"
+                            data-toggle="modal" (click)="openModifier(contentM,item)">
+                            <i class="feather icon-edit"></i>
+                        </button>
+                        <button type="button" class="btn btn-icon btn-outline-danger button-edit-delete"
+                            data-toggle="modal" (click)="supprimerSousProduit(item.id)">
+                            <i class="feather icon-trash-2"></i>
+                        </button>
+                    </td>
+                </tr>
+
+                <tr *ngFor="let item of tabEmpty">
+                    <td colspan="30">
+                        <span style="color:transparent;">i</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <app-spinner2 *ngIf="isLoading"></app-spinner2>
+    </div>
+
+</div><app-add-element-modal [isLoading]="isLoading" [isOpenModalAjoutElement]="isOpenModalAjoutElement"
+[idAjoutElementModal]="idAjoutElementModal" (closeModalAjoutElement)="closeModalAjoutElement()"
+[typeElement]="typeElement"></app-add-element-modal>

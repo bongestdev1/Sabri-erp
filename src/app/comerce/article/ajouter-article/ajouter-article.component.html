@@ -1,0 +1,51 @@
+<app-controle-acces [avoirAccee]="informationGenerale.verifierAccee('ajouterArticle')"></app-controle-acces>
+
+<div class="row" *ngIf="informationGenerale.verifierAccee('ajouterArticle')">
+    <div class="col-sm-12">
+        <app-card [hidHeader]="true">
+            <!-- Partie Header -->
+            <div *ngIf="!isPopup" class="form-group row" style="justify-content: space-between !important;">
+                <div class="text-titre">
+                    <h3>{{titreCrud}} Article</h3>
+                </div>
+                <div class="left-button" style="float:right;">
+                    <button *ngIf="!isLoading" class="btn btn-primary" type="button" (click)="ajoutArticle()">
+                        Enregister
+                    </button>
+                    <button *ngIf="isLoading" class="btn btn-primary" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Chargement...
+                    </button>
+                </div>
+            </div>
+            <hr *ngIf="!isPopup">
+
+            <app-article-html (getAllParametres)="getAllParametres()" (getCodeBarre)="getCodeBarre()"
+                (changePrixVHT)="changePrixVHT()" [isLoading]="isLoading" [article]="article"
+                [erreurArticle]="erreurArticle" [uniteMesures]="uniteMesures" [categories]="categories"
+                [familles]="familles" [famillesCurrent]="famillesCurrent" [sousFamilles]="sousFamilles"
+                [sousFamillesCurrent]="sousFamillesCurrent" [categorieFamilles]="categorieFamilles"
+                [familleSousFamilles]="familleSousFamilles" [marques]="marques" [modeles]="modeles"
+                [modelesCurrent]="modelesCurrent" [tauxTVAs]="tauxTVAs" [tauxTVAsCurrent]="tauxTVAsCurrent"
+                [frais]="frais" [listFrais]="listFrais" [fournisseurs]="fournisseurs"
+                [prixWithQuantites]="prixWithQuantites" [typeTiers]="typeTiers" [variantes]="variantes"
+                [sousProduits]="sousProduits" [titreCrud]="titreCrud" [idArticle]="id"></app-article-html>
+
+            <hr *ngIf="isPopup" style="width: 100%; margin-top: 10px; margin-bottom: 5px;">
+
+            <div *ngIf="isPopup"
+                style="padding: 10px; text-align: right; padding-top:0px; padding-bottom:0px; width: 100%;">
+
+                <button *ngIf="!isLoading" class="btn btn-primary" type="button" (click)="ajoutArticle()">
+                    Enregister
+                </button>
+                <button *ngIf="isLoading" class="btn btn-primary" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Chargement...
+                </button>
+
+            </div>
+
+        </app-card>
+    </div>
+</div>

@@ -1,0 +1,304 @@
+<div class="row">
+    <div class="col-sm-12">
+        <app-card [hidHeader]="true">
+            <!-- Partie Header -->
+            <div class="form-group row" style="justify-content: space-between !important;">
+                <div class="text-titre">
+                    <h3><span *ngIf="titreCrud != fonctionPartagesService.titreCrud.transfert">Détail</span>
+                        {{titreDocument}}</h3>
+                </div>
+
+                <div class="left-button">
+
+                    <button *ngIf="isLoading" class="btn btn-primary" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Chargement...
+                    </button>
+
+                 <!--   <app-routes-transfert-documents
+                        *ngIf="!isLoading && titreCrud == fonctionPartagesService.titreCrud.modifier"
+                        [modeTransfert]="modeTransfert" [titreDocument]="titreDocument" [id]="id">
+                    </app-routes-transfert-documents>
+                -->
+
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <!-- Partie formulaire à Gauche en haut -->
+                <div class="col-sm-6">
+                    <form action="javascript:">
+                        <div class="form-group row">
+                            <label for="numero" class="col-sm-4 col-form-label">Numero</label>
+                            <div class="col-sm-8 collapse-input">
+                                <span class="form-control desactive-text-span"
+                                    name="numero">{{bonLivraison.numero}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="date" class="col-sm-4 col-form-label">Date</label>
+                            <label for="date" class="col-sm-8 col-form-label">{{bonLivraison.date}}</label>
+                        </div>
+                        <div class="form-group row">
+                            <label for="tiers" class="col-sm-4 col-form-label">{{modeTiere}}</label>
+                            <label for="date"
+                                class="col-sm-8 col-form-label">{{getClientById(bonLivraison.client)}}</label>
+                        </div>
+
+                        <div class="form-group row" *ngIf="client.plafondCredit">
+                            <label for="plafondCredit" class="col-sm-6 col-form-label">Plafond_credit:
+                                {{fonctionPartagesService.getFormaThreeAfterVerguleNomber(client.plafondCredit)}}</label>
+                            <label for="credit" class="col-sm-6 col-form-label">Credit:
+                                {{fonctionPartagesService.getFormaThreeAfterVerguleNomber(client.credit)}}</label>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="date" class="col-sm-4 col-form-label">Montant payé</label>
+                            <div class="col-sm-8">
+                                <span class="form-control desactive-text-span"
+                                    name="montantPaye">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.montantPaye)}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="date" class="col-sm-4 col-form-label">Reste à payer </label>
+                            <div class="col-sm-8">
+                                <span class="form-control desactive-text-span"
+                                    name="restPayer">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.restPayer)}}
+                                </span>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <!-- Partie formulaire à Droite en haut -->
+                <div class="col-md-6">
+                    <form action="javascript:">
+
+
+                        <div class="form-group row">
+                            <label for="totalHT" class="col-sm-4 col-form-label">Total HT</label>
+                            <div class="col-sm-8">
+
+                                <span class="form-control desactive-text-span"
+                                    style="position:relative;margin:0px !important; width: 100% !important;">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.totalHT)}}</span>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="totalRemise" class="col-sm-4 col-form-label">Total Remise</label>
+                            <div class="col-sm-8">
+                                <span
+                                    class="form-control desactive-text-span">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.totalRemise)}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="totalTVA" class="col-sm-4 col-form-label">Total TVA</label>
+                            <div class="col-sm-8">
+                                <span
+                                    class="form-control desactive-text-span">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.totalTVA)}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="totalTTC" class="col-sm-4 col-form-label">Total TTC</label>
+                            <div class="col-sm-8">
+                                <span
+                                    class="form-control desactive-text-span">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.totalTTC)}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="totalTTC" class="col-sm-12 col-form-label"
+                                style="font-weight: 900 !important; color:blue; font-size: 14px !important;">Montant
+                                Total :
+                                {{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.montantTotal)}}</label>
+                        </div>
+                    </form>
+                </div>
+                <!-- partie collapse -->
+                <div class="col-md-12">
+                    <br>
+                    <button class="btn btn-primary" type="button" (click)="isCollapsed = !isCollapsed"
+                        [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">Plus de
+                        détails</button>
+
+                    <hr />
+
+                    <div id="collapseExample" [ngbCollapse]="isCollapsed">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form action="javascript:">
+                                    <div class="form-group row">
+                                        <label for="tFiscale" class="col-sm-3 col-form-label">Timbre
+                                            Fiscale</label>
+                                        <div class="col-sm-9 collapse-input">
+
+                                            <span class="form-control desactive-text-span"
+                                                name="timbreFiscale">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.timbreFiscale)}}
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="totalRedevance" class="col-sm-3 col-form-label">Total
+                                            Redevance</label>
+                                        <div class="col-sm-9 collapse-input">
+
+
+                                            <span class="form-control desactive-text-span"
+                                                name="totalRedevance">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.totalRedevance)}}
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="totalFodec" class="col-sm-3 col-form-label">Total Fodec</label>
+                                        <div class="col-sm-9 collapse-input">
+
+
+                                            <span class="form-control desactive-text-span"
+                                                name="totalFodec">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.totalFodec)}}
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-6">
+                                <form action="javascript:">
+
+                                    <div class="form-group row">
+                                        <label for="totalDC" class="col-sm-3 col-form-label">Total DC</label>
+                                        <div class="col-sm-9 collapse-input">
+
+                                            <span class="form-control desactive-text-span"
+                                                name="totalDC202">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.totalDC)}}
+                                            </span>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="Gaincommerciale" class="col-sm-3 col-form-label">Gain
+                                            commerciale</label>
+                                        <div class="col-sm-9 collapse-input">
+
+                                            <span class="form-control desactive-text-span"
+                                                name="Gaincommerciale">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.totalGainCommerciale)}}
+                                            </span>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="Gainreel" class="col-sm-3 col-form-label">Gain réel</label>
+                                        <div class="col-sm-9 collapse-input">
+
+                                            <span class="form-control desactive-text-span"
+                                                name="Gainreel">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.totalGainReel)}}
+                                            </span>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="totalDC" class="col-sm-3 col-form-label">Escompte</label>
+                                        <div class="col-sm-9 collapse-input">
+
+                                            <span class="form-control desactive-text-span"
+                                                name="totalDC202">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.montantEscompte)}}
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+
+
+                            <hr />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- partie tabs -->
+                <div class="col-md-12">
+                    <ngb-tabset type="pills">
+                        <!-- partie Article -->
+                        <ngb-tab title="Articles" class="mb-3">
+                            <ng-template ngbTabContent>
+                                <div class="col-xl-14">
+                                    <hr>
+                                    <app-lignebl [titreCrud]="titreCrud" [articlesSelected]="articles"
+                                        [titreDocument]="titreDocument" (changePrixTotalEvent)="changePrixTotalEvent()"
+                                        [bonLivraison]="bonLivraison" [articles]="allArticles" [client]="client"
+                                        [uniteMesures]="uniteMesures" (getAllParametresEvent)="getAllParametres()" isDetails="oui">
+                                    </app-lignebl>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                        <!-- partie Réglements -->
+                        <ngb-tab
+                            *ngIf="titreDocument == fonctionPartagesService.titreDocuments.bonLivraison || titreDocument == fonctionPartagesService.titreDocuments.bonRetourClient || titreDocument == fonctionPartagesService.titreDocuments.bonRetourFournisseur || titreDocument == fonctionPartagesService.titreDocuments.bonAchat"
+                            title="Réglement" class="mb-3">
+                            <ng-template ngbTabContent>
+                                <div class="col-xl-14" style="margin-top: 10px;">
+                                    <app-reglements-bon-livraison (getAllParametres)="getAllParametres"
+                                        [reglements]="reglements" [allModeReglement]="allModeReglement"
+                                        [isLoading]="isLoading" [bonLivraison]="bonLivraison">
+                                    </app-reglements-bon-livraison>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+
+                        <ngb-tab
+                            *ngIf="titreDocument == fonctionPartagesService.titreDocuments.bonLivraison && titreCrud == fonctionPartagesService.titreCrud.modifier"
+                            title="Expeditions" class="mb-3">
+                            <ng-template ngbTabContent>
+                                <div class="col-xl-14" style="margin-top: 10px;">
+                                    <hr>
+                                    <app-expeditions isDetails="oui" [bonLivraison]="request"></app-expeditions>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+
+                        <ngb-tab
+                            *ngIf="titreDocument == fonctionPartagesService.titreDocuments.bonCommande && titreCrud == fonctionPartagesService.titreCrud.modifier"
+                            title="Réceptions" class="mb-3">
+                            <ng-template ngbTabContent>
+                                <div class="col-xl-14" style="margin-top: 10px;">
+                                    <app-receptions [bonLivraison]="request"></app-receptions>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+
+                        <!-- partie Observations-->
+                        <ngb-tab title="Observations" class="mb-3">
+                            <ng-template ngbTabContent>
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <hr>
+                                    </div>
+
+                                    <label for="observation" class="col-sm-3 col-form-label">Observations</label>
+
+                                    <label for="observation"
+                                        class="col-sm-9 col-form-label">{{bonLivraison.observation}}</label>
+
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                    </ngb-tabset>
+                </div>
+            </div>
+        </app-card>
+    </div>
+</div>

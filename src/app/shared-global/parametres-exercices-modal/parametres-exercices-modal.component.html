@@ -1,0 +1,47 @@
+<!-- The Modal -->
+<div id="mymodalParametresExercices" [class]="classCss">
+
+    <div style="position: absolute; width: 100%; height: 100%;top: 0px; left:0px;">
+    </div>
+  
+    <!-- Modal content -->
+    <div class="modal-contentDelete" style="text-align: center;">
+      <div style="display: flex; flex-direction: row; flex-wrap: nowrap;">
+        <span style="font-weight: 800; font-size: 18px; margin-left: 10px; ">Selectionner Exercices</span>
+        <span class="closeDelete" (click)="closeAdd()"
+          style="width: 30px; height: 30px; margin-left: auto; text-align: center;"><i class="fas fa-times"></i></span>
+      </div>
+  
+      <hr style="width: 100%; margin-top: 5px; margin-bottom: 20px;">
+  
+      <div class="container" style="position:relative;">
+        <app-spinner2 *ngIf="isLoading"></app-spinner2>
+  
+        <div class="col-sm-12">
+  
+  
+          <div class="row">
+            <!-- Partie formulaire à Gauche en haut -->
+            <div class="col-md-12">
+                <div class="form-group row">
+                   <div class="col-sm-12">
+                        <select [(ngModel)]="exercice" style="width: 100%; border-color: gray;" (change)="changeExercice()">
+                            <option *ngFor="let item of exercices" [value]="item.exercice">{{item.exercice}}</option>
+                       </select>
+                    </div>
+                </div>
+            </div>
+
+          </div>
+  
+  
+  
+        </div>
+
+        <button class="btn btn-info" style="padding:5px;" (click)="closeAdd()">Passer</button>
+  
+      </div>
+    </div>
+  
+  </div>
+

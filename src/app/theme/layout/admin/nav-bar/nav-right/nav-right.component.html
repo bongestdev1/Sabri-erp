@@ -1,0 +1,99 @@
+
+<ul class="navbar-nav ml-auto">
+  <li>
+    <div class="drp-user dropdown" ngbDropdown placement="auto">
+      <a href="javascript:" ngbDropdownToggle >
+        <span class="class-societe"><i class="feather icon-home"></i> {{informationsService.societeCurrent}}</span>
+      </a>
+      <div class=" dropdown-menu-right profile-notification" ngbDropdownMenu>
+        <div class="pro-head" style="display: flex; justify-content: space-between;">
+          <span>{{informationsService.societeCurrent}}</span>
+          <a class="style-button-edit"[routerLink]="'/parametre/societe/modifier/'+informationsService.idSocieteCurrent"><i class="feather icon-edit"></i> </a>
+        </div>
+
+        <app-list-navbar-societe id="" [societes]="societes" (closeModal)="reloadPage()"></app-list-navbar-societe>
+      </div>
+    </div>
+  </li>
+ 
+  <li>
+    <div class="dropdown" ngbDropdown placement="auto">
+      <a ngbDropdownToggle href="javascript:">
+        <i class="icon feather icon-bell"></i>
+        <span class="badge badge-pill badge-danger">5</span>
+      </a>
+      <div ngbDropdownMenu class="dropdown-menu-right notification">
+        <div class="noti-head">
+          <h6 class="d-inline-block m-b-0">Notifications</h6>
+          <div class="float-right">
+            <a href="javascript:" class="m-r-10">mark comme lu</a>
+            <a href="javascript:">tout effacer</a>
+          </div>
+        </div>
+        <ul class="noti-body">
+          <li class="n-title">
+            <p class="m-b-0">NOUVEAU</p>
+          </li>
+          <li class="notification">
+            <div class="media">
+              <img class="img-radius" src="assets/images/user/avatar-1.jpg" alt="Generic placeholder image">
+              <div class="media-body">
+                <p><strong>John Doe</strong><span class="n-time text-muted"><i
+                      class="icon feather icon-clock m-r-10"></i>30 min</span></p>
+                <p>Nouveau billet ajouté</p>
+              </div>
+            </div>
+          </li>
+          <li class="n-title">
+            <p class="m-b-0">PLUS TÔT</p>
+          </li>
+          <li class="notification">
+            <div class="media">
+              <img class="img-radius" src="assets/images/user/avatar-4.jpg" alt="Generic placeholder image">
+              <div class="media-body">
+                <p><strong>Joseph William</strong><span class="n-time text-muted"><i
+                      class="icon feather icon-clock m-r-10"></i>30 min</span></p>
+                <p>Achetez un nouveau thème et effectuez le paiement</p>
+              </div>
+            </div>
+          </li>
+          <li class="notification">
+            <div class="media">
+              <img class="img-radius" src="assets/images/user/avatar-3.jpg" alt="Generic placeholder image">
+              <div class="media-body">
+                <p><strong>Sara Soudein</strong><span class="n-time text-muted"><i
+                      class="icon feather icon-clock m-r-10"></i>30 min</span></p>
+                <p>Actuellement connecté</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <div class="noti-footer">
+          <a href="javascript:">Afficher tout</a>
+        </div>
+      </div>
+    </div>
+  </li>
+  
+  <li>
+    <div class="drp-user dropdown" ngbDropdown placement="auto">
+      <a href="javascript:" ngbDropdownToggle>
+        <i class="feather icon-user"></i>
+      </a>
+      <div class=" dropdown-menu-right profile-notification" ngbDropdownMenu>
+        <div class="pro-head">
+          <img src="assets/images/user/istockphoto-476085198-170667a.jpg" class="img-radius" alt="User-Profile-Image">
+          <span>{{user.nom}} {{user.prenom}}</span>
+          <a (click)="logout()" href="javascript:" class="dud-logout" title="Logout">
+            <i class="feather icon-log-out"></i>
+          </a>
+        </div>
+        <ul class="pro-body">
+          <li><a href="javascript:" class="dropdown-item"><i class="feather icon-user"></i> Profil</a></li>
+          <li><a href="javascript:" class="dropdown-item"><i class="feather icon-mail"></i> Mes messages</a></li>
+          <li><a href="javascript:" class="dropdown-item"><i class="feather icon-lock"></i> Écran verrouillé</a></li>
+        </ul>
+      </div>
+    </div>
+  </li>
+</ul>

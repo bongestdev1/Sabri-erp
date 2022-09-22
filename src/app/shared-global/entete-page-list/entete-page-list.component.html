@@ -1,0 +1,33 @@
+<div class="pagination-inner">
+
+    <button type="button" *ngIf="informationGenerale.verifierAccee('acces')" class="btn btn-info ng-tns-c112-14 btn-speciale" (click)="goToAddPage()">
+        Ajouter {{titreDocuments}} <i class="fas fa-plus"></i>
+    </button>
+
+    <ul class="pagination">
+        <li>
+            <i _ngcontent-eep-c121="" class="feather icon-camera" (click)="printout()"></i>
+        </li>
+        <li>
+            <i class="fas fa-file-pdf" (click)="generatePDF()"></i>
+        </li>
+        <li>
+            <i class="fas fa-file-excel" (click)="exportexcel()"></i>
+        </li>
+    </ul>
+
+    <div class="th-tableau2" style="margin-top:5px;">
+      
+        <app-nombre-list-page (getItemsEvent)="getListGlob()" [control]="control"> </app-nombre-list-page>
+
+        <button (click)="getListGlob()" class="btn btn-info ng-tns-c112-14"
+            style="font-size: 15px; padding:2px; height: 30px; display: inline-block; white-space: nowrap; margin-left: 3px;">
+            <i class="feather icon-search"></i>
+        </button>
+
+        <div style="margin-left:auto;">
+            <app-showelements [items]="items" [itemsVariable]="itemsVariable"></app-showelements>
+        </div>
+    </div>
+
+</div>

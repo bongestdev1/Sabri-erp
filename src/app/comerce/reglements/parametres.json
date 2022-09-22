@@ -1,0 +1,91 @@
+
+
+{ 
+    "bonLivraison":{
+        "typeTier":"Client",
+        "typeReglement":"bonLivraison",
+        "titreAjouter":"Reglement Bon Livraison",
+        "apiAjoute": "/reglements/newReglement",
+        "apiParametres": "/reglements/getAllParametres/",
+        "apiBons" : "/reglements/getBonLivraisonsByClient/",
+        "apiModifie" : "/reglements/modifierReglement/",
+        "apiGetById" : "/reglements/getByIdBonLivraison/",
+        "apiDeleteliltrage" : "/reglements/deleteLiltrageOfReglement/",
+ 
+        "apiDelete" : "/reglements/deleteReglement",
+        "apiList" : "/reglements/listReglementsClient",
+
+        "pageDetails" : "/reglement/bonLivraison/details/",
+        "pageModifie" : "/reglement/bonLivraison/modifier/",
+        "pageAjoute" : "reglement/bonLivraison/ajout",
+        "pageEcheance" : "reglement/bonLivraison/echeanceClient",
+        "apiEcheances" : "/reglements/listEcheances",
+        "pageList" : "/reglement/bonLivraison/list"
+        
+    },
+    "bonRetourClient":{
+        "typeTier":"Client",
+        "typeReglement":"bonRetourClient",
+        "titreAjouter":"Reglement Bon Retour Client",
+        "apiAjoute": "/reglements/newReglement",
+        "apiParametres": "/reglements/getAllParametres/",
+        "apiBons" : "/reglements/getBonRetourClientsByClient/",
+        "apiModifie" : "/reglements/modifierReglement/",
+        "apiGetById" : "/reglements/getByIdBonRetourClient/",
+        "apiDeleteliltrage" : "/reglements/deleteLiltrageOfReglement/",
+      
+        "apiDelete" : "/reglements/deleteReglement",
+        "apiList" : "/reglements/listReglementsClient",
+
+        "pageDetails" : "/reglement/bonRetourClient/details/",
+        "pageModifie" : "/reglement/bonRetourClient/modifier/",
+        "pageAjoute" : "reglement/bonRetourClient/ajout",
+        "pageEcheance" : "reglement/bonRetourClient/echeanceClient",
+        "apiListEcheances" : "/reglements/listEcheances",
+        "pageList" : "/reglement/bonRetourClient/list"
+    
+    },
+    "bonAchat":{
+        "typeTier":"Fournisseur",
+        "typeReglement":"bonAchat",
+        "titreAjouter":"Reglement Bon Réception",
+        "apiAjoute": "/reglements/newReglement",
+        "apiParametres": "/reglements/getAllParametres/",
+        "apiBons" : "/reglements/getBonAchatsByFournisseur/",
+        "apiModifie" : "/reglements/modifierReglement/",
+        "apiGetById" : "/reglements/getByIdBonAchat/",
+        "apiDeleteliltrage" : "/reglements/deleteLiltrageOfReglement/",
+       
+        "apiDelete" : "/reglements/deleteReglement",
+        "apiList" : "/reglements/listReglementsFournisseur",
+       
+        "pageDetails" : "/reglement/bonAchat/details/",
+        "pageModifie" : "/reglement/bonAchat/modifier/",
+        "pageAjoute" : "reglement/bonAchat/ajout",
+        "pageEcheance" : "reglement/bonAchat/echeanceClient",
+        "apiListEcheances" : "/reglements/listEcheancesFournisseur",
+        "pageList" : "/reglement/bonAchat/list"
+    },
+    "bonRetourFournisseur":{
+        "typeTier":"Fournisseur",
+        "typeReglement":"bonRetourFournisseur",
+        "titreAjouter":"Reglement Bon Retour Fournisseur",
+        "apiAjoute": "/reglements/newReglement",
+        "apiParametres": "/reglements/getAllParametres/",
+        "apiBons" : "/reglements/getBonRetourFournisseursByFournisseur/",
+        "apiModifie" : "/reglements/modifierReglement/",
+        "apiGetById" : "/reglements/getByIdBonRetourFournisseur/",
+        "apiDeleteliltrage" : "/reglements/deleteLiltrageOfReglement/",
+      
+        "apiDelete" : "/reglements/deleteReglement",
+        "apiList" : "/reglements/listReglementsFournisseur",
+      
+        "pageDetails" : "/reglement/bonRetourFournisseur/details/",
+        "pageModifie" : "/reglement/bonRetourFournisseur/modifier/",
+        "pageAjoute" : "reglement/bonRetourFournisseur/ajout",
+        "pageEcheance" : "reglement/bonRetourFournisseur/echeanceClient",
+        "apiListEcheances" : "/reglements/listEcheancesFournisseur",
+        "pageList" : "/reglement/bonRetourFournisseur/list"
+    
+    }
+}

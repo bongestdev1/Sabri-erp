@@ -1,0 +1,20 @@
+<div class="col-sm-12">
+    <div class="form-group row">
+        <input type="date" [(ngModel)]="day2"  id="dateStart"
+            class="col-sm-4 form-control" max="9999-01-01" (change)="getDateStart(day2)">
+        <input type="date" [(ngModel)]="day1"   id="dateEnd"
+            class="col-sm-4 form-control" max="9999-01-01" (change)="getDateEnd(day1)">
+        <select class="col-sm-3" id="greet" (change)="getOption($event.target.value)" style="margin-left:10px; border:rgb(200, 198, 198) 2px solid; padding-top: 3px !important; padding-left:3px !important;">
+            <option value="select" >Periode</option>
+            <option value="aujourdhui">Aujourd'hui</option>
+            <option value="hier" checked>Hier</option>
+            <option value="cetteSemaine">Cette semaine</option>
+            <option value="semaineDernière">Semaine dernière</option>
+            <option value="moisCi">Ce mois-ci</option>
+            <option value="moisFlottant">Le mois flottant</option>
+            <option value="moisDernier">Le mois dernier</option>
+            <option value="cetteAnnée">Cette année</option>
+            <option value="annéeDernière">L'année dernière</option>
+        </select>
+    </div>
+</div>

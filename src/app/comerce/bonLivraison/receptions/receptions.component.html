@@ -1,0 +1,208 @@
+<div class="col-sm-12" style="padding-bottom: 10px;"
+    *ngIf="showAddExpedation == false && newReception.articles.length != 0">
+    <h3>
+        <span style="color: rgb(167, 170, 15); font-weight: 900;"> <i class="fas fa-exclamation-triangle"></i>
+            Partiellement reçu </span>
+
+        <button class="btn btn-success" style="float:right;" (click)="showAddExpedation = true">
+            Nouvelle Reception
+        </button>
+    </h3>
+</div>
+
+<div class="col-sm-12" style="padding: 10px;" *ngIf="newReception.articles.length == 0">
+    <div class="row">
+        <span style="color: rgb(26, 192, 26); font-weight: 900;"> <i class="fas fa-check"></i> Tous vôtres articles
+            sont
+            reçus </span>
+    </div>
+</div>
+
+<div class="col-sm-12" style="padding: 10px;" *ngIf="showAddExpedation == true && newReception.articles.length != 0">
+
+    <div class="form-group row">
+        <h3>Nouvelle Réception</h3>
+    </div>
+
+    <div class="form-group row">
+        <label for="transporteur" class="col-sm-2" style="font-size: 12px;">Id Connecte</label>
+        <div class="col-sm-10" style="padding:0px;">
+            <p *ngIf="erreurReception.idConnecte != ''" class="erreur">
+                {{erreurReception.idConnecte}}</p>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="transporteur" class="col-sm-2" style="font-size: 12px;">Transporteur</label>
+        <div class="col-sm-10" style="padding:0px;">
+            <app-autocomplete (addElementEvent)="setTransporteurID($event)" keySelected="nom"
+                [objet]="objetsAutocomplete.objetTransporteur" [articles]="allTransporteurs"
+                [idSelected]="newReception.transporteur" [idHtml]="500"
+                (openAddElementEvent)="openModalAjoutTransporteur()"></app-autocomplete>
+        </div>
+    </div>
+
+    <div class="form-group row" style=" margin-top: 10px;">
+
+        <h5>Liste des Réceptions</h5>
+        <div class="table-responsive">
+            <table class="table table-striped" id="output" style="width: 100%; overflow-x: auto;">
+                <thead>
+                    <tr>
+                        <th *ngFor="let key of objectKeys(shemaArticle)">
+                            <div class="th-tableau">
+                                {{shemaArticle[key]}}
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="newReception.articles.length > 0">
+                    <tr *ngFor="let item of newReception.articles">
+                        <td *ngFor="let key of objectKeys(shemaArticle)">
+                            <span
+                                *ngIf="!allTabNumbers.includes(key) && key!='lot' && key!='sousProduit'">{{item[key]}}</span>
+                            <div *ngIf="tabNumbers.includes(key)" class="col-sm-12 collapse-input" style="width: 100%;">
+                                <app-input-number-vergule isQuantite="1" [field]="item" [key]="key"
+                                    idUnique="{{key+item['numero']}}" (ngModelChange)="changeQuantiteRestant()">
+                                </app-input-number-vergule>
+                            </div>
+
+                            <div *ngIf="key=='lot'" style="width: 100%;">
+                                <input type="text" class="form-control" id="lot" name="lot" [(ngModel)]="item.lot"
+                                    style="margin-left:0px; margin-right: 0px;">
+                            </div>
+
+                            <div *ngIf="key=='sousProduit'" style="width: 100%;">
+                                <select [(ngModel)]="item.sousProduit" style="width:100%;">
+                                    <option value=""></option>
+                                    <option *ngFor="let item of objetSousProduits[item.article]" value="{{item._id}}">
+                                        {{item.reference}}</option>
+                                </select>
+                            </div>
+
+                            <span *ngIf="tabNumbersLabel.includes(key)">{{getNumber(item[key])}}</span>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="newReception.articles.length == 0">
+                    <tr>
+                        <td style="text-align: center;" colspan="100">
+                            <span style="color: rgb(26, 192, 26); font-weight: 900;"> <i class="fas fa-check"></i> Tous
+                                vôtres articles sont expédiés </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+    <div class="form-group row" style="margin-bottom: 0px;">
+
+        <div class="col-sm-12" style="text-align: center; margin-top: 10px;">
+            <button (click)="addNewReception()" type="button" class="btn btn-success ng-tns-c112-14"
+                style="font-size: 12px; padding:5px; height: 30px; display: inline-block; white-space: nowrap; margin-left: 3px;">
+                Ajouter Réception <i class="fas fa-plus"></i>
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="col-sm-12">
+    <div class="form-group row">
+
+        <form action="javascript:" class="col-sm-12">
+            <h3>Liste des réceptions</h3>
+            <div class="table-responsive">
+
+                <table class="table table-striped" id="output" style="width: 100%; overflow-x: auto;">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let key of objectKeys(shemaReception)" style="text-align: center;">
+                                <div class="th-tableau">
+                                    {{shemaReception[key]}}
+                                </div>
+                            </th>
+                            <th>
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody *ngFor="let itemReception of receptions">
+
+                        <tr>
+
+                            <td *ngFor="let key of objectKeys(shemaReception)" style="text-align: center;">
+
+                                <span
+                                    *ngIf="['numero','date','heure','nbrArticles', 'transporteur'].includes(key) == false">{{itemReception[key]}}</span>
+                                <span *ngIf="key == 'numero'">{{getNumeroReception(itemReception['date'])}}</span>
+                                <span *ngIf="key == 'date'">{{getDate(itemReception['date'])}}</span>
+                                <span *ngIf="key == 'heure'">{{getTime(itemReception['date'])}}</span>
+                                <span *ngIf="key == 'nbrArticles'">{{itemReception.articles.length}}</span>
+                                <span
+                                    *ngIf="key == 'transporteur'">{{fonctionPartagesService.getLibelleById(itemReception.transporteur,
+                                    allTransporteurs, 'nom')}}</span>
+
+                            </td>
+                            <td>
+                                <button class="btn btn-success" style="padding: 5px;" name="{{itemReception['date']}}"
+                                    (click)="showList($event)">
+                                    Détails
+                                </button>
+                            </td>
+
+                        </tr>
+
+                        <tr class="list-article desactive-list-article" id="{{itemReception['date']}}">
+                            <td style="text-align: center; background-color: rgb(207, 207, 207);" colspan="100">
+                                <div class="table-responsive">
+                                    <table class="table table-striped" id="output">
+                                        <thead>
+                                            <tr>
+                                                <th *ngFor="let key of objectKeys(shemaArticle2)">
+                                                    <div class="th-tableau">
+                                                        {{shemaArticle[key]}}
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngFor="let item of itemReception.articles">
+                                            <tr>
+                                                <td *ngFor="let key of objectKeys(shemaArticle2)">
+                                                    <span *ngIf="key != 'sousProduit'">{{item[key]}}</span>
+                                                    <span
+                                                        *ngIf="key == 'sousProduit'">{{fonctionPartagesService.getLibelleByKey(item[key],
+                                                        objetSousProduits[item.article], 'reference', '_id') }}</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                    <tbody *ngIf="initialisationEmptyTable()">
+                        <tr *ngFor="let item of emptyTable">
+                            <td style="text-align: center;" colspan="50">
+                                <span style="color:transparent;">i</span>
+                            </td>
+                        </tr>
+                    </tbody>
+
+
+                </table>
+            </div>
+
+
+        </form>
+    </div>
+</div>

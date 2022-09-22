@@ -1,0 +1,421 @@
+<div class="row">
+    <!-- Partie formulaire à Gauche en haut -->
+    <div class="col-md-6">
+        <form action="javascript:">
+            <div class="form-group row">
+                <label for="code" class="col-sm-3 col-form-label">Code</label>
+                <div class="col-sm-9">
+
+                    <div class="row"
+                        style="margin-left: 0px !important; margin-right: 0px !important; flex-wrap: nowrap;">
+                        <input *ngIf="erreurClient.code == ''" type="input" class="form-control col-sm-9" name="code"
+                            id="code" [(ngModel)]="client.code">
+
+                        <input *ngIf="erreurClient.code != ''" type="input" class="form-control col-sm-9 border-erreur"
+                            name="code" id="code" [(ngModel)]="client.code">
+
+
+                        <button class="btn btn-outline-info col-sm-3" style="padding: 4px; height: 29px !important;"
+                            (click)="getCodeFunction()" type="button">
+                            <i *ngIf="!isLoading" class="fas fa-cog"></i>
+                            <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status"
+                                aria-hidden="true"></span>
+                        </button>
+                    </div>
+
+                    <p *ngIf="erreurClient.code != ''" class="erreur">{{erreurClient.code}}</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="raisonSociale" class="col-sm-3 col-form-label">Raison Sociale</label>
+                <div class="col-sm-9">
+                    <input type="input" class="form-control" id="raisonSociale" placeholder="Raison Sociale"
+                        name="raisonSociale" [(ngModel)]="client.raisonSociale">
+                    <p *ngIf="erreurClient.raisonSociale != ''" class="erreur">{{erreurClient.raisonSociale}}</p>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="matriculeFiscale" class="col-sm-3 col-form-label">Matricule Fiscale</label>
+                <div class="col-sm-9">
+                    <input type="input" class="form-control" id="matriculeFiscale" placeholder="Matricule Fiscale"
+                        name="matriculeFiscale" [(ngModel)]="client.matriculeFiscale">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="secteur" class="col-sm-3 col-form-label">Secteur Activite</label>
+                <div class="col-sm-9">
+                    <app-autocomplete (addElementEvent)="setSecteurActiviteID($event)"
+                        [keySelected]="keySelectedSecteurActivite" [objet]="objetSecteurActivite"
+                        [articles]="allSecteurs" [idSelected]="client.secteur" [idHtml]="20"
+                        (openAddElementEvent)="openModalAjoutSecteur()"></app-autocomplete>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="telephone" class="col-sm-3 col-form-label">Téléphone</label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" id="telephone" name="telephone"
+                        [(ngModel)]="client.telephone" placeholder="Téléphone">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="mobiles" class="col-sm-3 col-form-label">Mobiles</label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" id="mobiles" name="mobiles" [(ngModel)]="client.mobiles"
+                        placeholder="Mobiles">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="conditionReglement" class="col-sm-3 col-form-label">Condition Réglement</label>
+                <div class="col-sm-9">
+                    <select style="width: 100%;" id="conditionReglement" name="conditionReglement"
+                        [(ngModel)]="client.conditionReglement">
+                        <option value=""></option>
+                        <option *ngFor="let item of allConditionReglements" [value]="item.libelle">{{item.libelle}}
+                        </option>
+                    </select>
+                    <!-- <p *ngIf="erreurClient.conditionReglement != ''" class="erreur">{{erreurClient.conditionReglement}}
+                    </p> -->
+                </div>
+            </div>
+
+            <div class="form-group row">
+                
+
+                <label for="exemptTVA" class="col-3 col-form-label">Exempt de TVA</label>
+                <div class="col-4">
+                    <input type="checkbox" name="exemptTVA" id="exemptTVA" (click)="clickExemptTVA()"
+                        [checked]="client.exemptTVA == 'oui'" style="margin-top: 5px;">
+                </div>
+
+                <label for="exemptTimbreFiscale" class="col-4 col-form-label">Exempt de Timbre fiscale</label>
+                <div class="col-1">
+                    <input type="checkbox" name="exemptTimbreFiscale" id="exemptTimbreFiscale"
+                        (click)="clickExemptTimbreFiscale()" [checked]="client.exemptTimbreFiscale == 'oui'"
+                        style="margin-top: 5px;">
+                </div>
+            </div>
+
+            
+            <div *ngIf="modeTiere == fonctionPartagesService.modeTiere.client">
+                <div class="form-group row">
+                    <label for="exemptTimbreFiscale" class="col-sm-4 col-form-label">Active</label>
+                    <div class="col-sm-6">
+                        <label for="active" class="col-form-label">Oui</label>
+                        <input type="radio" name="active" id="active" (click)="client.active = 'oui'"
+                            [checked]="client.active == 'oui'">
+                        <label for="nonActive" class="col-form-label">Non</label>
+                        <input type="radio" name="active" id="nonActive" (click)="client.active = 'non'"
+                            [checked]="client.active == 'non'">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="remise" class="col-sm-3 col-form-label">Remise</label>
+                    <div class="col-sm-9">
+                        <input type="number" class="form-control" id="remise" name="remise" [(ngModel)]="client.remise"
+                            placeholder="Remise">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="nbFactureNonPaye" class="col-sm-3 col-form-label">Nb mvt max non soldé</label>
+                    <div class="col-sm-4">
+                        <input type="number" class="col-sm-12 form-control" id="nbFactureNonPaye"
+                            name="nbFactureNonPaye" [(ngModel)]="client.nbFactureNonPaye"
+                            placeholder="nbFactureNonPaye">
+                    </div>
+
+                    <div class="col-sm-5">
+                        <input class="col-form-label" type="checkbox" name="facture" id="facture"
+                            (click)="clickFacture()" [checked]="client.facture == 'oui'">
+                        <label for="facture" class="col-form-label">Facture Seulement</label>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <!-- Partie formulaire à Droite en haut -->
+    <div class="col-md-6">
+        <form action="javascript:">
+
+            <div class="form-group row">
+                <label for="typeTiers" class="col-sm-3 col-form-label">Type des Tiers</label>
+                <div class="col-sm-9">
+                    <select style="width: 100%;" id="typeTiers" name="typeTiers" [(ngModel)]="client.typeTiers">
+                        <option value=""></option>
+                        <option *ngFor="let item of allTypeTiers" [value]="item.id">{{item.libelle}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="plafondCredit" class="col-sm-3 col-form-label">Plafond de Crédit</label>
+
+                <div class="col-sm-9">
+                    <app-input-number-vergule [field]="client" key="plafondCredit" idUnique="plafondCredit">
+                    </app-input-number-vergule>
+                </div>
+
+            </div>
+            <div class="form-group row">
+                <label for="plafondEnCours" class="col-sm-3 col-form-label">Plafond en cours</label>
+                <div class="col-sm-9">
+                    <app-input-number-vergule [field]="client" key="plafondEnCours" idUnique="plafondEnCours">
+                    </app-input-number-vergule>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="plafondRisque" class="col-sm-3 col-form-label">Plafond de risque</label>
+                <div class="col-sm-9">
+                    <app-input-number-vergule [field]="client" key="plafondRisque" idUnique="plafondRisque"
+                    (ngModelChange)="changePrixRisque()">
+                    </app-input-number-vergule>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="fax" class="col-sm-3 col-form-label">Fax</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="fax" name="fax" [(ngModel)]="client.fax"
+                        placeholder="Fax">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="siteWeb" class="col-sm-3 col-form-label">Site Web</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="siteWeb" name="siteWeb" [(ngModel)]="client.siteWeb"
+                        placeholder="Site Web">
+                    <!-- <p *ngIf="erreurClient.siteWeb != ''" class="erreur">{{erreurClient.siteWeb}}</p> -->
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="email" class="col-sm-3 col-form-label">Email</label>
+                <div class="col-sm-9">
+                    <input type="email" class="form-control" id="email" name="email" [(ngModel)]="client.email"
+                        placeholder="email@example.com">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="statusProspection" class="col-sm-3 col-form-label">Status Prospection</label>
+                <div class="col-sm-9">
+                    <select style="width: 100%;" id="statusProspection" name="statusProspection"
+                        [(ngModel)]="client.statusProspection">
+                        <option>Jamais contacté</option>
+                        <option>A contacter</option>
+                        <option>Ne pas contacter</option>
+                        <option>Contact en cours</option>
+                        <option>Contact réalisé</option>
+                    </select>
+                    <!-- <p *ngIf="erreurClient.statusProspection != ''" class="erreur">{{erreurClient.statusProspection}}</p> -->
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="modeReglement" class="col-sm-3 col-form-label">Mode de Réglement</label>
+                <div class="col-sm-9">
+                    <app-autocomplete (addElementEvent)="setModeReglementID($event)"
+                        [keySelected]="keySelectedModeReglement" [objet]="objetModeReglement"
+                        [articles]="allModeReglements" [idSelected]="client.modeReglement" [idHtml]="24"
+                        (openAddElementEvent)="openModalAjoutModeReglement()"></app-autocomplete>
+                </div>
+            </div>
+            <div *ngIf="modeTiere == fonctionPartagesService.modeTiere.client">
+                <div class="form-group row">
+                    <label for="agentPremierContact" class="col-sm-3 col-form-label">Agent Premier Contact</label>
+                    <div class="col-sm-9">
+                        <app-autocomplete (addElementEvent)="setAgentPremierContactID($event)"
+                            [keySelected]="keySelectedAgentPremierContact" [objet]="objetAgentPremierContact"
+                            [articles]="allPersonnels" [idSelected]="client.agentPremierContact" [idHtml]="25"
+                            (openAddElementEvent)="openModalAjoutAgentPremierContact()"></app-autocomplete>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="agentCommercial" class="col-sm-3 col-form-label">Agent Commercial</label>
+                    <div class="col-sm-9">
+                        <app-autocomplete (addElementEvent)="setAgentCommercialID($event)"
+                            [keySelected]="keySelectedAgentCommercial" [objet]="objetAgentCommercial"
+                            [articles]="allPersonnels" [idSelected]="client.agentCommercial" [idHtml]="26"
+                            (openAddElementEvent)="openModalAjoutAgentCommercial()"></app-autocomplete>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="agentRecouvrement" class="col-sm-3 col-form-label">Agent Recouvrement</label>
+                    <div class="col-sm-9">
+                        <app-autocomplete (addElementEvent)="setAgentRecouvrementID($event)"
+                            [keySelected]="keySelectedAgentRecouvrement" [objet]="objetAgentRecouvrement"
+                            [articles]="allPersonnels" [idSelected]="client.agentRecouvrement" [idHtml]="27"
+                            (openAddElementEvent)="openModalAjoutAgentRecouvrement()"></app-autocomplete>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- partie tabs -->
+    <div class="col-md-12">
+        <hr>
+        <ngb-tabset type="pills">
+            <!-- partie Adresse Facture -->
+            <ngb-tab title="Adr_Facturation" class="mb-3">
+                <ng-template ngbTabContent>
+                    <div class="col-xl-14" style="margin-top: 10px;">
+                        <!-- partie Pays -->
+                        <div class="form-group row" style="margin-top: 10px;">
+                            <label for="pays" class="col-sm-3 col-form-label">Pays</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" name="paysFacturation" id="paysFacturation"
+                                    placeholder="Entre Facturation" [(ngModel)]="client.paysFacturation">
+                            </div>
+                        </div>
+                        <!-- partie Gouvernorat -->
+                        <div class="form-group row">
+                            <label for="gouvernorat" class="col-sm-3 col-form-label">Gouvernorat</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" name="gouvernoratFacturation"
+                                    id="gouvernoratFacturation" placeholder="Entre Gouvernorat"
+                                    [(ngModel)]="client.gouvernoratFacturation">
+                            </div>
+                        </div>
+                        <!-- partie Délégation -->
+                        <div class="form-group row">
+                            <label for="delegation" class="col-sm-3 col-form-label">Délégation</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" name="delegationFacturation"
+                                    id="delegationFacturation" placeholder="Entre Délégation"
+                                    [(ngModel)]="client.delegationFacturation">
+                            </div>
+                        </div>
+                        <!-- partie Localité -->
+                        <div class="form-group row">
+                            <label for="localite" class="col-sm-3 col-form-label">Localité</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" name="localiteFacturation"
+                                    id="localiteFacturation" placeholder="Entre Localité"
+                                    [(ngModel)]="client.localiteFacturation">
+                            </div>
+                        </div>
+                        <!-- partie Code postale -->
+                        <div class="form-group row">
+                            <label for="codePostale" class="col-sm-3 col-form-label">Code postale</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" name="codePostaleFacturation"
+                                    id="codePostaleFacturation" placeholder="Entre Code postale"
+                                    [(ngModel)]="client.codePostaleFacturation">
+                            </div>
+                        </div>
+                        <!-- partie Adresse -->
+                        <div class="form-group row">
+                            <label for="adresse" class="col-sm-3 col-form-label">Adresse</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="adresseFacturation"
+                                    name="adresseFacturation" [(ngModel)]="client.adresseFacturation">
+
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <!-- partie Adresse Livraison -->
+            <ngb-tab title="Adr_Livraison" class="mb-3">
+                <ng-template ngbTabContent>
+                    <div class="col-xl-14" style="margin-top: 10px;">
+                        <!-- partie Pays -->
+                        <div class="form-group row" style="margin-top: 10px;">
+                            <label for="pays" class="col-sm-3 col-form-label">Pays</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" name="paysLivraison" id="paysLivraison"
+                                    placeholder="Entre Livraison" [(ngModel)]="client.paysLivraison">
+                            </div>
+                        </div>
+                        <!-- partie Gouvernorat -->
+                        <div class="form-group row">
+                            <label for="gouvernorat" class="col-sm-3 col-form-label">Gouvernorat</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" name="gouvernoratLivraison"
+                                    id="gouvernoratLivraison" placeholder="Entre Gouvernorat"
+                                    [(ngModel)]="client.gouvernoratLivraison">
+                            </div>
+                        </div>
+                        <!-- partie Délégation -->
+                        <div class="form-group row">
+                            <label for="delegation" class="col-sm-3 col-form-label">Délégation</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" name="delegationLivraison"
+                                    id="delegationLivraison" placeholder="Entre Délégation"
+                                    [(ngModel)]="client.delegationLivraison">
+                            </div>
+                        </div>
+                        <!-- partie Localité -->
+                        <div class="form-group row">
+                            <label for="localite" class="col-sm-3 col-form-label">Localité</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" name="localiteLivraison" id="localiteLivraison"
+                                    placeholder="Entre Localité" [(ngModel)]="client.localiteLivraison">
+                            </div>
+                        </div>
+                        <!-- partie Code postale -->
+                        <div class="form-group row">
+                            <label for="codePostale" class="col-sm-3 col-form-label">Code postale</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" name="codePostaleLivraison "
+                                    id="codePostaleLivraison" placeholder="Entre Code postale"
+                                    [(ngModel)]="client.codePostaleLivraison">
+                            </div>
+                        </div>
+                        <!-- partie Adresse -->
+                        <div class="form-group row">
+                            <label for="adresse" class="col-sm-3 col-form-label">Adresse</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="adresseLivraison" name="adresseLivraison"
+                                    [(ngModel)]="client.adresseLivraison">
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <!-- partie Autre Adresses -->
+            <ngb-tab title="Autres_Adr" class="mb-3">
+                <ng-template ngbTabContent>
+                    <div class="col-xl-14" style="margin-top: 10px;">
+                        <app-autre-adresse [autreAdresse]="autreAdresse"></app-autre-adresse>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <!-- partie Contacts -->
+            <ngb-tab title="Contacts" class="mb-3" style="margin-top: 10px;">
+                <ng-template ngbTabContent>
+                    <div class="col-xl-14" style="margin-top: 10px;">
+                        <app-contacts [contacts]="contacts" [allTypeContacts]="allTypeContacts"></app-contacts>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <!-- partie Compléments -->
+            <ngb-tab title="Compléments" class="mb-3">
+                <ng-template ngbTabContent>
+                    <div class="col-xl-14" style="margin-top: 10px;">
+                        <app-complements [complements]="complements"></app-complements>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <!-- partie Observations-->
+            <ngb-tab title="Observations" class="mb-3">
+                <ng-template ngbTabContent>
+                    <div class="form-group row">
+                        <label for="observation" class="col-sm-3 col-form-label">Observations</label>
+                        <div class="col-sm-9" style="margin-top: 10px; height: 200px !important;">
+                            <textarea class="form-control" id="observation" name="observation"
+                                [(ngModel)]="client.observation" style="height: 200px !important;"></textarea>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+    </div>
+</div>
+
+<app-add-element-modal [isLoading]="isLoading" [isOpenModalAjoutElement]="isOpenModalAjoutElement"
+    [idAjoutElementModal]="idAjoutElementModal" (closeModalAjoutElement)="closeModalAjoutElement()"
+    [typeElement]="typeElement"></app-add-element-modal>

@@ -1,0 +1,47 @@
+.headtext{
+    font-size: 100%;
+    animation-name: head;
+    animation-duration: 100ms;
+    animation-iteration-count: 1;
+}
+
+/*
+#affichePrixTotal{
+    animation-delay: 2s;
+}*/
+
+@keyframes head {
+    0% {font-size:100%;}
+    50% {font-size:120%;}
+    100% {font-size:100%;}
+}
+
+.collapse-input-table{
+    width: 100px;
+    padding:5px;
+    height: 35px;
+}
+
+table thead{
+    width: 100%;
+}
+
+table tbody{
+    width: 100%;
+}
+
+@keyframes example {
+    from {height: 0px;}
+    to {height: auto;}
+}
+
+.list-article{
+}
+
+.desactive-list-article{
+    display: none;
+}
+
+
+
+

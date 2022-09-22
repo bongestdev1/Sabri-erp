@@ -1,0 +1,182 @@
+<!-- Model de modification -->
+<ng-template #contentM #item let-modal >
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Modification Contact</h4>
+        <p type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </p>
+    </div>
+    <div class="modal-body">
+        <form action="javascript:">
+            <div class="form-group row">
+                <label for="typeContact" class="col-sm-3 col-form-label">Type Contact</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="typeContact" name="typeContact"  [(ngModel)]="contact.typeContact">
+                        <option *ngFor="let typeContact of allTypeContacts" [value]="typeContact.libelle" >{{typeContact.libelle}}</option>
+                    </select> 
+                </div>  
+                <p *ngIf="erreurContact.typeContact != ''" class="erreur">{{erreurContact.typeContact}}</p>
+            </div>
+            
+            <div class="form-group row">
+                <label for="civilite" class="col-sm-3 col-form-label">Civilité</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="civilite" name="civilite" [(ngModel)]="contact.civilite">
+                        <option value="Monsieur">Monsieur</option>
+                        <option value="Madame">Madame</option>
+                        <option value="Mademoiselle">Mademoiselle</option>
+                        <option value="Autres">Autres</option>
+                    </select>
+                </div>
+                <p *ngIf="erreurContact.civilite != ''" class="erreur">{{erreurContact.civilite}}</p> 
+            </div>
+            
+            <div class="form-group row">
+                <label for="nomPrenom" class="col-sm-3 col-form-label">NomPrenom</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="nomPrenom" name="nomPrenom"
+                        [(ngModel)]="contact.nomPrenom">
+                </div>
+                <p *ngIf="erreurContact.nomPrenom != ''" class="erreur">{{erreurContact.nomPrenom}}</p>
+            </div>
+
+            <div class="form-group row">
+                <label for="telephone" class="col-sm-3 col-form-label">Telephone</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="telephoneContact" name="telephone"
+                        [(ngModel)]="contact.telephone">
+                </div>
+                <p *ngIf="erreurContact.telephone != ''" class="erreur">{{erreurContact.telephone}}</p>
+            </div>
+
+            <div class="form-group row">
+                <label for="mobile" class="col-sm-3 col-form-label">Mobile</label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" id="mobileContact" name="mobile"
+                        [(ngModel)]="contact.mobile">
+                </div>
+                <p *ngIf="erreurContact.mobile != ''" class="erreur">{{erreurContact.mobile}}</p>
+            </div>
+
+            <div class="form-group row">
+                <label for="email" class="col-sm-3 col-form-label">Email</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="emailContact" name="email"
+                        [(ngModel)]="contact.email">
+                </div>
+                <p *ngIf="erreurContact.email != ''" class="erreur">{{erreurContact.email}}</p>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="modifierContact(1)">Modifier</button>
+    </div>
+</ng-template>
+
+<!-- Model d'ajout -->
+<div class="session-modal-container">
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Ajouter Contact</h4>
+        <p type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </p>
+    </div>
+    <div class="modal-body">
+        <form action="javascript:">
+            <div class="form-group row">
+                <label for="typeContact" class="col-sm-3 col-form-label">Type Contact</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="typeContact" name="typeContact"  [(ngModel)]="contact.typeContact">
+                        <option *ngFor="let typeContact of allTypeContacts" >{{typeContact.libelle}}</option>
+                    </select> 
+                </div>
+                <p *ngIf="erreurContact.typeContact != ''" class="erreur">{{erreurContact.typeContact}}</p>
+            </div>
+            
+            <div class="form-group row">
+                <label for="civilite" class="col-sm-3 col-form-label">Civilité</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="civilite" name="civilite" [(ngModel)]="contact.civilite">
+                        <option value="Monsieur">Monsieur</option>
+                        <option value="Madame">Madame</option>
+                        <option value="Mademoiselle">Mademoiselle</option>
+                        <option value="Autres">Autres</option>
+                    </select>
+                </div>
+                <p *ngIf="erreurContact.civilite != ''" class="erreur">{{erreurContact.civilite}}</p>
+            </div>
+            
+            <div class="form-group row">
+                <label for="nomPrenom" class="col-sm-3 col-form-label">NomPrenom</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="nomPrenom" name="nomPrenom"
+                        [(ngModel)]="contact.nomPrenom">
+                </div>
+                <p *ngIf="erreurContact.nomPrenom != ''" class="erreur">{{erreurContact.nomPrenom}}</p>
+            </div>
+
+            <div class="form-group row">
+                <label for="telephone" class="col-sm-3 col-form-label">Telephone</label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" id="telephoneContact" name="telephone"
+                        [(ngModel)]="contact.telephone">
+                </div>
+                <p *ngIf="erreurContact.telephone != ''" class="erreur">{{erreurContact.telephone}}</p>
+            </div>
+
+            <div class="form-group row">
+                <label for="mobile" class="col-sm-3 col-form-label">Mobile</label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" id="mobileContact" name="mobile"
+                        [(ngModel)]="contact.mobile">
+                </div>
+                <p *ngIf="erreurContact.mobile != ''" class="erreur">{{erreurContact.mobile}}</p>
+            </div>
+
+            <div class="form-group row">
+                <label for="email" class="col-sm-3 col-form-label">Email</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="emailContact" name="email"
+                        [(ngModel)]="contact.email">
+                </div>
+                <p *ngIf="erreurContact.email != ''" class="erreur">{{erreurContact.email}}</p>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="enregistrerContact()">Enregistrer</button>
+    </div>
+</ng-template>
+</div>
+
+<div class="col-xl-14">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th *ngFor="let key of objectKeys(itemsVariable)">{{key}}</th>
+                    <th><button class="btn btn-sm btn-outline-primary" (click)="open(content)">Ajouter</button></th>
+                </tr>
+            </thead>
+            <tbody *ngIf="inisialiserEmptyTab()">
+                <tr *ngFor="let item of contacts">
+                    <td *ngFor="let key of objectKeys(itemsVariable)">{{item[key]}}</td>
+                    <td>
+                        <button type="button" class="btn btn-icon btn-outline-success" data-toggle="modal"
+                            (click)="openModifier(contentM,item)" style="margin-right: 5px;"><i
+                                class="feather icon-edit"></i></button>
+                        <button type="button" class="btn btn-icon btn-outline-danger" data-toggle="modal"><i
+                                class="feather icon-trash-2" (click)="supprimerContact(item.id)"></i></button>
+                    </td>
+                </tr>
+
+                <tr *ngFor="let item of tabEmpty">
+                    <td colspan="30">
+                        <span style="color:transparent;">i</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

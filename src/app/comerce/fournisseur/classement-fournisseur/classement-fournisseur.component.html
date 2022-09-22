@@ -1,0 +1,163 @@
+<div class="col-xl-14">
+  <app-card
+    cardTitle="Liste classement des clients"
+    blockClass="table-border-style"
+  >
+    <form [formGroup]="formC">
+      <div class="pagination-inner">
+        <app-filtre-date
+          (setNewDates)="getReleveDate($event)"
+        ></app-filtre-date>
+
+        <div class="col-sm-3" style="z-index: 99">
+          <app-autocomplete
+            (addElementEvent)="setFournisseurID($event)"
+            [keySelected]="keySelectedFournisseur"
+            [objet]="objetFournisseur"
+            [articles]="allFournisseurs"
+            [idSelected]="idFournisseur"
+            idHtml="Fournisseur22"
+            (openAddElementEvent)="openModalAjoutFournisseur()"
+          >
+          </app-autocomplete>
+        </div>
+
+        <button
+          *ngIf="!isLoading"
+          class="btn btn-primary"
+          type="button"
+          (click)="getFournisseurs($event)"
+        >
+          Recherche
+        </button>
+
+        <button *ngIf="isLoading" class="btn btn-primary" disabled>
+          <span
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          Chargement...
+        </button>
+      </div>
+      <div class="category-page-wrapper">
+        <div class="result-inner">
+          <!--Showing 1 to 8 of 10 (2 Pages)-->
+        </div>
+        <div class="pagination-inner">
+          <ul class="pagination">
+            <!-- <li>
+                <i _ngcontent-eep-c121="" class="feather icon-camera" (click)="printout()"></i>
+            </li>
+            <li>
+                <i class="fas fa-file-pdf" (click)="generatePDF()"></i>
+            </li>
+            <li>
+                <i class="fas fa-file-excel" (click)="exportexcel()"></i>
+            </li> -->
+        </ul>
+          <div class="th-tableau2" style="margin-top: 5px; margin-left: auto">
+            <select
+              class="form-control form-control-sm"
+              style="font-size: 12px; max-width: 58px; padding-left: 3px"
+              formControlName="limit"
+              (change)="getFournisseurs(request)"
+            >
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="10">10</option>
+            </select>
+
+            <button
+              (click)="getFournisseurs(request)"
+              class="btn btn-info ng-tns-c112-14"
+              style="
+                font-size: 15px;
+                padding: 2px;
+                height: 29px;
+                display: inline-block;
+                white-space: nowrap;
+                margin-left: 3px;
+              "
+              type="submit"
+            >
+              <i class="feather icon-search"></i>
+            </button>
+
+            <div style="margin-left: auto">
+              <app-showelements
+                [items]="items"
+                [itemsVariable]="itemsVariable"
+              ></app-showelements>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-striped" id="output">
+          <thead>
+            <tr class="rechercherligne">
+              <th *ngFor="let key of objectKeys(itemsVariable)">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    placeholder="Recherche"
+                    class="form-control"
+                    [formControlName]="key"
+                  />
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <thead>
+            <tr>
+              <th *ngFor="let key of objectKeys(itemsVariable)">
+                <div class="th-tableau" (click)="changeCroissante(key)">
+                  {{ key }}
+                  <div class="buttons-croissante">
+                    <i
+                      class="fas fa-caret-up croissante {{ key }}-croissante"
+                    ></i>
+                    <i
+                      class="fas fa-caret-down croissante {{ key }}-croissante"
+                    ></i>
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of fournisseurs">
+              <td *ngFor="let key of objectKeys(itemsVariable)">
+                <span *ngIf="!tabNumbers.includes(key)" style="float: left">{{
+                  item[key]
+                }}</span>
+                <span *ngIf="tabNumbers.includes(key)" style="float: right">{{
+                  fonctionPartagesService.getFormaThreeAfterVerguleNomber(
+                    item[key]
+                  )
+                }}</span>
+              </td>
+            </tr>
+
+            <tr *ngFor="let itemG of listGlEmpty">
+              <td *ngFor="let key of objectKeys(itemsVariable)">
+                <span style="color: transparent; padding: 5px"></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <app-spinner2 *ngIf="isLoading"></app-spinner2>
+      <hr />
+      <app-pagination
+        [page]="request.page"
+        [totalPage]="totalPage"
+        (setPageEvent)="setPage($event)"
+      >
+      </app-pagination>
+    </form>
+  </app-card>
+</div>

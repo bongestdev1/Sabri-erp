@@ -1,0 +1,21 @@
+<div *ngIf="isEditable" class="col-sm-12 collapse-input" style="padding-left: 0px !important; padding-right: 0px !important;" >
+    
+    <input *ngIf="messageErreur == ''" type="number" class="form-control desactive-text-input" [attr.name]="idUnique"
+    [id]="idUnique" [(ngModel)]="field[key]" (focus)="showInput2($event); $event.target.select();" (focusout)="blurInput2($event)" (change)="changeValueFunction()" (ngModelChange)="ngModelChangeValueFunction()" >
+    <span *ngIf="messageErreur == ''" class="form-control desactive-span" [attr.name]="idUnique" (click)="showInput2($event)">
+        {{getNumberWithVergile()}}
+    </span>
+
+    <input *ngIf="messageErreur != ''" type="number" class="form-control desactive-text-input border-erreur" [attr.name]="idUnique"
+    [id]="idUnique" [(ngModel)]="field[key]" (focus)="$event.target.select(); showInput2($event);" (focusout)="blurInput2($event)" (change)="changeValueFunction()" (ngModelChange)="ngModelChangeValueFunction()">
+    <span *ngIf="messageErreur != ''" class="form-control desactive-span border-erreur" [attr.name]="idUnique" (click)="showInput2($event)">
+        {{getNumberWithVergile()}}
+    </span>
+
+</div>
+
+<div *ngIf="!isEditable" class="col-sm-12 collapse-input" style="padding-left: 0px !important; padding-right: 0px !important;" >
+    <span class="form-control desactive-span" >
+        {{getNumberWithVergile()}}
+    </span>
+</div>

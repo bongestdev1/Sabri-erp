@@ -1,0 +1,636 @@
+<div class="row">
+    <div class="col-sm-12">
+        <app-card [hidHeader]="true">
+            <!-- Partie Header -->
+            <div  class="form-group row" style="justify-content: space-between !important;">
+                <div class="text-titre">
+                    <h3 *ngIf="!isPopup">Détails d'article</h3>
+                </div>
+                <div class="left-button" style="float:right;">
+                    <button *ngIf="isLoading" class="btn btn-primary" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Chargement...
+                    </button>
+                </div>
+            </div>
+            
+            <hr *ngIf="!isPopup">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card block-article">
+                        <!--<blockquote class="blockquote mb-0 card-body">-->
+                            <div class="text-titre-small">
+                                <h5 class="h5-title">Info general</h5>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="reference" class="col-sm-4 col-form-label">Réference</label>
+                                <div class="col-sm-8">
+                                    <span name="reference">
+                                        {{article.reference}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="designation" class="col-sm-4 col-form-label">Désignation</label>
+                                <div class="col-sm-8">
+                                    <span name="designation">
+                                        {{article.designation}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+
+                                <label for="codeBarre" class="col-sm-4 col-form-label">CodeBarre</label>
+                                <div class="col-sm-8">
+                                    <span name="designation">
+                                        {{article.codeBarre}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="typeArticle" class="col-sm-4 col-form-label">Type Article</label>
+                                <div class="col-sm-8">
+                                    <span name="prixTTC">
+                                        {{article.typeArticle}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-4 font-weight-bolder">Lot/Série active</label>
+                                <div class="col-sm-8 custom-control custom-radio">
+                                    <i class="fas fa-check-square" style="font-size: 15px;"
+                                        *ngIf="article.lotActive == 'oui'"></i> <i class="fas fa-square"
+                                        style="font-size: 15px;" *ngIf="article.lotActive != 'oui'"></i>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="categorie" class="col-sm-3 col-form-label">Catégorie</label>
+                                <div class="col-sm-9">
+                                    <span name="pVenteConseille">
+                                        {{fonctionPartagesService.getLibelleById(article.categorie, categories,'libelle')}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="famille" class="col-sm-3 col-form-label">Famille</label>
+                                <div class="col-sm-9">
+                                    <span    name="pVenteConseille">
+                                        {{fonctionPartagesService.getLibelleById(article.famille, familles, 'libelle')}}
+                                    </span>
+                                 </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="sousFamille" class="col-sm-3 col-form-label">Sous Famille</label>
+                                <div class="col-sm-9">
+                                    <span    name="pVenteConseille">
+                                        {{fonctionPartagesService.getLibelleById(article.sousFamille, sousFamilles,
+                                        'libelle')}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="marque" class="col-sm-3 col-form-label">Marque</label>
+                                <div class="col-sm-9">
+                                    <span    name="pVenteConseille">
+                                        {{fonctionPartagesService.getLibelleById(article.marque, marques, 'libelle')}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="modele" class="col-sm-3 col-form-label">Modéle</label>
+                                <div class="col-sm-9">
+                                    <span    name="pVenteConseille">
+                                        {{fonctionPartagesService.getLibelleById(article.modele, modeles, 'libelle')}}
+                                    </span>
+
+                                </div>
+                            </div>
+                        <!--</blockquote>-->
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card block-article">
+                        <!--<blockquote class="blockquote mb-0 card-body">-->
+                            <div class="text-titre-small">
+                                <h5 class="h5-title">Info achat</h5>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="prixFourn" class="col-sm-6 col-form-label">Prix Fournisseur</label>
+                                <div class="col-sm-6 collapse-input">
+                                    <span    name="designation">
+                                        {{getNumber(article.prixFourn)}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="remiseF" class="col-sm-6 col-form-label">Remise.Four(%)</label>
+                                <div class="col-sm-6 collapse-input">
+                                    <span    name="designation">
+                                        {{getNumber(article.remiseF)}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="remiseParMontant" class="col-sm-6 col-form-label">Remise Par montant</label>
+                                <div class="col-sm-6 collapse-input">
+                                    <span    name="designation">
+                                        {{getNumber(article.remiseParMontant)}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="tauxDC" class="col-sm-3 col-form-label"
+                                    style="padding-right: 5px !important;">TauxDC</label>
+                                <div class="col-sm-3 collapse-input">
+                                    <span    name="designation">
+                                        {{getNumber(article.tauxDC)}}
+                                    </span>
+                                </div>
+
+                                <label for="prixDC" class="col-sm-3 col-form-label"
+                                    style="padding-left: 5px !important; padding-right: 5px !important;">Montant
+                                    DC</label>
+                                <div class="col-sm-3">
+                                    <p id="prixDC" style="margin-top: 5px; margin-bottom: 5px;">
+                                        {{getNumber(article.prixDC)}}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="prixFodec" class="col-sm-6 col-form-label">Montant Fodec</label>
+                                <div class="col-sm-2">
+                                    <i class="fas fa-check-square" style="font-size: 15px;"
+                                        *ngIf="article.isFodec == 'oui'"></i> <i class="fas fa-square"
+                                        style="font-size: 15px;" *ngIf="article.isFodec != 'oui'"></i>
+                                </div>
+
+                                <label for="prixFodec" class="col-sm-4 col-form-label">
+                                    {{getNumber(article.prixFodec)}}</label>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="prixAchat" class="col-sm-4 col-form-label">Prix Achat
+                                    HT</label>
+                                <div class="col-sm-8 collapse-input">
+                                    <span    name="designation">
+                                        {{getNumber(article.prixAchat)}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="prixAchatTTC" class="col-sm-6 col-form-label">Prix Achat
+                                    TTC</label>
+                                <div class="col-sm-6">
+                                    <label for="prixAchatTTC" class="col-sm-12 col-form-label">
+                                        {{getNumber(article.prixAchatTTC)}}</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="redevance" class="col-sm-4 col-form-label">Redevance</label>
+                                <div class="col-sm-8 collapse-input">
+                                    <span    name="redevance">
+                                        {{getNumber(article.redevance)}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="prixVenteHT" class="col-sm-4 col-form-label">Prix de revient HT</label>
+                                <div class="col-sm-8 collapse-input">
+                                    <span    name="prixRevient">
+                                        {{getNumber(article.prixRevient)}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="prixVenteHT" class="col-sm-4 col-form-label">Prix de revient TTC</label>
+                                <div class="col-sm-8 collapse-input">
+                                    <span    name="prixRevientTTC">
+                                        {{getNumber(article.prixRevientTTC)}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-bottom: 14px;">
+                                <label class="col-sm-3 font-weight-bolder">Achat</label>
+                                <div class="col-sm-8 custom-control custom-radio">
+                                    <i class="fas fa-check-square" style="font-size: 15px;"
+                                        *ngIf="article.enAchat == 'oui'"></i> <i class="fas fa-square"
+                                        style="font-size: 15px;" *ngIf="article.enAchat != 'oui'"></i>
+                                </div>
+                            </div>
+                        <!--</blockquote>-->
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card block-article">
+                            <div class="text-titre-small">
+                                <h5 class="h5-title">Info vente</h5>
+                            </div>
+
+                            <div class="form-group row" style="margin-bottom: 10px;">
+                                <label class="col-sm-4 font-weight-bolder">Marge appliqué</label>
+                                <div class="col-sm-8 custom-control custom-radio">
+                                    <i class="fas fa-check-square" style="font-size: 15px;"
+                                        *ngIf="article.margeAppliqueeSur == 'Achat'"></i> <i class="fas fa-square"
+                                        style="font-size: 15px;" *ngIf="article.margeAppliqueeSur != 'Achat'"></i>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="marge" class="col-sm-6 col-form-label">Marge(%)</label>
+                                <div class="col-sm-6 collapse-input">
+                                    <span    name="marge">
+                                        {{getNumber(article.marge)}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="prixVenteHT" class="col-sm-6 col-form-label">Prix Vente HT</label>
+                                <div class="col-sm-6">
+                                    <span    name="montantTVA">
+                                        {{getNumber(article.prixVenteHT)}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="tauxTVA" class="col-sm-3 col-form-label"
+                                    style="padding-right:5px !important;">TauxTVA</label>
+                                <div class="col-sm-3">
+                                    <span    name="tauxTVA">
+                                        {{article.tauxTVA}}
+                                    </span>
+                                </div>
+
+                                <label for="montantTVA" class="col-sm-3 col-form-label"
+                                    style="padding-left:5px !important; padding-right:5px !important;">Montant
+                                    TVA</label>
+                                <div class="col-sm-3">
+                                    <span    name="montantTVA">
+                                        {{getNumber(article.montantTVA)}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="prixTTC" class="col-sm-4 col-form-label">Prix de Vente TTC</label>
+                                <div class="col-sm-8 collapse-input">
+                                    <span    name="prixTTC">
+                                        {{getNumber(article.prixTTC)}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="valeurStock" class="col-sm-4 col-form-label">Qte en stock</label>
+                                <div class="col-sm-8 collapse-input">
+                                    <span    name="valeurStock">
+                                        {{getNumber(article.qteEnStock)}}
+                                    </span>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label for="valeurStock" class="col-sm-4 col-form-label">ValeurStock</label>
+                                <div class="col-sm-8  ">
+                                    <span    name="valeurStock">
+                                        {{getNumber(article.valeurStock)}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="pVenteConseille" class="col-sm-4 col-form-label">PVConseille</label>
+                                <div class="col-sm-8 collapse-input">
+                                    <span    name="pVenteConseille">
+                                        {{getNumber(article.pVenteConseille)}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+
+                                <label class="col-sm-4 font-weight-bolder">Sans Remise</label>
+                                <div class="col-sm-8 custom-control custom-radio">
+                                    <i class="fas fa-check-square" style="font-size: 15px;"
+                                        *ngIf="article.sansRemise == 'oui'"></i> <i class="fas fa-square"
+                                        style="font-size: 15px;" *ngIf="article.sansRemise != 'oui'"></i>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="plafondRemise" class="col-sm-4 col-form-label">PlafondRemise</label>
+                                <div class="col-sm-8 collapse-input">
+                                    <span    name="plafondRemise">
+                                        {{getNumber(article.plafondRemise)}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-4 font-weight-bolder">Vente</label>
+                                <div class="col-sm-8 custom-control custom-radio">
+                                    <i class="fas fa-check-square" style="font-size: 15px;"
+                                        *ngIf="article.enVente == 'oui'"></i> <i class="fas fa-square"
+                                        style="font-size: 15px;" *ngIf="article.enVente != 'oui'"></i>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- partie collapse -->
+            <div class="col-md-12">
+                <ngb-tabset type="pills">
+                    <!-- partie Adresse Facture -->
+                    <ngb-tab title="Plus de détails" class="mb-3">
+                        <ng-template ngbTabContent>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <form action="javascript:">
+                                        <div class="form-group row">
+                                            <label for="seuilAlerteQTS"
+                                                class="col-sm-4 col-form-label">Alert-Stock</label>
+                                            <div class="col-sm-8 collapse-input">
+                                                <span    name="seuilAlerteQTS">
+                                                    {{getNumber(article.seuilAlerteQTS)}}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="seuilRearpQTS"
+                                                class="col-sm-4 col-form-label">Rearp-Stock</label>
+                                            <div class="col-sm-8 collapse-input">
+                                                <span    name="seuilAlerteQTS">
+                                                    {{getNumber(article.seuilRearpQTS)}}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="stockMax" class="col-sm-4 col-form-label">Stock-Max</label>
+
+                                            <div class="col-sm-8 collapse-input">
+                                                <span    name="stockMax">
+                                                    {{getNumber(article.stockMax)}}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="venteAvecStockNegative" class="col-sm-8 col-form-label">Vente
+                                                avec
+                                                stock negative</label>
+                                            <div class="col-sm-4" style="padding:5px;">
+                                                <input type="checkbox"
+                                                    [checked]="article.venteAvecStockNegative == 'oui'">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="refFournisseur"
+                                                class="col-sm-4 col-form-label">RefFournisseur</label>
+                                            <div class="col-sm-8">
+                                                <span    name="refFournisseur">
+                                                    {{article.refFournisseur}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="description" class="col-sm-4 col-form-label">Description</label>
+                                            <div class="col-sm-8">
+                                                <span    name="description">
+                                                    {{article.description}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+
+                                            <label for="observations"
+                                                class="col-sm-4 col-form-label">Observations</label>
+                                            <div class="col-sm-8">
+
+                                                <span    name="observations">
+                                                    {{article.observations}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="poids" class="col-sm-2 col-form-label">Poids</label>
+                                            <div class="col-sm-4 collapse-input">
+                                                <span    name="poids">
+                                                    {{getNumber(article.poids)}}
+                                                </span>
+                                            </div>
+
+                                            <label for="couleur" class="col-sm-2 col-form-label">Couleur</label>
+                                            <div class="col-sm-4">
+
+                                                <span    name="pVenteConseille">
+                                                    {{article.couleur}}
+                                                </span>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="surface" class="col-sm-2 col-form-label">Surface</label>
+                                            <div class="col-sm-4 collapse-input">
+                                                <span    name="surface">
+                                                    {{getNumber(article.surface)}}
+                                                </span>
+                                            </div>
+
+                                            <label for="volume" class="col-sm-2 col-form-label">Volume</label>
+                                            <div class="col-sm-4 collapse-input">
+                                                <span    name="volume">
+                                                    {{getNumber(article.volume)}}
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <form action="javascript:">
+                                        <div class="form-group row">
+                                            <label for="unite2" class="col-sm-3 col-form-label">Unité 1</label>
+                                            <div class="col-sm-9">
+                                                <span    name="pVenteConseille">
+                                                    {{fonctionPartagesService.getLibelleById(article.unite1,
+                                                    uniteMesures, keySelectedUniteMesure)}}
+                                                </span>
+                                            </div>
+
+                                            <label for="coefficient" class="col-sm-3 col-form-label">Coéfficient</label>
+                                            <div class="col-sm-9 collapse-input" style="margin-top: 5px;">
+                                                <span    name="coefficient">
+                                                    {{getNumber(article.coefficient)}}
+                                                </span>
+                                            </div>
+
+                                            <label for="unite1" class="col-sm-3 col-form-label">Unité 2</label>
+                                            <div class="col-sm-9" style="margin-top: 5px;">
+                                                <span    name="pVenteConseille">
+                                                    {{fonctionPartagesService.getLibelleById(article.unite2,
+                                                    uniteMesures, keySelectedUniteMesure)}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row" style="margin-top: 10px;">
+                                            <label for="emplacement" class="col-sm-3 col-form-label">Emplacement</label>
+                                            <label class="col-sm-3 col-form-label"> {{article.emplacement}} </label>
+
+                                            <label for="raccourciPLU"
+                                                class="col-sm-3 col-form-label">RaccourciPLU</label>
+                                            <label class="col-sm-3 col-form-label"> {{article.raccourciPLU}} </label>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="prixVenteHT2"
+                                                class="col-sm-3 col-form-label">PrixVenteHT2</label>
+                                            <div class="col-sm-9 collapse-input">
+                                                <span    name="prixVenteHT2">
+                                                    {{getNumber(article.prixVenteHT2)}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="prixVenteHT3"
+                                                class="col-sm-3 col-form-label">PrixVenteHT3</label>
+                                            <div class="col-sm-9 collapse-input">
+                                                <span    name="prixVenteHT3">
+                                                    {{getNumber(article.prixVenteHT3)}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="taille" class="col-sm-12 col-form-label">Longeur * Largeur *
+                                                Hauteur</label>
+
+                                            <div class="col-sm-4 collapse-input">
+                                                <span    name="pVenteConseille">
+                                                    {{article.longueur}}
+                                                </span>
+                                            </div>X
+                                            <div class="col-sm-4 collapse-input">
+                                                <span    name="largeur">
+                                                    {{getNumber(article.largeur)}}
+                                                </span>
+                                            </div> X
+
+                                            <div class="col-sm-3 collapse-input">
+                                                <span    name="hauteur">
+                                                    {{getNumber(article.hauteur)}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </ng-template>
+                    </ngb-tab>
+
+                    <ngb-tab title="Prix Vente par Quantites" class="mb-3">
+                        <ng-template ngbTabContent>
+                            <hr>
+                            <app-prix-with-quantites isDetails="1" [prixWithQuantites]="prixWithQuantites"
+                                [allTypeTiers]="typeTiers"></app-prix-with-quantites>
+                        </ng-template>
+                    </ngb-tab>
+
+                    <!-- partie Site Web -->
+                    <ngb-tab title="Site Web" class="mb-3">
+                        <ng-template ngbTabContent>
+                            <hr>
+                            <div class="form-group row">
+                                <div class="col-md-5 class-checkbox">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 font-weight-bolder">Disponible</label>
+                                        <div class="col-sm-8 custom-control custom-radio">
+                                            <i class="fas fa-check-square" style="font-size: 15px;"
+                                                *ngIf="article.enDisponible == 'oui'"></i> <i class="fas fa-square"
+                                                style="font-size: 15px;" *ngIf="article.enDisponible != 'oui'"></i>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 font-weight-bolder">Archive</label>
+                                        <div class="col-sm-8 custom-control custom-radio">
+                                            <i class="fas fa-check-square" style="font-size: 15px;"
+                                                *ngIf="article.enArchive == 'oui'"></i> <i class="fas fa-square"
+                                                style="font-size: 15px;" *ngIf="article.enArchive != 'oui'"></i>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 font-weight-bolder">Promotion</label>
+                                        <div class="col-sm-8 custom-control custom-radio">
+                                            <i class="fas fa-check-square" style="font-size: 15px;"
+                                                *ngIf="article.enPromotion == 'oui'"></i> <i class="fas fa-square"
+                                                style="font-size: 15px;" *ngIf="article.enPromotion != 'oui'"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5 class-checkbox">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 font-weight-bolder">Nouveau</label>
+                                        <div class="col-sm-8 custom-control custom-radio">
+                                            <i class="fas fa-check-square" style="font-size: 15px;"
+                                                *ngIf="article.enNouveau == 'oui'"></i> <i class="fas fa-square"
+                                                style="font-size: 15px;" *ngIf="article.enNouveau != 'oui'"></i>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 font-weight-bolder">Balance</label>
+                                        <div class="col-sm-8 custom-control custom-radio">
+                                            <i class="fas fa-check-square" style="font-size: 15px;"
+                                                *ngIf="article.enBalance == 'oui'"></i> <i class="fas fa-square"
+                                                style="font-size: 15px;" *ngIf="article.enBalance != 'oui'"></i>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 font-weight-bolder">Vedette</label>
+                                        <div class="col-sm-8 custom-control custom-radio">
+                                            <i class="fas fa-check-square" style="font-size: 15px;"
+                                                *ngIf="article.enVedette == 'oui'"></i> <i class="fas fa-square"
+                                                style="font-size: 15px;" *ngIf="article.enVedette != 'oui'"></i>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 font-weight-bolder">Liquidation</label>
+                                        <div class="col-sm-8 custom-control custom-radio">
+                                            <i class="fas fa-check-square" style="font-size: 15px;"
+                                                *ngIf="article.enLiquidation == 'oui'"></i> <i class="fas fa-square"
+                                                style="font-size: 15px;" *ngIf="article.enLiquidation != 'oui'"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                </ngb-tabset>
+
+            </div>
+        </app-card>
+    </div>
+</div>

@@ -1,0 +1,172 @@
+<app-controle-acces [avoirAccee]="informationGenerale.verifierAccee('listBonLivraisons')"></app-controle-acces>
+
+
+<div *ngIf="informationGenerale.verifierAccee('listBonLivraisons')" class="col-xl-14">
+    <app-card cardTitle="Liste {{isVenteContoire? 'Ventes Comptoire': 'Bons Livraisons'}}" blockClass="table-border-style">
+        <form [formGroup]="formBL">
+            <div class="col-xl-14 pagination-inner" style="margin-bottom: 10px;">
+                <app-filtre-date-button class="col-sm-7" (getDatee)="getBonLivraisons($event)"></app-filtre-date-button>
+            
+                <div class="col-md-5">
+                    <div class="form-group row">
+                        <label for="typeArticle" class="col-sm-4" style="margin-top: -8 px;">Document Transférés</label>
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <div class="custom-control custom-radio" style="margin-left: -30px;">
+                                    <input type="radio" id="oui" value="oui" name="document" (click)="clickDocument('oui')">
+                                    <label for="oui">Oui</label>
+                                </div>
+                                <div class="custom-control custom-radio" style="margin-left: 15px;">
+                                    <input type="radio" id="non" value="non" name="document" checked (click)="clickDocument('non')">
+                                    <label for="non">Non</label>
+                                </div>
+                                <div class="custom-control custom-radio" style="margin-left: 15px;">
+                                    <input type="radio" id="tout" value="tout" name="document" (click)="clickDocument('')">
+                                    <label for="tout">Tout</label>
+                                </div>
+                            </div>
+                        </div>
+        
+                    </div>
+
+                </div>
+            </div>
+          
+            <div class="pagination-inner">
+                <button type="button" *ngIf="informationGenerale.verifierAccee('ajouterBonReception')" class="btn btn-info ng-tns-c112-14 btn-speciale" (click)="gotToAdd()">
+                    Ajouter {{isVenteContoire? 'Ventes Comptoire': 'Bons Livraisons'}} <i class="fas fa-plus"></i>
+                </button>
+                <button type="button" *ngIf="informationGenerale.verifierAccee('ajouterBonAchat')" class="btn btn-warning ng-tns-c112-14 btn-speciale" (click)="transfertFactureVente()">
+                    Transfert Facture <i class="fas fa-plus"></i>
+                </button>
+
+                <ul class="pagination">
+                    <li>
+                        <i _ngcontent-eep-c121="" class="feather icon-camera" (click)="printout()"></i>
+                    </li>
+                    <li>
+                        <i class="fas fa-file-pdf" (click)="generatePDF()"></i>
+                    </li>
+                    <li>
+                        <i class="fas fa-file-excel" (click)="exportexcel()"></i>
+                    </li>
+                </ul>
+                <div class="th-tableau2" style="margin-top:5px;">
+              
+                    <app-nombre-list-page (getItemsEvent)="getBonLivraisons(request)" [control]="formBL.controls['limit']"> </app-nombre-list-page>
+              
+                    <button (click)="getBonLivraisons(request)" class="btn btn-info ng-tns-c112-14"
+                        style="font-size: 15px; padding:2px; height: 30px; display: inline-block; white-space: nowrap; margin-left: 3px;">
+                        <i class="feather icon-search"></i>
+                    </button>
+
+                    <div style="margin-left:auto;">
+                        <app-showelements [items]="items" [itemsVariable]="itemsVariable"></app-showelements>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-striped" id="output">
+                    <thead>
+                        <tr class="rechercherligne">
+
+                            <th *ngFor="let key of objectKeys(itemsVariable)">
+                                <div class="form-group">
+                                    <input type="text" placeholder="Recherche" class="form-control"
+                                        [formControlName]="key">
+                                </div>
+                            </th>
+
+                            <th>
+                            </th>
+                        </tr>
+                    </thead>
+                    <thead>
+                        <tr>
+                            <th *ngFor="let key of objectKeys(itemsVariable)">
+                                <div class="th-tableau" (click)="changeCroissante(key)">
+                                    {{items[key]}}
+                                    <div class="buttons-croissante">
+                                        <i class="fas fa-caret-up croissante {{key}}-croissante"></i>
+                                        <i class="fas fa-caret-down croissante {{key}}-croissante"></i>
+
+                                    </div>
+                                </div>
+                            </th>
+
+                            <th class="grid-col grid-col--fixed-right" style="background-color:#f6f6f6 ;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let item of bonLivraisons" class="{{idItemSelected === item.id ? 'color-ligne-selected' : '' }}">
+
+                            <td *ngFor="let key of objectKeys(itemsVariable)">
+                                <span *ngIf="fonctionPartages.colonnesQuantites.includes(key)"
+                                    style="float:right;">{{fonctionPartages.getFormaThreeAfterVerguleNomber(item[key])}}</span>
+                                <span *ngIf="fonctionPartages.colonnesPrix.includes(key)"
+                                    style="float:right;">{{fonctionPartages.getFormaThreeAfterVerguleQuantite(item[key])}}</span>
+                                <span *ngIf="fonctionPartages.colonnesDates.includes(key)"
+                                    style="text-align: center; display: block;">{{fonctionPartages.getDate(item[key],
+                                    'yyyy-MM-dd')}}</span>
+                                <span *ngIf="fonctionPartages.colonnesOuiNon.includes(key)"
+                                    style="text-align: center; display: block;"> <i class="fas fa-check-square"
+                                        style="font-size: 15px;" *ngIf="item[key] == 'oui'"></i> <i
+                                        class="fas fa-square" style="font-size: 15px;" *ngIf="item[key] != 'oui'"></i>
+                                </span>
+                                <span
+                                    *ngIf="!(fonctionPartages.colonnesDates.includes(key) || fonctionPartages.colonnesQuantites.includes(key) || fonctionPartages.colonnesPrix.includes(key) || fonctionPartages.colonnesOuiNon.includes(key))">{{item[key]}}</span>
+                            </td>
+                            <td  class="grid-col grid-col--fixed-right">
+                                
+                                <a _ngcontent-myx-c121="" [routerLink]="pageDetails+item.id"
+                                    class="btn btn-icon btn-outline-warning" style="margin-right: 5px;">
+                                    <i _ngcontent-myx-c121="" class="feather icon-eye"></i>
+                                </a>
+
+                                <a *ngIf="informationGenerale.verifierAccee('modifierBonLivraison')" _ngcontent-myx-c121="" (click)="idItemSelected = item.id; setSaveFilterSession()" [routerLink]="pageModifie+item.id"
+                                    class="btn btn-icon btn-outline-success" style="margin-right: 5px;">
+                                    <i _ngcontent-myx-c121="" class="feather icon-edit"></i>
+                                </a>
+
+                                <a _ngcontent-myx-c121="" href="javascript:" class="btn btn-icon btn-outline-danger" *ngIf="informationGenerale.verifierAccee('supprimerBonLivraison') && (item.factureVente === '' || !item.factureVente)"
+                                    (click)="openModalDelete(item.id,item.numero)">
+                                    <i _ngcontent-myx-c121="" class="feather icon-trash-2"></i>
+                                </a>
+
+                                <button *ngIf="item.factureVente === '' || !item.factureVente" class="btn btn-info btn-speciale" style="margin-left: 5px;">
+                                    <a [href]="'/factureVente/transfert/'+item.id" style="color: white;">
+                                        Transfert Facture
+                                    </a>
+                                </button>
+
+                                <input type="checkbox" *ngIf="item.factureVente === '' || !item.factureVente" (click)="checkBonLivraison(item.id)" [checked]="isCochedBonLivraison(item.id)" style="margin-left: 5px;">
+
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+            <app-spinner2 *ngIf="isLoading"></app-spinner2>
+
+            <hr>
+
+            <app-pagination [page]="request.page" [totalPage]="totalPage" (setPageEvent)="setPage($event)">
+            </app-pagination>
+
+        </form>
+
+        <app-delete-modal [isLoading]="isLoading" [isOpenModalDelete]="isOpenModalDelete"
+            [idDeleteModal]="idDeleteModal" [params1Delete]="params1Delete" [params2Delete]="params2Delete"
+            (deleteItem)="deleteItem()" (closeModalDelete)="closeModalDelete()"></app-delete-modal>
+
+
+    </app-card>
+
+
+</div>

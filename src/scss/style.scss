@@ -1,0 +1,247 @@
+/**======================================================================
+=========================================================================
+Template Name: Flat Able Admin Template
+Author: Codedthemes
+File: style.css
+=========================================================================
+=========================================================================
+  == Table of Contents==
+	- Generic classes
+		-	Margin, Padding, Font class, text align, position, floating, overflow, background class, text color, display class, boarder class
+	- Theme Elements
+		-	Accordion, Button, tabs, typography, buttons, box shadow, Lable & Badges, Alert, Pagination, Breadcumb, Cards, Collapse,
+        -   Carousel, Grid, Progress, Model, tooltip, popover, Datepicker, Gridstack, lightbox, notification, Nestable, pnotify, rating,
+        -   Rangeslider, Slider, Syntax Highlighter, Tour, Treeview, Toolbar, Session Timeout, Session idle Timeout, offline, Animation
+    - Forms
+        -   Forms Elements, Advance Form Control, Validation, Masking, Wizard, Picker, Select
+	- Pages
+		-   authentication, Maintenance, Maps, Landing page messages, task, Todo, Notes, Charts, Icons, Gallery, Editors,
+        -   Invoice, Full Calender, File Upload,
+=================================================================================
+=================================================================================== */
+
+
+// Theme Font
+@import "themes/font/theme-font";
+
+// theme scrollbar
+@import "themes/plugin/perfect-scrollbar";
+
+// main framework
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "settings/custom-variables";
+@import "settings/theme-variables";
+
+// ng module
+@import "ng-module/ng-module";
+
+// bootstrap
+@import "~bootstrap/scss/bootstrap";
+
+
+// icon
+@import "themes/font/datta-icon";
+@import "themes/font/feather";
+@import "themes/font/fontawesome";
+@import "themes/font/icofont";
+
+// bootstrap css
+@import "themes/bootstrap-overlay/card";
+@import "themes/bootstrap-overlay/button";
+@import "themes/bootstrap-overlay/radiobox-checkbox";
+@import "themes/bootstrap-overlay/switches";
+@import "themes/bootstrap-overlay/badge";
+
+@import "themes/general";
+@import "themes/generic";
+@import "themes/plugin/animate";
+
+
+// theme layouts
+@import "themes/layouts/menu-lite";
+@import "themes/layouts/menu-ng";
+
+// Dashboard Widgets
+@import "themes/dashboard/widget";
+
+// custom plugin
+@import "themes/plugin/sweatalert";
+@import "themes/plugin/lightbox";
+@import "themes/plugin/rangeslider";
+@import "themes/plugin/daterange";
+@import "themes/plugin/maxlength";
+@import "themes/plugin/data-tables";
+
+// Charts
+
+// pages
+@import "themes/pages/authentication";
+@import "themes/pages/pages";
+@import "themes/pages/icon-lauouts";
+
+// custom
+@import "themes/custom";
+
+
+.style-color-red{
+  font-weight: 700;
+  color:rgb(156, 36, 6);
+}
+
+.style-color-blue{
+  font-weight: 700;
+  color:blue;
+}
+
+.style-color-green{
+  font-weight: 700;
+  color:green;
+}
+
+.style-plus-details{
+  font-weight: 800;
+  color:blue !important;
+}
+
+.style-plus-details:hover{
+  text-decoration: underline !important;
+}
+
+.button-ajouter-charger-article{
+   padding:5px;
+   font-size: 10px;
+}
+
+.hr-nav-group{
+  padding:0px;
+  margin:0px;
+  border-color: #344258;
+}
+
+.a-nav-collapse{
+  margin-bottom: 0px;
+}
+
+.title-nav-collapse-color{
+  color:#d0dcda;
+}
+
+.style-sous-list-nav-collapse{
+  background:#1f2b38;
+ //background: red;
+}
+
+.padding-LR-0{
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.style-select{
+  width: 100%;
+}
+
+//start fixed Partie action of table
+.grid-col {
+  width: 150px;
+  min-width: 150px;
+}
+
+.grid-col--fixed-right {
+  position: sticky;
+  right: 0;
+  z-index: 1;
+  background: white;
+}
+//end fixed Partie action of table
+
+tbody tr:hover{
+  background-color: #d0e0dd !important;
+  cursor: pointer;
+}
+
+.text-souligne{
+  text-decoration: underline;
+}
+
+
+
+/////////Modal/////////////
+
+.modalAjoutElement {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1100; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modalAjoutElement-open {
+    display: block;
+}
+
+/* Modal Content/Box */
+.modal-contentAjoutElement {
+  background-color: #fefefe;
+  margin: 50px auto; /* 15% from the top and centered */
+  margin-bottom: 0px;
+  padding: 5px;
+  border: 1px solid #888;
+  width: fit-content; /* Could be more or less, depending on screen size */
+  position: relative;
+  z-index: 1000;
+
+}
+
+/* The Close Button */
+.closeAjoutElement {
+  color: #aaa;
+  float: right;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.closeAjoutElement:hover,
+.closeAjoutElement:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+@media screen and (max-width: 1000px) {
+  .modal-contentAjoutElement {
+    margin: 0px; /* 15% from the top and centered */
+    margin-top: 20px;
+    padding: 20px;
+    width: 100%; /* Could be more or less, depending on screen size */
+  }
+
+}
+
+.span-style{
+  font-weight: 900;
+}
+
+.style-button{
+  height: 30px;
+  margin:0px;
+}
+
+.card-body{
+  padding: 10px !important;
+}
+
+.card-body{
+  padding: 10px !important;
+}
+////////Modal/////////////
+///
+.color-ligne-selected{
+  background-color: rgb(140, 140, 248) !important;
+}

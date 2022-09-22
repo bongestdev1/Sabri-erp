@@ -1,0 +1,190 @@
+<!-- Model d'ajout -->
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Ajouter classe comptable</h4>
+        <p type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </p>
+    </div>
+    <div class="modal-body">
+        <form action="javascript:">
+            <div class="form-group row">
+                <label for="classeParent" class="col-sm-3 col-form-label">Classe Parent</label>
+                <div class="col-sm-9">
+                    <select class="col-sm-12" id="classeParent" name="classeParent" [(ngModel)]="classe.classeParent" >
+                        <option *ngFor="let i of tab">{{i}}</option>
+                    </select>
+                    <p *ngIf="erreurClasse.classeParent != ''" class="erreur">
+                        {{erreurClasse.classeParent}}</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="code" class="col-sm-3 col-form-label">code</label>
+                <div class="col-sm-9">
+                    <div style="display:flex; flex-direction: row; flex-wrap: nowrap;">                    
+                       <span style="padding-right: 10px;">{{classe.classeParent}}</span>                 
+                       <span style="padding-right: 10px;"> - </span> 
+                       <input type="text" class="form-control" id="code" name="code" [(ngModel)]="classe.code">
+                    </div>
+                    <p *ngIf="erreurClasse.code != ''" class="erreur">
+                        {{erreurClasse.code}}</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="libelle" class="col-sm-3 col-form-label">libelle</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="libelle" name="libelle" [(ngModel)]="classe.libelle">
+                    <p *ngIf="erreurClasse.libelle != ''" class="erreur">
+                        {{erreurClasse.libelle}}</p>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="enregistrerClasse()">Enregistrer</button>
+    </div>
+</ng-template>
+<!-- Model de modification -->
+<ng-template #contentM #item let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Modification Classe</h4>
+        <p type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </p>
+    </div>
+    <div class="modal-body">
+        <form action="javascript:">
+            <div class="form-group row">
+                <label for="classeParent" class="col-sm-3 col-form-label">Classe Parent</label>
+                <div class="col-sm-9">
+                    <select [(ngModel)]="classe.classeParent" >
+                        <option *ngFor="let i in 8">{{i}}</option>
+                    </select>
+                    <p *ngIf="erreurClasse.classeParent != ''" class="erreur">
+                        {{erreurClasse.classeParent}}</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="code" class="col-sm-3 col-form-label">code</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="code" name="code" [(ngModel)]="classe.code">
+                    <p *ngIf="erreurClasse.code != ''" class="erreur">
+                        {{erreurClasse.code}}</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="libelle" class="col-sm-3 col-form-label">libelle</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="libelle" name="libelle" [(ngModel)]="classe.libelle">
+                    <p *ngIf="erreurClasse.libelle != ''" class="erreur">
+                        {{erreurClasse.libelle}}</p>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="modifierClasse()">Modifier</button>
+    </div>
+</ng-template>
+<div class="col-xl-14">
+    <app-card cardTitle="Liste des classes" blockClass="table-border-style">
+        <form [formGroup]="formC">
+            <div class="category-page-wrapper">
+                <div class="result-inner">
+                    <!--Showing 1 to 8 of 10 (2 Pages)-->
+                </div>
+                <div class="pagination-inner">
+                    <button type="button" class="btn btn-info ng-tns-c112-14" (click)="open(content)"
+                        style="font-size: 12px; padding:5px; height: 30px; display: inline-block; white-space: nowrap; margin-left: 3px;">
+                        Ajouter classe <i class="fas fa-plus"></i>
+                    </button>
+                    <ul class="pagination">
+                        <li>
+                            <i _ngcontent-eep-c121="" class="feather icon-camera" (click)="printout()"></i>
+                        </li>
+                        <li>
+                            <i class="fas fa-file-pdf" (click)="generatePDF()"></i>
+                        </li>
+                        <li>
+                            <i class="fas fa-file-excel" (click)="exportexcel()"></i>
+                        </li>
+                    </ul>
+                    <div class="th-tableau2" style="margin-top:5px;">
+                        <select class="form-control form-control-sm"
+                            style="font-size: 12px; max-width: 58px; padding-left: 3px;" formControlName="limit"
+                            (change)="getClasses()">
+                            <option value=3>3</option>
+                            <option value=4>4</option>
+                            <option value=5>5</option>
+                            <option value=10>10</option>
+                        </select>
+
+                        <button (click)="getClasses()" class="btn btn-info ng-tns-c112-14"
+                            style="font-size: 15px; padding:2px; height: 30px; display: inline-block; white-space: nowrap; margin-left: 3px;">
+                            <i class="feather icon-search"></i>
+                        </button>
+
+                        <div style="margin-left:auto;">
+                            <app-showelements [items]="items" [itemsVariable]="itemsVariable"></app-showelements>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-striped" id="output">
+                    <thead>
+                        <tr class="rechercherligne">
+                            <th *ngFor="let key of objectKeys(itemsVariable)">
+                                <div class="form-group">
+                                    <input type="text" placeholder="Recherche" class="form-control"
+                                        [formControlName]="key">
+                                </div>
+                            </th>
+
+                            <th>
+                            </th>
+                        </tr>
+                    </thead>
+                    <thead>
+                        <tr>
+                            <th *ngFor="let key of objectKeys(itemsVariable)">
+                                <div class="th-tableau" (click)="changeCroissante(key)">
+                                    {{key}}
+                                    <div class="buttons-croissante">
+                                        <i class="fas fa-caret-up croissante {{key}}-croissante"></i>
+                                        <i class="fas fa-caret-down croissante {{key}}-croissante"></i>
+                                    </div>
+                                </div>
+                            </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of classes">
+                            <td *ngFor="let key of objectKeys(itemsVariable)">{{item[key]}}</td>
+                            <td>
+                                <a _ngcontent-myx-c121="" (click)="openModifier(contentM,item)"
+                                    class="btn btn-icon btn-outline-success" style="margin-right: 5px;">
+                                    <i _ngcontent-myx-c121="" class="feather icon-edit"></i>
+                                </a>
+                                <a _ngcontent-myx-c121="" href="javascript:" class="btn btn-icon btn-outline-danger"
+                                    (click)="openModalDelete(item.id,item.libelle)">
+                                    <i _ngcontent-myx-c121="" class="feather icon-trash-2"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <app-spinner2 *ngIf="isLoading"></app-spinner2>
+            <hr>
+            <app-pagination [page]="request.page" [totalPage]="totalPage" (setPageEvent)="setPage($event)">
+            </app-pagination>
+        </form>
+        <app-delete-modal [isLoading]="isLoading" [isOpenModalDelete]="isOpenModalDelete"
+            [idDeleteModal]="idDeleteModal" [params1Delete]="params1Delete" [params2Delete]="params2Delete"
+            (deleteItem)="deleteItem()" (closeModalDelete)="closeModalDelete()"></app-delete-modal>
+    </app-card>
+</div>

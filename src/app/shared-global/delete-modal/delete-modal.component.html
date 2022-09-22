@@ -1,0 +1,63 @@
+
+<!-- The Modal -->
+<div id="myModalDelete" [class]="classCss">
+
+    <div style="position: absolute; width: 100%; height: 100%;top: 0px; left:0px;" (click)="closeDelete()" >
+    </div>
+    
+    <!-- Modal content -->
+    <div class="modal-contentDelete" >
+        <div style="display: flex; flex-direction: row; flex-wrap: nowrap;">
+            <span style="font-weight: 800; font-size: 18px; margin-left: 10px; ">{{titre}}</span>
+            <span class="closeDelete" (click)="closeDelete()" style="width: 30px; height: 30px; margin-left: auto; text-align: center;"><i class="fas fa-times"></i></span>
+        </div>
+      
+        <hr style="width: 100%; margin-top: 5px; margin-bottom: 20px;">
+    
+        <div class="container" style="position:relative;">
+          <app-spinner2 *ngIf="isLoading"></app-spinner2>
+   
+          <div class="col-sm-12">
+            
+              <div class="row" style="font-weight: 500; font-size: 15px;">
+                  
+                  <p> <i class="fas fa-exclamation-triangle" style="margin-top: 3px; margin-right: 10px; font-size: 20px; color:rgb(255, 136, 0);"></i> {{body}}</p> 
+                  
+              </div>
+
+              <div class="row" style="font-weight: 500; font-size: 15px; text-align: center;">
+                  
+                <p style="font-weight: 800; width: 100%; margin-bottom: 5px;"  *ngIf="params1Delete != ''"> {{params1Delete}} ( {{params2Delete}} )?</p>
+        
+              </div>
+  
+          </div>
+  
+        </div>
+  
+        <hr style="width: 100%; margin-top: 10px; margin-bottom: 5px;">
+  
+        <div *ngIf="isAlert == '0'" style="padding: 10px; text-align: right; padding-top:0px; padding-bottom:0px;">
+          
+          <button class="btn btn-danger" (click)="nonConfirmee()" style="width: fit-content;">
+              {{libelleButtonNonConfirmee}}
+          </button> 
+          <button class="btn btn-success" (click)="confirmee()" style="width: fit-content; margin-left: 5px;">
+              {{libelleButtonConfirmee}}
+          </button>
+
+        </div>
+      
+        <div *ngIf="isAlert == '1'" style="padding: 10px; text-align: center; padding-top:0px; padding-bottom:0px;">
+          
+          <button class="btn btn-danger" (click)="closeDelete()" style="width: fit-content;">
+            Ok
+          </button> 
+      
+        </div>
+    </div>
+  
+  </div>
+
+ 
+  

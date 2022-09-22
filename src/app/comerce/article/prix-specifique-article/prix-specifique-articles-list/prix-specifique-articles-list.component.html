@@ -1,0 +1,309 @@
+<ng-template #contentM #item let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Ajouter Article</h4>
+        <p type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </p>
+    </div>
+
+    <div class="modal-body">
+        <form action="javascript:">
+            <button class="btn-modal-desactive"></button>
+
+            <div class="form-group row">
+                <label for="titre" class="col-sm-3 col-form-label">Article</label>
+                <div class="col-sm-9">
+                    <app-autocomplete [bordureRed]="erreurArticle.reference != ''" modeMultiSortie=true
+                        [shemaMultiSortie]="shemaMultiSortie" (addElementEvent)="setArticle2ID($event)"
+                        [keySelected]="keySelectedArticle" [objet]="shemaArticle2" [articles]="allArticles"
+                        [idSelected]="itemArticleSelected.article" idHtml="3" [itemsNumberSimple]="shemaArticle2Number"
+                        [itemsNumberQuantite]="shemaArticle2Quantite">
+                    </app-autocomplete>
+
+                    <p *ngIf="erreurAjouterArticle != ''" class="erreur">{{erreurAjouterArticle}}</p>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="ajouterArticle2()">{{titreCrud}}</button>
+    </div>
+</ng-template>
+
+
+<div class="row">
+
+    
+<div class="col-md-12">
+    <hr>
+</div>
+
+
+    <div class="col-md-4">
+        <form action="javascript:">
+            <div class="form-group row">
+                <label for="typeTier" class="col-sm-4 col-form-label">marge(%)</label>
+                <div class="col-sm-8">
+                    <app-input-number-vergule [field]="parametresGlobal" key="margePourcentageGlobal"
+                        idUnique="margePourcentage505"></app-input-number-vergule>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group row">
+            <label for="client" class="col-sm-4 col-form-label">marge</label>
+            <div class="col-sm-8">
+                <app-input-number-vergule [field]="parametresGlobal" key="margeGlobal" idUnique="marge505">
+                </app-input-number-vergule>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4" style="text-align: right;">
+        <button style="float:right; margin-right: 0px;" class="btn btn-info" (click)="changeParametreGlobal()">
+            Appliquer partout
+        </button>
+    </div>
+
+    <div class="col-md-12">
+        <hr>
+    </div>
+</div>
+
+
+
+
+<div class="col-xl-14" style="display: flex; flex-direction: row;">
+    
+    <div style="margin-left: auto;">
+        <app-showelements [items]="shemaArticle" [itemsVariable]="shemaArticleVariables"></app-showelements>
+    </div>
+
+    <!-- <button type="button" class="btn btn-info"
+        style="font-size: 15px; padding:2px; height: 30px; display: inline-block; white-space: nowrap; margin-left: 3px;"
+        (click)="openAjouter(contentM, '')">
+        <i class="fa fa-plus"></i>
+    </button> -->
+</div>
+
+<div class="col-xl-14" style="display: flex; flex-direction: row;">
+
+    <div class="table-responsive prix-specifque">
+        <table class="table table-striped" id="output">
+
+           
+            <thead>
+                <tr class="tr-value">
+                    <th *ngFor="let key of objectKeys(shemaArticleVariables)" style="min-width:100px !important;">
+                        <span *ngIf="idsFrais.includes(key)">
+                    
+                            <div>
+                                <input type="checkbox" id="{{key + 'tout'}}" name="{{key + 'tout'}}" value="newsletter">
+                                <label for="{{key + 'tout'}}">Tout</label>
+                            </div>
+                        </span>
+                    </th>
+                    <!-- <th class="grid-col grid-col--fixed-right">
+                        <div class="th-tableau">
+                            Action
+                        </div>
+                    </th> -->
+                </tr>
+
+                <tr class="tr-value">
+                    <th *ngFor="let key of objectKeys(shemaArticleVariables)" style="min-width:100px !important;">
+                        <div class="th-tableau" (click)="changeCroissante(key)">
+                            {{shemaArticle[key]}}
+
+                            <div class="buttons-croissante">
+
+                                <i class="fas fa-caret-up croissante {{key}}-croissante"></i>
+                                <i class="fas fa-caret-down croissante {{key}}-croissante"></i>
+
+                            </div>
+                        </div>
+                    </th>
+                    <!-- <th class="grid-col grid-col--fixed-right">
+                        <div class="th-tableau">
+                            Action
+                        </div>
+                    </th> -->
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr *ngFor="let item of articles" class="tr-value" [style]="getStyleErrorLigne(item)">
+                    <td *ngFor="let key of objectKeys(shemaArticleVariables)">
+                        <div>
+                            <span *ngIf="key == 'numero'">{{item[key]}}</span>
+
+                            <span *ngIf="key == 'margeAppliqueeSur'">{{item[key]}}</span>
+
+                            <span *ngIf="key == 'prixAchat'"
+                                style="float:right; text-align: right;">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(item[key])}}</span>
+                    
+                            <span *ngIf="key == 'prixRevient' && item[key]"
+                            style="float:right; text-align: right;">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(item[key])}}</span>
+                    
+                            <span *ngIf="key == 'prixVenteHT'"
+                            style="float:right; text-align: right;">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(item[key])}}</span>
+                    
+                            <span *ngIf="key == 'reference'">{{fonctionPartagesService.getLibelleById(item['article'],
+                                allArticles, 'reference')}}</span>
+                            
+                            <span *ngIf="key == 'designation'">{{fonctionPartagesService.getLibelleById(item['article'],
+                                allArticles, 'designation')}}</span>
+
+                            <!-- <span *ngIf="key == 'newPrixVenteHT'"
+                                style="float:right; text-align: right; color:red; font-weight: 900; font-size: 15px;">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(item[key])}}
+                            </span> -->
+
+                            <div *ngIf="key === 'newPrixVenteHT'" class="col-sm-12"
+                                style="padding-left:0px; padding-right:0px;">
+                                <app-input-number-vergule [field]="item" key="{{key}}"
+                                    idUnique="{{key+item['numero']+item['id']}}" (change)="getPrixAfterMarge(item)">
+                                </app-input-number-vergule>
+                            </div>
+
+                            <div *ngIf="tabNumbers.includes(key)" class="col-sm-12"
+                                style="padding-left:0px; padding-right:0px;">
+                                <app-input-number-vergule [field]="item" key="{{key}}"
+                                    idUnique="{{key+item['numero']+item['id']}}" (change)="getPrixAfterMarge(item)">
+                                </app-input-number-vergule>
+                            </div>
+
+                            <div *ngIf="key == 'note'" style="width: 150px;">
+                                <input type="text" class="form-control" [(ngModel)]="item.note">
+                            </div>
+
+                            <!-- <div *ngIf="key == 'sousProduit'" style="width: 150px;">
+                                <select style="width: 100%;" [(ngModel)]="item.sousProduit" [id]="key+item.id">
+                                    <option value="">Vide</option>
+                                    <option *ngFor="let item of item.sousProduits" [value]="item.id">{{item.reference}}
+                                    </option>
+                                </select>
+                            </div> -->
+
+                            <span *ngIf="idsFrais.includes(key)">
+                    
+                                <div>
+                                    <input type="checkbox" id="{{key + item['numero']}}" name="{{key + item['numero']}}" value="newsletter" [checked]="checkedFrais(item['numero'], key)" (click)="clickedFrais(item['numero'], key)">
+                                    <label for="{{key + item['numero']}}">{{shemaArticle[key]}} </label>
+                                </div>
+                            </span>
+
+                            <span *ngIf="key == 'client'">{{fonctionPartagesService.getLibelleById(item['client'],
+                                allClients, 'raisonSociale')}}</span>
+
+                        </div>
+                    </td>
+
+                    <!-- <td class="grid-col grid-col--fixed-right">
+                        <button title="Ajouter element sous ce ligne" class="btn btn-icon btn-outline-info"
+                            style="margin-right: 5px;" (click)="openAjouter(contentM, item.id)">
+                            <i class="fa fa-plus"></i>
+                        </button>
+
+                        <button title="supprimer prix specifique" class="btn btn-icon btn-outline-danger"
+                            style="margin-right: 5px;" *ngIf="item.numero != 0"
+                            (click)="openModalDelete(item.id,'N°='+item.numero)">
+                            <i class="fa fa-trash"></i>
+                        </button>
+
+                        <button title="cacher ce ligne" class="btn btn-icon btn-outline-warning"
+                            style="margin-right: 5px;" *ngIf="item.numero != 0" (click)="deleteLigne(item.numero)">
+                            <i class="fa fa-times"></i>
+                        </button>
+
+                    </td> -->
+
+                </tr>
+
+                <tr *ngFor="let item of tabEmpty" class="tr-value">
+                    <th *ngFor="let key of objectKeys(shemaArticleVariables)">
+                        <span style="padding:5px; "></span>
+                    </th>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+    </div>
+
+    <!--<div class="table-responsive prix-specifque table-action" style="width: 130px;">
+        <table class="table table-striped" id="output">
+            <thead>
+                <tr class="tr-action">
+                    <th>
+                        <div class="form-group">
+                            <form [formGroup]="formC">
+                                <input style="visibility: hidden;" type="text" placeholder="Recherche"
+                                    class="form-control">
+                            </form>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <thead>
+                <tr class="tr-action">
+                    <th>
+                        <div class="th-tableau">
+                            Action
+
+                            <div class="buttons-croissante">
+
+                                <i class="fas fa-caret-up croissante -croissante"></i>
+                                <i class="fas fa-caret-down croissante -croissante"></i>
+
+                            </div>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr *ngFor="let item of articles" class="tr-action">
+                    <td>
+                        <button title="Ajouter element sous ce ligne" class="btn btn-icon btn-outline-info"
+                            style="margin-right: 5px;" (click)="openAjouter(contentM, item.id)">
+                            <i class="fa fa-plus"></i>
+                        </button>
+
+                        <button title="supprimer prix specifique" class="btn btn-icon btn-outline-danger"
+                            style="margin-right: 5px;" *ngIf="item.numero != 0"
+                            (click)="openModalDelete(item.id,'N°='+item.numero)">
+                            <i class="fa fa-trash"></i>
+                        </button>
+
+                        <button title="cacher ce ligne" class="btn btn-icon btn-outline-warning"
+                            style="margin-right: 5px;" *ngIf="item.numero != 0" (click)="deleteLigne(item.numero)">
+                            <i class="fa fa-times"></i>
+                        </button>
+
+                    </td>
+                </tr>
+
+                <tr *ngFor="let item of tabEmpty" class="tr-action">
+                    <th>
+                        <span style="color:transparent;">i</span>
+                    </th>
+                </tr>
+
+            </tbody>
+
+        </table>
+    </div>-->
+
+    <app-spinner2 *ngIf="isLoading"></app-spinner2>
+
+</div>
+
+<app-delete-modal [isLoading]="isLoading" [isOpenModalDelete]="isOpenModalDelete" [idDeleteModal]="idDeleteModal"
+    [params1Delete]="params1Delete" [params2Delete]="params2Delete" (deleteItem)="deleteItem()"
+    (closeModalDelete)="closeModalDelete()"></app-delete-modal>

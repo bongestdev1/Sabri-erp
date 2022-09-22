@@ -1,0 +1,71 @@
+<div class="col-sm-12">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="form-group row">
+                <label for="categorie" class="col-md-12 col-form-label">Catégorie</label>
+                <div class="col-md-12">
+                    <app-autocomplete (addElementEvent)="setCategorieID($event)" [keySelected]="keySelectedCategorie"
+                        [objet]="objetCategorie" [articles]="categories" [idSelected]="article.categorie"
+                        idHtml="ajoutArticle1" (openAddElementEvent)="openModalAjoutCategorie()">
+                    </app-autocomplete>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group row">
+                <label for="famille" class="col-md-12 col-form-label">Famille</label>
+                <div class="col-md-12">
+                    <app-autocomplete (addElementEvent)="setFamilleID($event)" [keySelected]="keySelectedFamille"
+                        [objet]="objetFamille" [articles]="famillesCurrent" [idSelected]="article.famille"
+                        idHtml="ajoutArticle2" (openAddElementEvent)="openModalAjoutFamille()">
+                    </app-autocomplete>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group row">
+                <label for="sousFamille" class="col-md-12 col-form-label">Sous Famille</label>
+                <div class="col-md-12">
+                    <app-autocomplete (addElementEvent)="setSousFamilleID($event)"
+                        [keySelected]="keySelectedSousFamille" [objet]="objetSousFamille" [articles]="sousFamillesCurrent"
+                        [idSelected]="article.sousFamille" idHtml="ajoutArticle3"
+                        (openAddElementEvent)="openModalAjoutSousFamille()">
+                    </app-autocomplete>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group row">
+                <label for="sousFamille" class="col-md-12 col-form-label">Article</label>
+                <div class="col-md-12" style="padding:0px !important">
+                    <app-autocomplete modeMultiSortie=true [shemaMultiSortie]="shemaMultiSortie"
+                        (addElementEvent)="setArticleID($event)" [keySelected]="keySelectedArticle"
+                        [objet]="shemaArticle2" [articles]="allArticles" [idSelected]="article.sousArticle"
+                        idHtml="1" (openAddElementEvent)="openModalAjoutArticle()">
+                    </app-autocomplete>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<app-add-famille-modal [isLoading]="isLoading" [isOpenModalAjoutFamille]="isOpenModalAjoutFamille"
+    [idAjoutFamilleModal]="idAjoutFamilleModal" (closeModalAjoutFamille)="closeModalAjoutFamille()"
+    [idCategorie]="article.categorie"></app-add-famille-modal>
+
+<app-add-sous-famille-modal [isLoading]="isLoading" [isOpenModalAjoutSousFamille]="isOpenModalAjoutSousFamille"
+    [idAjoutSousFamilleModal]="idAjoutSousFamilleModal" (closeModalAjoutSousFamille)="closeModalAjoutSousFamille()"
+    [idFamille]="article.famille" [idCategorie]="article.categorie" [idFamille]="article.famille">
+</app-add-sous-famille-modal>
+
+<app-add-element-modal [isLoading]="isLoading" [isOpenModalAjoutElement]="isOpenModalAjoutElement"
+    [idAjoutElementModal]="idAjoutElementModal" (closeModalAjoutElement)="closeModalAjoutElement()"
+    [typeElement]="typeElement"></app-add-element-modal>
+
+<app-add-article-modal [isLoading]="isLoading" [isOpenModal]="isOpenModalAjoutArticle"
+    [id]="idAjoutArticleModal" (closeModal)="closeModalAjoutArticle()">
+</app-add-article-modal>

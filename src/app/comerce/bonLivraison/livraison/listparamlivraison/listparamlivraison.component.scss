@@ -1,0 +1,92 @@
+.pagination-inner{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.btn-icon{
+    width: 30px;
+    height: 30px;
+}
+
+.rechercherligne input{
+    height: 30px;
+}
+
+.rechercherligne .form-group{
+    margin-bottom: 0px;
+}
+
+th, td{
+    padding:10px;
+}
+
+.pagination{
+    background-color: white;
+    width: fit-content;
+    margin: auto;
+}
+
+.pagination li{
+    margin: 20px;
+    color: #1abc9c;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 15px;
+    font-weight: 700;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    padding-top: 7px;
+}
+
+.pagination li:hover{
+    color: white;
+    background-color: #92c7bc;
+}
+
+.active-page{
+    color: white !important;
+    background-color: #1abc9c;
+}
+
+.buttons-croissante{
+    margin-left: auto;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+}
+
+.th-tableau{
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    cursor: pointer;
+}
+
+.th-tableau2{
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    cursor: pointer;
+    max-width: 125px;
+}
+
+.buttons-croissante i{
+  color: rgb(190, 190, 190);
+}
+
+.active-buttons-croissante{
+    color: rgb(80, 79, 79) !important;
+}
+
+th, td{
+    border: 1px solid #e3eaef;
+    width: auto;
+}
+
+input{
+    padding-left: 2px;
+    padding-right: 2px;
+}
+

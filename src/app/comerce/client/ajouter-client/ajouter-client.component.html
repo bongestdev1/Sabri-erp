@@ -1,0 +1,68 @@
+<app-controle-acces [avoirAccee]="informationGenerale.verifierAccee('ajouterClient')"></app-controle-acces>
+
+<div class="row" *ngIf="informationGenerale.verifierAccee('ajouterClient')">
+    <div class="col-sm-12">
+        <app-card [hidHeader]="true">
+            <!-- Partie Header -->
+            <div *ngIf="!isPopup" class="form-group row" style="justify-content: space-between !important;">
+                <div class="text-titre">
+                    <h3>{{titre}}</h3>
+                </div>
+                <div class="left-button">
+                    
+                    <button *ngIf="!isLoading" class="btn btn-primary" type="button" (click)="ajoutClient()">
+                        Enregister
+                    </button>
+
+                    <button *ngIf="isLoading" class="btn btn-primary" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Chargement...
+                    </button>
+                </div>
+            </div>
+            <hr *ngIf="!isPopup">
+
+            
+            <app-client-html
+                (getAllParametres)="getAllParametres()" 
+                [allSecteurs] ="allSecteurs"
+                [allModeReglements] = "allModeReglements"
+                [allTypeTiers] = "allTypeTiers"
+                [allClients] = "allClients"
+                [tabCode] = "tabCode"
+                [tabMatricule] = "tabMatricule"
+                [tabRaisonSociale] = "tabRaisonSociale"
+                [allConditionReglements] = "allConditionReglements"
+                [autreAdresse] = "autreAdresse"
+                [contacts] = "contacts"
+                [complements] = "complements"
+                [request] = "request" 
+                [client] = "client" 
+                [modeTiere]="modeTiere"
+                [erreurClient]="erreurClient"
+                [allTypeContacts]="allTypeContacts"
+                [allPersonnels] = "allPersonnels"
+                isModifier="false"
+            >
+
+            </app-client-html>
+       
+            <hr *ngIf="isPopup" style="width: 100%; margin-top: 10px; margin-bottom: 5px;">
+  
+            <div *ngIf="isPopup" style="padding: 10px; text-align: right; padding-top:0px; padding-bottom:0px; width: 100%;">
+              
+                <button *ngIf="!isLoading" class="btn btn-primary" type="button" (click)="ajoutClient()">
+                    Enregister
+                </button>
+
+                <button *ngIf="isLoading" class="btn btn-primary" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Chargement...
+                </button>
+          
+            </div>
+                
+        </app-card>
+    </div>
+</div>
+

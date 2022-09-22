@@ -1,0 +1,24 @@
+<div  (mouseleave)="onMouseOutFilter($event)" (mouseenter)="onMouseEnterFilter($event)">
+    <button *ngIf="isAutoComplete == 'non'" [id]="stringLocalhost+numero+'button'" class="btn btn-info ng-tns-c112-14" style="font-size: 15px; padding:2px; height: 30px; display: inline-block; white-space: nowrap; margin-left: 3px;" (click)="showList()" type="button">
+        <i class="fas fa-list"></i>
+    </button>
+    
+    <span  *ngIf="isAutoComplete == 'oui'" [id]="stringLocalhost+numero+'button'"  (click)="showList()" style="font-size: 15px; padding:0px 2px;" class="showElement">
+        <i class="fas fa-list"></i>
+    </span>
+    
+    <div *ngIf="isOpen" class="ul-list-show-elements enable-list-showelements" style="z-index: 5; margin-top: 0px;">
+        <div>
+            <ul>
+                <li *ngFor="let key of objectKeys(items)">
+                     <div class="form-check form-check-inline">
+                         <input class="form-check-input" type="checkbox" id="{{key+stringLocalhost+numero}}" name="{{key+stringLocalhost+numero}}" value="option2" (click)="clickButton(key)" [checked]="itemsVariable[key] != undefined">
+                         <label class="form-check-label" for="{{key+stringLocalhost+numero}}" style="color: black; width: 100%; margin:0px;"> {{key}}</label>
+                     </div>
+                 </li>
+                 
+             </ul>
+        </div>
+    </div>
+
+</div>   

@@ -1,0 +1,629 @@
+<div class="row">
+    <div class="col-sm-12">
+        <app-card [hidHeader]="true">
+            <!-- Partie Header -->
+            <div *ngIf="!isPopup" class="form-group row" style="justify-content: space-between !important;">
+                <div class="text-titre">
+                    <h3><span *ngIf="titreCrud != fonctionPartagesService.titreCrud.transfert">{{titreCrud}}</span>
+                        <span
+                            *ngIf="!isAchatContoire && !isRetourAchatContoire && !isVenteContoire && !isRetourVenteContoire">
+                            {{titreDocument}}</span>
+                        <span *ngIf="isVenteContoire"> Vente Comptoire</span>
+                        <span *ngIf="isRetourVenteContoire"> Retour Vente Comptoire</span>
+                        <span *ngIf="isAchatContoire"> Achat Comptoire</span>
+                        <span *ngIf="isRetourAchatContoire"> Retour Achat Comptoire</span>
+                    </h3>
+                </div>
+
+                <div class="left-button">
+                    <button *ngIf="!isLoading && titreCrud !== fonctionPartagesService.titreCrud.ajouter"
+                        class="btn btn-info float-left" (click)="generationPdfFacture.openPopup(id, titreDocument)">
+                        Imprimer
+                    </button>
+
+                    <button *ngIf="!isLoading" class="btn btn-primary float-left" (click)="ajoutImage()"
+                        id="buttonBonLivraisonEnregistrer">
+                        Enregister
+                    </button>
+                    <button *ngIf="isLoading" class="btn btn-primary" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Chargement...
+                    </button>
+
+                    <app-routes-transfert-documents
+                        *ngIf="!isLoading && titreCrud == fonctionPartagesService.titreCrud.modifier"
+                        [modeTransfert]="modeTransfert" [titreDocument]="titreDocument" [id]="id">
+                    </app-routes-transfert-documents>
+                </div>
+            </div>
+
+            <hr *ngIf="!isPopup">
+            
+            <div class="row">
+                <!-- Partie formulaire à Gauche en haut -->
+                <div class="col-sm-4">
+                    <form action="javascript:">
+                        <div class="form-group row">
+                            <label for="numero" class="col-sm-4 col-form-label">Numero</label>
+                            <div class="col-sm-8 collapse-input">
+                                <span class="form-control desactive-text-span"
+                                    name="numero">{{bonLivraison.numero}}</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-4">
+                    <form action="javascript:">
+                        <div class="form-group row">
+                            <label for="tiers" class="col-sm-4 col-form-label">{{modeTiere}}</label>
+                            <div class="col-sm-8" *ngIf="isPrixVenteNotPrixAchat()">
+                                <!--<app-autocomplete [bordureRed]="erreurBonLivraison.client != ''"
+                                    (addElementEvent)="setClientID($event)" [keySelected]="keySelectedClient"
+                                    [objet]="objetClient" [articles]="allClients" [idSelected]="bonLivraison.client"
+                                    [idHtml]="20" (openAddElementEvent)="openModalAjoutClient()"></app-autocomplete>
+                                -->
+                                <app-autocomplete-client [bordureRed]="erreurBonLivraison.client != ''"
+                                    [articles]="allClients" idHtml="20" (getAllParametres)="getAllParametres()"
+                                    (addElementEvent)="setClientID($event)" [idSelected]="bonLivraison.client">
+                                </app-autocomplete-client>
+
+                                <p *ngIf="erreurBonLivraison.client != ''" class="erreur">{{erreurBonLivraison.client}}
+                                </p>
+                            </div>
+
+                            <div class="col-sm-8" *ngIf="!isPrixVenteNotPrixAchat()">
+                                <!--<app-autocomplete [bordureRed]="erreurBonLivraison.client != ''"
+                                    (addElementEvent)="setClientID($event)" [keySelected]="keySelectedClient"
+                                    [objet]="objetClient" [articles]="allClients" [idSelected]="bonLivraison.client"
+                                    [idHtml]="20" (openAddElementEvent)="openModalAjoutClient()"></app-autocomplete>
+                                -->
+                                <app-autocomplete-fournisseur [bordureRed]="erreurBonLivraison.client != ''"
+                                    [articles]="allClients" idHtml="20" (getAllParametres)="getAllParametres()"
+                                    (addElementEvent)="setClientID($event)" [idSelected]="bonLivraison.client">
+                                </app-autocomplete-fournisseur>
+
+                                <p *ngIf="erreurBonLivraison.client != ''" class="erreur">{{erreurBonLivraison.client}}
+                                </p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-sm-4">
+                    <form action="javascript:">
+                        <div class="form-group row">
+                            <label for="totalTTC" class="col-sm-6 col-form-label">Montant Total :</label>
+                            <div class="col-sm-6">
+                                <span
+                                    class="form-control desactive-text-span  style-color-blue">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.montantTotal)}}
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-sm-4">
+                    <form action="javascript:">
+                        <div class="form-group row">
+                            <label for="date" class="col-sm-4 col-form-label">Date</label>
+                            <div class="col-sm-8">
+                                <input *ngIf="erreurBonLivraison.date == ''" type="date" class="form-control" id="date"
+                                    name="date" [(ngModel)]="bonLivraison.date">
+                                <input *ngIf="erreurBonLivraison.date != ''" type="date"
+                                    class="form-control border-erreur" id="date" name="date"
+                                    [(ngModel)]="bonLivraison.date">
+
+                                <p *ngIf="erreurBonLivraison.date != ''" class="erreur">{{erreurBonLivraison.date}}</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-sm-4"
+                    *ngIf="titreDocumentPrecedent && titreCrud != fonctionPartagesService.titreCrud.modifier">
+                    <form action="javascript:">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">{{titreDocumentPrecedent}}</label>
+
+                            <div class="col-sm-8">
+
+                                <app-autocomplete (addElementEvent)="setDocumentID($event)" keySelected="numero"
+                                    [objet]="{numero:''}" [articles]="documents" [idSelected]="idDocument" idHtml="50"
+                                    (openAddElementEvent)="openModalAjoutDocument()">
+                                </app-autocomplete>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-sm-4">
+                    <form action="javascript:">
+                        <div class="form-group row" *ngIf="client">
+                            <label for="plafondCredit" class="col-sm-6 col-form-label">Plafond_credit:
+                                <span
+                                    *ngIf="client.plafondCredit">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(client.plafondCredit)}}</span>
+                                <span *ngIf="!client.plafondCredit">0.000</span></label>
+
+                            <label for="credit" class="col-sm-6 col-form-label">Solde:
+                                <span
+                                    *ngIf="client.credit">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(client.credit)}}</span>
+                                <span *ngIf="!client.credit">0.000</span></label>
+                        </div>
+
+                    </form>
+                </div>
+
+
+                <div class="col-sm-4" *ngIf="titreDocument === fonctionPartagesService.titreDocuments.bonLivraison">
+                    <form action="javascript:">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label"> Projet-client </label>
+
+                            <div class="col-sm-8">
+
+                                <app-autocomplete (addElementEvent)="setProjetID($event)" keySelected="libelle"
+                                    [objet]="{libelle:''}" [articles]="projetsClient" [idSelected]="bonLivraison.projet"
+                                    idHtml="550" (openAddElementEvent)="openModalAjoutProjetClient()">
+                                </app-autocomplete>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-sm-4" *ngIf="titreDocument === fonctionPartagesService.titreDocuments.bonLivraison">
+                    <form action="javascript:">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label"> Adresse Projet </label>
+
+                            <div class="col-sm-8">
+                                <span class="form-control desactive-text-span">{{getAdresseProjet()}}</span>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+
+
+                <div class="col-sm-4" *ngIf="titreDocument === fonctionPartagesService.titreDocuments.bonLivraison">
+                    <form action="javascript:">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label"> Transporteur </label>
+
+                            <div class="col-sm-8">
+
+                                <app-autocomplete (addElementEvent)="setTransporteurID($event)" keySelected="nom"
+                                    [objet]="{nom:''}" [articles]="allTransporteurs"
+                                    [idSelected]="bonLivraison.transporteur" idHtml="555"
+                                    (openAddElementEvent)="openModalAjoutTransporteur()">
+                                </app-autocomplete>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-sm-4" *ngIf="titreDocument === fonctionPartagesService.titreDocuments.bonLivraison">
+                    <form action="javascript:">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label"> Num-véhicule </label>
+
+                            <div class="col-sm-8">
+
+                                <span class="form-control desactive-text-span">{{getVehiculeTransporteur()}}</span>
+
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-sm-4" *ngIf="titreDocument === fonctionPartagesService.titreDocuments.bonLivraison">
+                    <form action="javascript:">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label"> Coût Transport </label>
+
+                            <div class="col-sm-8">
+
+                                <app-input-number-vergule [field]="bonLivraison" key="coutTransport"
+                                    idUnique="quantiteVente222"></app-input-number-vergule>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-sm-4" *ngIf="documentDeTransfert">
+                    <form action="javascript:">
+                        <div class="form-group row">
+                            <label for="date" class="col-sm-12 col-form-label">Document précédent :
+                                {{documentDeTransfert.numero}}</label>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Partie formulaire à Droite en haut -->
+                <div class="col-md-4"
+                    *ngIf="titreDocument==  fonctionPartagesService.titreDocuments.bonCommande || titreDocument== fonctionPartagesService.titreDocuments.commande">
+                    <form action="javascript:">
+                        <div class="form-group row">
+                            <label for="validation" class="col-sm-4 col-form-label">Validation de commande</label>
+                            <div class="col-sm-8">
+                                <input type="checkbox" name="isValid" id="isValid" (click)="clickIsValid()"
+                                    [checked]="bonLivraison.isValid == 'oui'">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-sm-4">
+                    <form action="javascript:">
+                        <div class="form-group row">
+                            <label class="col-sm-6 col-form-label">
+
+                                <span class="style-plus-details" type="button" (click)="isCollapsed = !isCollapsed"
+                                    [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">Plus de
+                                    détails <i class="fa fa-arrow-down" aria-hidden="true"></i> </span>
+
+                            </label>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- partie collapse -->
+                <div class="col-md-12">
+
+                    <hr />
+
+                    <div id="collapseExample" [ngbCollapse]="isCollapsed">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row">
+                                    <label for="totalHT" class="col-sm-6 col-form-label">Total HT</label>
+                                    <div class="col-sm-6">
+
+                                        <span *ngIf="erreurBonLivraison.totalHT != ''"
+                                            class="form-control desactive-text-span border-erreur"
+                                            style="position:relative;margin:0px !important; width: 100% !important;">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.totalHT)}}</span>
+                                        <span *ngIf="erreurBonLivraison.totalHT == ''"
+                                            class="form-control desactive-text-span"
+                                            style="position:relative;margin:0px !important; width: 100% !important;">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.totalHT)}}</span>
+
+                                        <p *ngIf="erreurBonLivraison.totalHT != ''" class="erreur">
+                                            {{erreurBonLivraison.totalHT}}</p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="totalRemise" class="col-sm-6 col-form-label">Total Remise</label>
+                                    <div class="col-sm-6">
+
+                                        <span
+                                            class="form-control desactive-text-span">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.totalRemise)}}
+                                        </span>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="totalRedevance" class="col-sm-6 col-form-label">Total
+                                        Redevance</label>
+                                    <div class="col-sm-6 collapse-input">
+
+
+                                        <span class="form-control desactive-text-span"
+                                            name="totalRedevance">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.totalRedevance)}}
+                                        </span>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="totalTTC" class="col-sm-6 col-form-label">Total TTC</label>
+                                    <div class="col-sm-6">
+                                        <span
+                                            class="form-control desactive-text-span  style-color-blue">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.totalTTC)}}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row"
+                                    *ngIf="titreDocument==  fonctionPartagesService.titreDocuments.bonAchat">
+                                    <label for="numOM" class="col-sm-6 col-form-label">Numero Ordre mission</label>
+                                    <div class="col-sm-6">
+                                        <app-autocomplete (addElementEvent)="setOMID($event)"
+                                            [keySelected]="keySelectedOM" [objet]="objetOM"
+                                            [articles]="allOrdreEmissions" [idSelected]="bonLivraison.ordreMission"
+                                            [idHtml]="22">
+                                        </app-autocomplete>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <form action="javascript:">
+
+                                    <div class="form-group row">
+                                        <label for="totalTVA" class="col-sm-6 col-form-label">Total TVA</label>
+                                        <div class="col-sm-6">
+
+                                            <span
+                                                class="form-control desactive-text-span">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.totalTVA)}}
+                                            </span>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="totalDC" class="col-sm-6 col-form-label">Total DC</label>
+                                        <div class="col-sm-6 collapse-input">
+
+                                            <span class="form-control desactive-text-span"
+                                                name="totalDC202">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.totalDC)}}
+                                            </span>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="totalDC" class="col-sm-6 col-form-label">Escompte</label>
+                                        <div class="col-sm-6 collapse-input">
+
+                                            <span class="form-control desactive-text-span"
+                                                name="totalDC202">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.montantEscompte)}}
+                                            </span>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="date" class="col-sm-6 col-form-label">Montant payé</label>
+                                        <div class="col-sm-6 collapse-input">
+                                            <span class="form-control desactive-text-span style-color-green"
+                                                name="montantPaye">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.montantPaye)}}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                            <div class="col-md-4">
+                                <form action="javascript:">
+
+                                    <div class="form-group row">
+                                        <label for="tFiscale" class="col-sm-6 col-form-label">Timbre Fiscal</label>
+                                        <div class="col-sm-6 collapse-input">
+
+                                            <span class="form-control desactive-text-span"
+                                                name="timbreFiscale">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.timbreFiscale)}}
+                                            </span>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="totalFodec" class="col-sm-6 col-form-label">Total Fodec</label>
+                                        <div class="col-sm-6 collapse-input">
+
+
+                                            <span class="form-control desactive-text-span"
+                                                name="totalFodec">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.totalFodec)}}
+                                            </span>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="Gaincommerciale" class="col-sm-6 col-form-label">Gain
+                                            commerciale</label>
+                                        <div class="col-sm-6 collapse-input">
+
+                                            <span class="form-control desactive-text-span"
+                                                name="Gaincommerciale">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.totalGainCommerciale)}}
+                                            </span>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="Gainreel" class="col-sm-6 col-form-label">Gain réel</label>
+                                        <div class="col-sm-6 collapse-input">
+
+                                            <span class="form-control desactive-text-span"
+                                                name="Gainreel">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.totalGainReel)}}
+                                            </span>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="date" class="col-sm-6 col-form-label">Reste à payer </label>
+                                        <div class="col-sm-6 collapse-input">
+                                            <span class="form-control desactive-text-span style-color-red"
+                                                name="restPayer">{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(bonLivraison.restPayer)}}
+                                            </span>
+                                        </div>
+                                    </div>
+
+
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-md-12"
+                            *ngIf="titreDocument === fonctionPartagesService.titreDocuments.bonReception">
+
+                            <hr />
+
+                            <div class="form-group row">
+                                <label for="Gainreel" class="col-sm-6 col-form-label">Numero Bon Livraison
+                                    Fournisseur</label>
+                                <div class="col-sm-6 collapse-input">
+                                    <input class="form-control" [(ngModel)]="bonLivraison.numeroBonLivraisonFournisseur"
+                                        style="height: 29px; padding:5px;">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Capture Bon Livraison Fournisseur</label>
+                                <div class="col-sm-4">
+                                    <input (change)="onFileSelect($event)" type="file" id="captureFacture"
+                                        style="color: transparent;" />
+
+                                    <p *ngIf="captureFournisseur"> {{captureFournisseur.name}} </p>
+                                    <p
+                                        *ngIf="!imageData && bonLivraison.captureBonLivraisonFournisseur && bonLivraison.captureBonLivraisonFournisseur.length > 0">
+                                        {{replacePath(bonLivraison.captureBonLivraisonFournisseur)}} </p>
+                                </div>
+                                <div class="col-sm-4">
+                                    <button class="btn btn-info"
+                                        *ngIf="!imageData && bonLivraison.captureBonLivraisonFournisseur && bonLivraison.captureBonLivraisonFournisseur.length > 0"
+                                        (click)="saveFileFacture()"> Télécharger </button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12">
+
+                            <hr />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- partie tabs -->
+                <div class="col-md-12">
+                    <ngb-tabset type="pills">
+                        <!-- partie Article -->
+                        <ngb-tab title="Articles" class="mb-3">
+                            <ng-template ngbTabContent>
+                                <div class="col-xl-14">
+                                    <hr>
+                                    <app-lignebl [titreCrud]="titreCrud" [articlesSelected]="articles"
+                                        [titreDocument]="titreDocument" (changePrixTotalEvent)="changePrixTotalEvent()"
+                                        [bonLivraison]="bonLivraison" [articles]="allArticles" [client]="client"
+                                        [uniteMesures]="uniteMesures" (getAllParametresEvent)="getAllParametres()">
+                                    </app-lignebl>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                        <!-- partie Réglements -->
+                        <ngb-tab
+                            *ngIf="titreDocument == fonctionPartagesService.titreDocuments.bonLivraison || titreDocument == fonctionPartagesService.titreDocuments.bonRetourClient || titreDocument == fonctionPartagesService.titreDocuments.bonRetourFournisseur || titreDocument == fonctionPartagesService.titreDocuments.bonReception"
+                            title="Réglement" class="mb-3">
+                            <ng-template ngbTabContent>
+                                <div class="col-xl-14" style="margin-top: 10px;">
+                                    <app-reglements-bon-livraison (getAllParametres)="getAllParametres"
+                                        [ancienReglements]="ancienReglements" [reglements]="reglements" [allModeReglement]="allModeReglement"
+                                        [allSituationReglement]="allSituationReglement" [isLoading]="isLoading"
+                                        [bonLivraison]="bonLivraison">
+                                    </app-reglements-bon-livraison>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                        <!-- partie charge global -->
+                        <ngb-tab *ngIf="titreDocument == fonctionPartagesService.titreDocuments.bonAchat"
+                            title="Charges" class="mb-3">
+                            <ng-template ngbTabContent>
+                                <div class="col-xl-14" style="margin-top: 10px;">
+                                    <app-charge-global (getAllParametres)="getAllParametres" [charges]="charges"
+                                        [allCharges]="allCharges" [isLoading]="isLoading" [bonLivraison]="bonLivraison">
+                                    </app-charge-global>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                        <!-- partie charge details -->
+                        <ngb-tab *ngIf="titreDocument == fonctionPartagesService.titreDocuments.bonAchat"
+                            title="Répartition charges" class="mb-3">
+                            <ng-template ngbTabContent>
+                                <div class="col-xl-14" style="margin-top: 10px;">
+                                    <app-charge-details (getAllParametres)="getAllParametres"
+                                        [articlesSelected]="articles" [charges]="charges" [isLoading]="isLoading"
+                                        [bonLivraison]="bonLivraison"></app-charge-details>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+
+                        <ngb-tab
+                            *ngIf="titreDocument == fonctionPartagesService.titreDocuments.bonLivraison && titreCrud == fonctionPartagesService.titreCrud.modifier"
+                            title="Expeditions" class="mb-3">
+                            <ng-template ngbTabContent>
+                                <div class="col-xl-14" style="margin-top: 10px;">
+                                    <hr>
+                                    <app-expeditions [bonLivraison]="request"
+                                        (ajouterExpeditionEvent)="modifierBonLivraison()"></app-expeditions>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+
+                        <ngb-tab
+                            *ngIf="(titreDocument == fonctionPartagesService.titreDocuments.bonCommande || titreDocument == fonctionPartagesService.titreDocuments.bonAchat) && titreCrud == fonctionPartagesService.titreCrud.modifier"
+                            title="Réceptions" class="mb-3">
+                            <ng-template ngbTabContent>
+                                <div class="col-xl-14" style="margin-top: 10px;">
+                                    <app-receptions [allArticles]="allArticles" [allTransporteurs]="allTransporteurs"
+                                        [bonLivraison]="request" [titreDocument]="titreDocument"
+                                        [receptions]="receptions"></app-receptions>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+
+                        <!-- partie Observations-->
+                        <ngb-tab title="Observations" class="mb-3">
+                            <ng-template ngbTabContent>
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <hr>
+                                    </div>
+
+                                    <label for="observation" class="col-sm-3 col-form-label">Observations</label>
+                                    <div class="col-sm-9" style="margin-top: 10px;">
+                                        <textarea class="form-control" id="observation" name="observation"
+                                            [(ngModel)]="bonLivraison.observation"></textarea>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                    </ngb-tabset>
+                </div>
+            </div>
+
+            
+            <hr *ngIf="isPopup">
+
+            <div *ngIf="isPopup" class="form-group row" style="justify-content: space-between !important;">
+                <div class="text-titre">
+                 
+                </div>
+
+                <div class="left-button">
+                    <button *ngIf="!isLoading && titreCrud !== fonctionPartagesService.titreCrud.ajouter"
+                        class="btn btn-info float-left" (click)="generationPdfFacture.openPopup(id, titreDocument)">
+                        Imprimer
+                    </button>
+
+                    <button *ngIf="!isLoading" class="btn btn-primary float-left" (click)="ajoutImage()"
+                        id="buttonBonLivraisonEnregistrer">
+                        Enregister
+                    </button>
+                    <button *ngIf="isLoading" class="btn btn-primary" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Chargement...
+                    </button>
+
+                    <app-routes-transfert-documents
+                        *ngIf="!isLoading && titreCrud == fonctionPartagesService.titreCrud.modifier"
+                        [modeTransfert]="modeTransfert" [titreDocument]="titreDocument" [id]="id">
+                    </app-routes-transfert-documents>
+                </div>
+            </div>
+
+        </app-card>
+    </div>
+</div>
+
+<app-add-element-modal [isLoading]="isLoading" [isOpenModalAjoutElement]="isOpenModalAjout"
+    [idAjoutElementModal]="idAjoutClientModal" (closeModalAjoutElement)="closeModalAjout()" [typeElement]="typeElement">
+</app-add-element-modal>
+
+<app-delete-modal [isOpenModalDelete]="isOpenModalBlockerClient" (closeModalDelete)="closeBlockerClient()"
+    titre="Attention" [body]="messageBlockerClient" isAlert="1"></app-delete-modal>

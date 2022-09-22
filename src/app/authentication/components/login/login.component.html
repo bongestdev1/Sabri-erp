@@ -1,0 +1,35 @@
+<section id="slider" style="margin-top:8%; background-color:#1abc9c; height:100%;">
+
+    <div class="slider-3" style="width: fit-content; margin:0 auto;">
+        <form [formGroup]="formC">
+            <h1>Connexion</h1>
+            <!--<p>Si vous n'avez pas de compte d'utilisateur, vous pouvez en créer un - <a style="color: white;" [routerLink]="['/Inscription']">c'est gratuit.</a> </p>
+                                -->
+
+            <label><b>Nom d'utilisateur</b></label>
+            <input type="text" class="form-control" formControlName="email" id="email" placeholder="">
+            <p class="erreur">{{erreurLogin.email}}
+            </p>
+
+            <label><b>Mot de passe</b></label>
+            <input type="password" class="form-control" formControlName="password" id="password">
+            <p class="erreur">{{erreurLogin.password}}
+            </p>
+
+            <app-loading *ngIf="isLoading"></app-loading>
+
+            <div>
+                <a style="color:black;" [routerLink]="['/authentication/motPasseOublier']">Mot de passe oublié </a>
+                <input type="submit" id='submit' value='LOGIN' (click)="login()">
+            </div>
+            
+        </form>
+    </div>
+
+
+
+</section>
+
+<app-parametres-societes-modal  (closeModalAdd)="closeModalSocietes()" [isOpenModalAdd]="isOpenModalSocietes" ></app-parametres-societes-modal>
+
+<app-parametres-exercices-modal  (closeModalAdd)="closeModalExercices()" [isOpenModalAdd]="isOpenModalExercices" ></app-parametres-exercices-modal>

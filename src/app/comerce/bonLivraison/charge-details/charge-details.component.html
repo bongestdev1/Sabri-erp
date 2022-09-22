@@ -1,0 +1,60 @@
+<div class="table-responsive">
+    <table class="table table-striped" id="output">
+        <thead>
+            <tr>
+                <th *ngFor="let key of objectKeys(itemsVariableG)">
+                    <div class="th-tableau" (click)="changeCroissante(key)">
+                        {{itemsVariableG[key]}}
+                        <div class="buttons-croissante">
+
+                            <i class="fas fa-caret-up croissante {{key}}-croissante"></i>
+                            <i class="fas fa-caret-down croissante {{key}}-croissante"></i>
+                        </div>
+                    </div>
+                </th>
+                <th *ngFor="let item of charges">
+                    {{item.libelle}}
+                </th>
+                <th>
+                    Montant Total
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let itemG of listG">
+                <td *ngFor="let key of objectKeys(itemsVariableG)">
+                    <span
+                        *ngIf="['designation', 'prixAchat', 'reference', 'quantite','numero'].includes(key)">{{itemG[key]}}</span>
+                </td>
+
+                <th *ngFor="let item of charges">
+                    <app-input-number-vergule [field]="itemG" key="{{item.libelle}}"
+                        idUnique="{{item.libelle + itemG.reference}}" (ngModelChange)="changeMontantTotal(itemG.reference, item.libelle)">
+                    </app-input-number-vergule>
+                </th>
+                <th>
+                    <span>{{fonctionPartagesService.getFormaThreeAfterVerguleNomber(itemG.montantTotal)}}</span>
+                </th>
+            </tr>
+            <tr style="background-color: rgb(224, 183, 183);">
+                <td *ngFor="let key of objectKeys(itemsVariableG)">
+                </td>
+                <td *ngFor="let item of charges">
+                    <span style="color:transparent;">0</span>
+                    <span style="color: red; float:right; font-size: 15px; font-weight: 900;" >{{item.montant}}</span>
+                </td>
+                <td>
+
+                </td>
+            </tr>
+
+            <tr *ngIf="listG.length == 0">
+                <td colspan="20" style="text-align: center;">
+                    Vide
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

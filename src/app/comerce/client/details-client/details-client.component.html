@@ -1,0 +1,160 @@
+
+<div class="col-xl-14">
+  
+    <app-card [hidHeader]="true" style="padding:0px;">
+            <div *ngIf="!isPopup" class="pagination-inner" style="display:flex; flex-direction: row; justify-content: space-between;">
+                <h5  class="mb-0 ng-tns-c92-12">{{titre}}</h5>
+                <button *ngIf="isLoading" class="btn btn-primary" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Chargement...
+                </button>
+            </div>
+           
+            <div class="row">
+                <!-- Partie formulaire à Gauche en haut -->
+                <div class="col">
+                    <div class="form-group row">
+                        <label class="col-sm-6 col-form-label font-weight-bolder">Code:</label>
+                        <label class="col-sm-6 col-form-label"> {{client.code}} </label>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-6 col-form-label font-weight-bolder">Raison Sociale:</label>
+                        <label class="col-sm-6 col-form-label"> {{client.raisonSociale}} </label>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-6 col-form-label font-weight-bolder">Matricule Fiscale:</label>
+                        <label class="col-sm-6 col-form-label"> {{client.matriculeFiscale}} </label>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-6 col-form-label font-weight-bolder">Secteur:</label>
+                        <label class="col-sm-6 col-form-label"> {{client.secteur}} </label>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-6 col-form-label font-weight-bolder">Téléphone:</label>
+                        <label class="col-sm-6 col-form-label"> {{client.telephone}} </label>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-6 col-form-label font-weight-bolder">Mobiles:</label>
+                        <label class="col-sm-6 col-form-label"> {{client.mobiles}} </label>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-6 col-form-label font-weight-bolder">Condition Réglement:</label>
+                        <label class="col-sm-6 col-form-label"> {{client.conditionReglement}} </label>
+                    </div>
+                    <hr />
+                    <div class="form-group row">
+                        <label class="col-sm-6 col-form-label font-weight-bolder">Adresse Facture</label>
+                        <label class="col-sm-6 col-form-label" *ngIf="client.paysFacturation.length > 0">
+                            <p class="mb-0 text-muted">Pays : {{client.paysFacturation}}</p>
+                            <p class="mb-0 text-muted">Gouvernorat : {{client.gouvernoratFacturation}}</p>
+                            <p class="mb-0 text-muted">Délégation : {{client.delegationFacturation}}</p>
+                            <p class="mb-0 text-muted">Localité : {{client.localiteFacturation}}</p>
+                            <p class="mb-0 text-muted">Code postale : {{client.codePostaleFacturation}}</p>
+                            <p class="mb-0 text-muted">Adresse : {{client.adresseFacturation}}</p>
+                        </label>
+                        <label *ngIf="client.paysFacturation.length == 0" class="col-sm-6 col-form-label font-weight-bolder">Vide</label>
+                    </div>
+                    <hr />
+                    <div class="form-group row">
+                        <label class="col-sm-6 col-form-label font-weight-bolder">Adresse Livraison</label>
+                        <label class="col-sm-6 col-form-label" *ngIf="client.paysLivraison.length > 0">
+                            <p class="mb-0 text-muted">Pays : {{client.paysLivraison}}</p>
+                            <p class="mb-0 text-muted">Gouvernorat : {{client.gouvernoratLivraison}}</p>
+                            <p class="mb-0 text-muted">Délégation : {{client.delegationLivraison}}</p>
+                            <p class="mb-0 text-muted">Localité : {{client.localiteLivraison}}</p>
+                            <p class="mb-0 text-muted">Code postale : {{client.codePostaleLivraison}}</p>
+                            <p class="mb-0 text-muted">Adresse : {{client.adresseLivraison}}</p>
+                        </label>
+                        
+                        <label *ngIf="client.paysLivraison.length == 0" class="col-sm-6 col-form-label font-weight-bolder">Vide</label>
+                    </div>
+                </div>
+                <div class="col-md-auto">
+                    <div class="v1" style="margin-right: 0px !important; margin-top: 0px !important; height:100% !important;"></div>
+                </div>
+                <!-- Partie formulaire à Droite en haut -->
+                <div class="col">
+                    <div class="form-group row">
+                        <label class="col-sm-6 col-form-label font-weight-bolder">Type des Tiers:</label>
+                        <label class="col-sm-6 col-form-label"> {{client.typeTiers}} </label>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-6 col-form-label font-weight-bolder">Plafond Crédit:</label>
+                        <label class="col-sm-6 col-form-label"> {{fonctionPartages.getFormaThreeAfterVerguleNomber(client.plafondCredit)}} </label>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-6 col-form-label font-weight-bolder">Fax:</label>
+                        <label class="col-sm-6 col-form-label"> {{client.fax}} </label>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-6 col-form-label font-weight-bolder">Site Web:</label>
+                        <label class="col-sm-6 col-form-label"> {{client.siteWeb}} </label>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-6 col-form-label font-weight-bolder">Email:</label>
+                        <label class="col-sm-6 col-form-label"> {{client.email}} </label>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-6 col-form-label font-weight-bolder">Status Prospection:</label>
+                        <label class="col-sm-6 col-form-label"> {{client.statusProspection}} </label>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-6 col-form-label font-weight-bolder">Mode de Réglement:</label>
+                        <label class="col-sm-6 col-form-label"> {{client.modeReglement}} </label>
+                    </div>
+                    <hr />
+                    <div class="form-group row">
+                        <label class="col-sm-12 col-form-label font-weight-bolder">Autres Adresses:</label>
+                        <label *ngFor="let item of client.autresAdresse" class="col-sm-6">
+                            <p class="mb-0 text-muted">Titre : {{item.titre}}</p>
+                            <p class="mb-0 text-muted">Pays : {{item.pays}}</p>
+                            <p class="mb-0 text-muted">Gouvernorat : {{item.gouvernorat}}</p>
+                            <p class="mb-0 text-muted">Délégation : {{item.delegation}}</p>
+                            <p class="mb-0 text-muted">Localité : {{item.localite}}</p>
+                            <p class="mb-0 text-muted">Code Postale : {{item.codePostale}}</p>
+                            <p class="mb-0 text-muted">Adresse : {{item.adresse}}</p>
+                        </label>
+        
+                        <label *ngIf="client.autresAdresse.length == 0" class="col-sm-6 col-form-label font-weight-bolder">Vide</label>
+                    </div>
+                    <hr />
+                    <div class="form-group row">
+                        <label class="col-sm-12 col-form-label font-weight-bolder">Contacts:</label>
+                        <label *ngFor="let item of client.contacts" class="col-sm-6">
+                            <p class="mb-0 text-muted">Type : {{item.typeContact}}</p>
+                            <p class="mb-0 text-muted">Titre : {{item.titre}}</p>
+                            <p class="mb-0 text-muted">Civilité : {{item.civilite}}</p>
+                            <p class="mb-0 text-muted">Téléphone : {{item.telephone}}</p>
+                            <p class="mb-0 text-muted">Mobile : {{item.mobile}}</p>
+                            <p class="mb-0 text-muted">Email : {{item.email}}</p>
+                        </label>
+                        <label *ngIf="client.contacts.length == 0" class="col-sm-6 col-form-label font-weight-bolder">Vide</label>
+                    
+                    </div>
+                    <hr />
+                    <div class="form-group row">
+                        <label class="col-sm-12 col-form-label font-weight-bolder">Compléments:</label>
+                        <label *ngFor="let item of client.complements" class="col-sm-6">
+                            <p class="mb-0 text-muted">Type Complément : {{item.type}}</p>
+                            <p class="mb-0 text-muted">Complément : {{item.complement}}</p>
+                            <p class="mb-0 text-muted">Valeur Complément : {{item.valeur}}</p>
+                            <p class="mb-0 text-muted">Imprimable : {{item.imprimable}}</p>
+                        </label>
+                        <label *ngIf="client.complements.length == 0" class="col-sm-6 col-form-label font-weight-bolder">Vide</label>
+                    </div>
+                </div>
+            </div>
+        
+            <div *ngIf="isPopup" class="pagination-inner" style="display:flex; flex-direction: row; justify-content: space-between;">
+                <h5  class="mb-0 ng-tns-c92-12"></h5>
+                <button *ngIf="isLoading" class="btn btn-primary" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Chargement...
+                </button>
+            </div>
+        
+    </app-card>
+
+</div>
+
+

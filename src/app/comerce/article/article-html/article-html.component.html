@@ -1,0 +1,722 @@
+<!--aaaaaaaaaaaaaaaaaaaa-->
+<div class="row">
+
+    <div class="col-md-4">
+        <div class="card block-article">
+            <div class="text-titre-small">
+                <h5 class="h5-title">Info general</h5>
+            </div>
+            
+            <div class="form-group row">
+                <label for="reference" class="col-sm-4 col-form-label">Réference</label>
+                <div class="col-sm-8">
+                    <input type="input" class="form-control" name="reference" id="reference"
+                        [(ngModel)]="article.reference">
+                    <p *ngIf="erreurArticle.reference != ''" class="erreur">{{erreurArticle.reference}}
+                    </p>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="designation" class="col-sm-4 col-form-label">Désignation</label>
+                <div class="col-sm-8">
+                    <input type="input" class="form-control" name="designation" id="designation"
+                        [(ngModel)]="article.designation">
+                    <p *ngIf="erreurArticle.designation != ''" class="erreur">{{erreurArticle.designation}}
+                    </p>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="codeBarre" class="col-sm-4 col-form-label">CodeBarre</label>
+                <div class="col-sm-8">
+                    <div class="row"
+                        style="margin-left: 0px !important; margin-right: 0px !important; flex-wrap: nowrap;">
+                        <input type="input" class="form-control col-sm-9" name="codeBarre" id="codeBarre"
+                            [(ngModel)]="article.codeBarre">
+
+                        <button class="btn btn-outline-info col-sm-3" style="padding: 4px; height: 29px !important;"
+                            (click)="getCodeBarreFunction()">
+                            <i *ngIf="!isLoading" class="fas fa-cog"></i>
+                            <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status"
+                                aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="fournisseur" class="col-sm-4 col-form-label">Fournisseur</label>
+                <div class="col-sm-8">
+                    <app-autocomplete-fournisseur [articles]="fournisseurs" idHtml="ajoutArticle10"
+                        (getAllParametres)="getAllParametresFunction()" (addElementEvent)="setFournisseur($event)"
+                        [idSelected]="article.fournisseur">
+                    </app-autocomplete-fournisseur>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="typeArticle" class="col-sm-4 font-weight-bolder">Type Article</label>
+                <div class="col-sm-8">
+                    <div class="row">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="produit" value="produit" name="typeArticle"
+                                (click)="clickButtonOuiNon('produit', 'typeArticle')"
+                                [checked]="article.typeArticle == 'produit'">
+                            <label for="produit">Produit</label>
+                        </div>
+                        <div class="custom-control custom-radio" style="margin-left: 15px;">
+                            <input type="radio" id="service" value="service" name="typeArticle"
+                                (click)="clickButtonOuiNon('service', 'typeArticle')"
+                                [checked]="article.typeArticle == 'service'">
+                            <label for="service">Service</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 font-weight-bolder">Lot/Série active</label>
+                <div class="col-sm-3 custom-control custom-radio">
+                    <input type="radio" id="nonL" name="lotActive" value="non"
+                        (click)="clickButtonOuiNon('non', 'lotActive')" [checked]="article.lotActive == 'non'">
+                    <label for="nonL">Non</label>
+                </div>
+                <div class="col-sm-3 custom-control custom-radio">
+                    <input type="radio" id="ouiL" name="lotActive" value="oui"
+                        (click)="clickButtonOuiNon('oui', 'lotActive')" [checked]="article.lotActive == 'oui'">
+                    <label for="ouiL">Oui</label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="categorie" class="col-sm-3 col-form-label">Catégorie</label>
+                <div class="col-sm-9">
+                    <app-autocomplete (addElementEvent)="setCategorieID($event)" [keySelected]="keySelectedCategorie"
+                        [objet]="objetCategorie" [bordureRed]="erreurArticle.categorie != ''" [articles]="categories"
+                        [idSelected]="article.categorie" idHtml="ajoutArticle1"
+                        (openAddElementEvent)="openModalAjoutCategorie()">
+                    </app-autocomplete>
+
+                    <p *ngIf="erreurArticle.categorie != ''" class="erreur">{{erreurArticle.categorie}}
+                    </p>
+
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="famille" class="col-sm-3 col-form-label">Famille</label>
+                <div class="col-sm-9">
+                    <app-autocomplete (addElementEvent)="setFamilleID($event)" [keySelected]="keySelectedFamille"
+                        [objet]="objetCategorie" [articles]="famillesCurrent" [idSelected]="article.famille"
+                        idHtml="ajoutArticle2" (openAddElementEvent)="openModalAjoutFamille()">
+                    </app-autocomplete>
+
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="sousFamille" class="col-sm-3 col-form-label">Sous Famille</label>
+                <div class="col-sm-9">
+                    <app-autocomplete (addElementEvent)="setSousFamilleID($event)"
+                        [keySelected]="keySelectedSousFamille" [objet]="objetCategorie" [articles]="sousFamillesCurrent"
+                        [idSelected]="article.sousFamille" idHtml="ajoutArticle3"
+                        (openAddElementEvent)="openModalAjoutSousFamille()">
+                    </app-autocomplete>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="marque" class="col-sm-3 col-form-label">Marque</label>
+                <div class="col-sm-9">
+                    <app-autocomplete (addElementEvent)="setMarqueID($event)" [keySelected]="keySelectedMarque"
+                        [objet]="objetMarque" [articles]="marques" [idSelected]="article.marque" idHtml="ajoutArticle4"
+                        (openAddElementEvent)="openModalAjoutMarque()">
+                    </app-autocomplete>
+                </div>
+            </div>
+            
+            <div class="form-group row">
+                <label for="modele" class="col-sm-3 col-form-label">Modéle</label>
+                <div class="col-sm-9">
+                    <app-autocomplete (addElementEvent)="setModeleID($event)" [keySelected]="keySelectedModele"
+                        [objet]="objetModele" [articles]="modelesCurrent" [idSelected]="article.modele"
+                        idHtml="ajoutArticle5" (openAddElementEvent)="openModalAjoutModele()">
+                    </app-autocomplete>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">       
+      <div class="card block-article" >
+            <div class="text-titre-small">
+                <h5 class="h5-title">Info achat</h5>
+            </div>
+            <div class="form-group row">
+                <label for="prixFourn" class="col-sm-6 col-form-label class-libelle">Prix Fournisseur</label>
+                <div class="col-sm-6">
+                    <div class=" ">
+                        <app-input-number-vergule [field]="article" key="prixFourn" idUnique="prixFourn"
+                            [messageErreur]="erreurArticle.prixFourn" (ngModelChange)="changePrixVHTFunction()">
+                        </app-input-number-vergule>
+                    </div>
+
+                    <p *ngIf="erreurArticle.prixFourn != ''" class="erreur">{{erreurArticle.prixFourn}}
+                    </p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="remiseF" class="col-sm-6 col-form-label">Remise.Four(%)</label>
+                <div class="col-sm-6  ">
+                    <app-input-number-vergule [field]="article" key="remiseF" idUnique="remiseF"
+                        (ngModelChange)="changePrixVHTFunction()"></app-input-number-vergule>
+
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="remiseParMontant" class="col-sm-6 col-form-label">Remise Par montant</label>
+                <div class="col-sm-6  ">
+                    <app-input-number-vergule [field]="article" key="remiseParMontant" idUnique="remiseParMontant"
+                        (ngModelChange)="changePrixVHTFunction()"></app-input-number-vergule>
+
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="tauxDC" class="col-sm-3 col-form-label"
+                    style="padding-right: 5px !important;">TauxDC</label>
+                <div class="col-sm-3  ">
+                    <app-input-number-vergule [field]="article" key="tauxDC" idUnique="tauxDC"
+                        (ngModelChange)="changePrixVHTFunction()"></app-input-number-vergule>
+
+                </div>
+
+                <label for="prixDC" class="col-sm-3 col-form-label"
+                    style="padding-left: 5px !important; padding-right: 5px !important;">Montant DC</label>
+                <div class="col-sm-3">
+                    <p id="prixDC" style="margin-top: 5px; margin-bottom: 5px;"> {{getNumber(article.prixDC)}} </p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="prixFodec" class="col-sm-6 font-weight-bolder">Montant Fodec</label>
+                <div class="col-sm-2">
+                    <input type="checkbox" name="isFodec" id="isFodec" style="margin-top:8px;" (click)="clickIsFodec()"
+                        [checked]="article.isFodec == 'oui'">
+                </div>
+
+                <label for="prixFodec" class="col-sm-4 col-form-label"> {{getNumber(article.prixFodec)}}</label>
+            </div>
+            <div class="form-group row">
+                <label for="prixAchat" class="col-sm-6 col-form-label class-libelle">Prix Achat HT</label>
+                <div class="col-sm-6  ">
+                    <app-input-number-vergule [field]="article" key="prixAchat" idUnique="prixAchat"
+                        (change)="changePrixAchat('prixachatHT')"></app-input-number-vergule>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="prixAchatTTC" class="col-sm-6 col-form-label class-libelle">Prix Achat TTC</label>
+                <div class="col-sm-6">
+                    <label for="prixAchatTTC" class="col-sm-12 col-form-label">
+                        {{getNumber(article.prixAchatTTC + article.redevance)}}</label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="redevance" class="col-sm-4 col-form-label">Redevance</label>
+                <div class="col-sm-8  ">
+
+                    <app-input-number-vergule [field]="article" key="redevance" idUnique="redevance" (ngModelChange)="changePrixVHTFunction()">
+                    </app-input-number-vergule>
+
+                </div>
+            </div>
+
+            <div class="form-group row" style="margin-top:15px">
+                <label for="prixVenteHT" class="col-sm-8 col-form-label">Prix de revient HT</label>
+                <label for="prixVenteHT" class="col-sm-4 col-form-label">{{getNumber(calculTotalFrais() +
+                    article.prixAchat + article.redevance)}}</label>
+            </div>
+            <div class="form-group row">
+                <label for="prixVenteHT" class="col-sm-8 col-form-label">Prix de revient TTC</label>
+                <label for="prixVenteHT" class="col-sm-4 col-form-label">{{getNumber(calculTotalFraisTTC() +
+                    article.prixAchatTTC + article.redevance)}}</label>
+            </div>
+            <div class="form-group row" style="margin-bottom: 10px;">
+                <label class="col-sm-4 font-weight-bolder">Achat</label>
+                <div class="col-sm-3 custom-control custom-radio">
+                    <input type="radio" id="enAchat" name="achat" value="oui"
+                        (click)="clickButtonOuiNon('oui', 'enAchat')" [checked]="article.enAchat == 'oui'">
+                    <label for="enAchat">Oui</label>
+                </div>
+                <div class="col-sm-3 custom-control custom-radio">
+                    <input type="radio" id="horsAchat" name="achat" value="non"
+                        (click)="clickButtonOuiNon('non', 'enAchat')" [checked]="article.enAchat == 'non'">
+                    <label for="horsAchat">Non</label>
+                </div>
+            </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">    
+      <div class="card block-article">
+     <!--   <blockquote class="blockquote mb-0 card-body">-->
+            <div class="text-titre-small">
+                <h5 class="h5-title">Info vente</h5>
+            </div>
+            <div class="form-group row">
+                <label for="margeAppliqueeSur" class="col-sm-4 font-weight-bolder">Marge appliqué</label>
+                <div class="col-sm-3 custom-control custom-radio">
+                    <input type="radio" id="prixAchatMarge" value="Achat" name="prixRevientMarge"
+                        (click)="clickButtonOuiNon('Achat', 'margeAppliqueeSur'); changePrixVHTFunction();"
+                        [checked]="article.margeAppliqueeSur == 'Achat'">
+                    <label for="prixAchatMarge">Achat</label>
+
+                </div>
+                <div class="col-sm-3 custom-control custom-radio">
+                    <input type="radio" id="prixRevientMarge" value="Revient" name="prixRevientMarge"
+                        (click)="clickButtonOuiNon('Revient', 'margeAppliqueeSur'); changePrixVHTFunction();"
+                        [checked]="article.margeAppliqueeSur == 'Revient'">
+                    <label for="prixRevientMarge">Revient</label>
+
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="marge" class="col-sm-6 col-form-label">Marge(%)</label>
+                <div class="col-sm-6  ">
+                    <app-input-number-vergule [field]="article" key="marge" idUnique="marge"
+                        (ngModelChange)="changePrixVHTFunction()"></app-input-number-vergule>
+
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="prixVenteHT" class="col-sm-6 col-form-label class-libelle">Prix Vente HT</label>
+                <div class="col-sm-6">
+                    <app-input-number-vergule [field]="article" key="prixVenteHT" idUnique="prixVenteHT"
+                        (ngModelChange)="changePrixVenteHT()"></app-input-number-vergule>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="tauxTVA" class="col-sm-3 col-form-label"
+                    style="padding-right:5px !important;">TauxTVA</label>
+                <div class="col-sm-3">
+                    <!--<app-autocomplete (addElementEvent)="setTauxTVA($event)" [keySelected]="keySelectedTauxTVA"
+                    [objet]="objetTauxTVA" [articles]="tauxTVAs" idHtml="ajoutArticle0"
+                    (openAddElementEvent)="openModalAjoutTauxTVA()">
+                </app-autocomplete>-->
+                    <select [(ngModel)]="article.tauxTVA" (change)="changePrixVHTFunction()">
+                        <option *ngFor="let item of tauxTVAs" [value]="item.taux">{{item.taux}}</option>
+                    </select>
+                </div>
+
+                <label for="montantTVA" class="col-sm-3 col-form-label"
+                    style="padding-left:5px !important; padding-right:5px !important;">Montant TVA</label>
+                <div class="col-sm-3">
+                    <span class="form-control desactive-span" name="montantTVA">
+                        {{getNumber(article.montantTVA)}}
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="prixTTC" class="col-sm-6 col-form-label class-libelle">Prix de Vente TTC</label>
+                <div class="col-sm-6  ">
+                    <app-input-number-vergule [field]="article" key="prixTTC" idUnique="prixTTC"
+                        (ngModelChange)="changePrixVenteTTC()"></app-input-number-vergule>
+                </div>
+            </div>
+
+            <div class="form-group row">
+
+                <label for="valeurStock" class="col-sm-4 col-form-label">Qte en stock</label>
+                <div class="col-sm-8  ">
+                    <span class="form-control desactive-span" name="valeurStock">
+                        {{getNumber(article.qteEnStock)}}
+                    </span>
+                </div>
+
+            </div>
+
+
+            <div class="form-group row">
+                <label for="valeurStock" class="col-sm-4 col-form-label">ValeurStock</label>
+                <div class="col-sm-8  ">
+                    <span class="form-control desactive-span" name="valeurStock">
+                        {{getNumber(article.valeurStock)}}
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="pVenteConseille" class="col-sm-4 col-form-label">PVConseille</label>
+                <div class="col-sm-8  ">
+                    <app-input-number-vergule [field]="article" key="pVenteConseille" idUnique="pVenteConseille">
+                    </app-input-number-vergule>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="typeArticle" class="col-sm-4 font-weight-bolder">Sans Remise</label>
+                <div class="col-sm-8">
+                    <div class="row">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="Sans-Remise-Oui" value="produit" name="Sans-Remise"
+                                (click)="clickButtonOuiNon('oui', 'sansRemise')"
+                                [checked]="article.sansRemise == 'oui'">
+                            <label for="Sans-Remise-Oui">Oui</label>
+                        </div>
+                        <div class="custom-control custom-radio" style="margin-left: 15px;">
+                            <input type="radio" id="Sans-Remise-Non" value="service" name="Sans-Remise"
+                                (click)="clickButtonOuiNon('non', 'sansRemise')"
+                                [checked]="article.sansRemise == 'non'">
+                            <label for="Sans-Remise-Non">Non</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="plafondRemise" class="col-sm-4 col-form-label">PlafondRemise(%)</label>
+                <div class="col-sm-8  ">
+                    <app-input-number-vergule [field]="article" key="plafondRemise" idUnique="plafondRemise">
+                    </app-input-number-vergule>
+                </div>
+            </div>
+
+            <div class="form-group row" >
+                <label class="col-sm-4 font-weight-bolder">Vente</label>
+                <div class="col-sm-3 custom-control custom-radio">
+                    <input type="radio" id="enVente" name="vente" value="oui"
+                        (click)="clickButtonOuiNon('oui', 'enVente')" [checked]="article.enVente == 'oui'"
+                        (focus)="fonctionPartagesService.resetAutoCompletes('')">
+                    <label for="enVente">Oui</label>
+                </div>
+                <div class="col-sm-3 custom-control custom-radio">
+                    <input type="radio" id="horsVente" name="vente" value="non"
+                        (click)="clickButtonOuiNon('non', 'enVente')" [checked]="article.enVente == 'non'">
+                    <label for="horsVente">Non</label>
+                </div>
+            </div>
+        <!--</blockquote>-->
+      </div>
+    </div>
+
+    <hr />
+    <!-- partie collapse -->
+    <div class="col-md-12">
+        <br>
+        <ngb-tabset type="pills">
+            <!-- partie Plus de détails -->
+            <ngb-tab title="Plus de détails" class="mb-3">
+                <ng-template ngbTabContent>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <form action="javascript:">
+                                
+                                <div class="form-group row">
+                                    <label for="pVenteConseille" class="col-sm-4 col-form-label">Alert-Stock</label>
+                                    <div class="col-sm-8  ">
+                                        <app-input-number-vergule [field]="article" key="seuilAlerteQTS"
+                                            idUnique="seuilAlerteQTS">
+                                        </app-input-number-vergule>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="pVenteConseille" class="col-sm-4 col-form-label">Rearp-Stock</label>
+                                    <div class="col-sm-8  ">
+                                        <app-input-number-vergule [field]="article" key="seuilRearpQTS"
+                                            idUnique="seuilRearpQTS">
+                                        </app-input-number-vergule>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="pVenteConseille" class="col-sm-4 col-form-label">Stock-Max</label>
+                                    <div class="col-sm-8  ">
+                                        <app-input-number-vergule [field]="article" key="stockMax" idUnique="stockMax">
+                                        </app-input-number-vergule>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="pVenteConseille" class="col-sm-8 col-form-label">Vente avec stock
+                                        negative</label>
+                                    <div class="col-sm-4" style="padding:5px;">
+                                        <input type="checkbox" (click)="clickButtonOuiNon2('venteAvecStockNegative')" [checked]="article.venteAvecStockNegative == 'oui'">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="refFournisseur" class="col-sm-4 col-form-label">RefFournisseur</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="refFournisseur"
+                                            name="refFournisseur" [(ngModel)]="article.refFournisseur">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="description" class="col-sm-4 col-form-label">Description</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="description" name="description"
+                                            [(ngModel)]="article.description">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="observations" class="col-sm-4 col-form-label">Observations</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="observations" name="observations"
+                                            [(ngModel)]="article.observations">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="poids" class="col-sm-2 col-form-label">Poids</label>
+                                    <div class="col-sm-4  ">
+                                        <app-input-number-vergule [field]="article" key="poids" idUnique="poids">
+                                        </app-input-number-vergule>
+                                    </div>
+
+                                    <label for="couleur" class="col-sm-2 col-form-label">Couleur</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="couleur" name="couleur"
+                                            [(ngModel)]="article.couleur">
+                                    </div>
+
+                                </div>
+                                <div class="form-group row">
+                                    <label for="surface" class="col-sm-2 col-form-label">Surface</label>
+                                    <div class="col-sm-4  ">
+                                        <app-input-number-vergule [field]="article" key="surface" idUnique="surface">
+                                        </app-input-number-vergule>
+                                    </div>
+
+                                    <label for="volume" class="col-sm-2 col-form-label">Volume</label>
+                                    <div class="col-sm-4  ">
+                                        <app-input-number-vergule [field]="article" key="volume" idUnique="volume">
+                                        </app-input-number-vergule>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                        <!-- Partie Stock   -->
+                        <div class="col-md-6">
+                            <form action="javascript:">
+                                <div class="form-group row">
+                                    <label for="unite2" class="col-sm-3 col-form-label">Unité 1</label>
+                                    <div class="col-sm-9">
+                                        <app-autocomplete (addElementEvent)="setUniteMesureID1($event)"
+                                            [bordureRed]="erreurArticle.unite1 != ''"
+                                            [keySelected]="keySelectedUniteMesure" [objet]="objetUniteMesure"
+                                            [articles]="uniteMesures" [idSelected]="article.unite1"
+                                            idHtml="ajoutUniteMesure1"
+                                            (openAddElementEvent)="openModalAjoutUniteMesure()">
+                                        </app-autocomplete>
+
+                                        <p *ngIf="erreurArticle.unite1 != ''" class="erreur">{{erreurArticle.unite1}}
+                                        </p>
+                                    </div>
+                                    <label class="col-sm-12 col-form-label class-libelle">(Unité 1 = Coéfficient * Unité
+                                        2)
+                                    </label>
+                                    <label for="coefficient" class="col-sm-3 col-form-label">Coéfficient </label>
+                                    <div class="col-sm-9" style="margin-top: 5px;">
+                                        <app-input-number-vergule [field]="article" key="coefficient"
+                                            idUnique="coefficient"></app-input-number-vergule>
+                                        <p *ngIf="erreurArticle.coefficient != ''" class="erreur">
+                                            {{erreurArticle.coefficient}}
+                                        </p>
+                                    </div>
+
+                                    <label for="unite1" class="col-sm-3 col-form-label">Unité 2</label>
+                                    <div class="col-sm-9" style="margin-top: 5px;">
+                                        <app-autocomplete (addElementEvent)="setUniteMesureID2($event)"
+                                            [bordureRed]="erreurArticle.unite2 != ''"
+                                            [keySelected]="keySelectedUniteMesure" [objet]="objetUniteMesure"
+                                            [articles]="uniteMesures" [idSelected]="article.unite2"
+                                            idHtml="ajoutUniteMesure2"
+                                            (openAddElementEvent)="openModalAjoutUniteMesure()">
+                                        </app-autocomplete>
+                                        <p *ngIf="erreurArticle.unite2 != ''" class="erreur">{{erreurArticle.unite2}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="emplacement" class="col-sm-3 col-form-label">Emplacement</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="emplacement" name="emplacement"
+                                            [(ngModel)]="article.emplacement">
+                                    </div>
+                                    <label for="raccourciPLU" class="col-sm-3 col-form-label">RaccourciPLU</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="raccourciPLU" name="raccourciPLU"
+                                            [(ngModel)]="article.raccourciPLU">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="prixVenteHT2" class="col-sm-3 col-form-label">PrixVenteHT2</label>
+                                    <div class="col-sm-9  ">
+                                        <app-input-number-vergule [field]="article" key="prixVenteHT2"
+                                            idUnique="prixVenteHT2"></app-input-number-vergule>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="prixVenteHT3" class="col-sm-3 col-form-label">PrixVenteHT3</label>
+                                    <div class="col-sm-9  ">
+                                        <app-input-number-vergule [field]="article" key="prixVenteHT3"
+                                            idUnique="prixVenteHT3"></app-input-number-vergule>
+
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="taille" class="col-sm-12 col-form-label">Longeur * Largeur *
+                                        Hauteur</label>
+
+                                    <div class="col-sm-4  ">
+                                        <app-input-number-vergule [field]="article" key="longueur" idUnique="longueur">
+                                        </app-input-number-vergule>
+                                    </div>X
+                                    <div class="col-sm-4  ">
+                                        <app-input-number-vergule [field]="article" key="largeur" idUnique="largeur">
+                                        </app-input-number-vergule>
+                                    </div> X
+
+                                    <div class="col-sm-3  ">
+                                        <app-input-number-vergule [field]="article" key="hauteur" idUnique="hauteur">
+                                        </app-input-number-vergule>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+
+            <!-- partie Prix Vente par Quantites -->
+            <ngb-tab title="Prix Vente par Quantites" class="mb-3">
+                <ng-template ngbTabContent>
+                    <hr>
+                    <app-prix-specifique-articl-input [idArticle]="idArticle"></app-prix-specifique-articl-input>
+                    <!--<app-prix-with-quantites [article]="article" [prixWithQuantites]="prixWithQuantites"
+                    [allTypeTiers]="typeTiers"></app-prix-with-quantites>-->
+                </ng-template>
+            </ngb-tab>
+
+            <!-- partie Variantes -->
+            <ngb-tab title="Variantes" class="mb-3" *ngIf="titreCrud != fonctionPartagesService.titreCrud.ajouter">
+                <ng-template ngbTabContent>
+                    <hr>
+                    <app-article-variantes [article]="article" [variantes]="variantes" [sousProduits]="sousProduits">
+                    </app-article-variantes>
+                </ng-template>
+            </ngb-tab>
+
+            <!-- partie Stock -->
+            <ngb-tab title="Stock" class="mb-3">
+                <ng-template ngbTabContent>
+                    <hr>
+                    <app-article-stock [article]="article"></app-article-stock>
+                </ng-template>
+            </ngb-tab>
+
+            <!-- partie Frais -->
+            <ngb-tab title="Frais" class="mb-3">
+                <ng-template ngbTabContent>
+                    <hr>
+                    <app-frais-article [listFrais]="listFrais" [allFrais]="frais"
+                        (changePrixVHT)="changePrixVHTFunction()">
+                    </app-frais-article>
+                </ng-template>
+            </ngb-tab>
+
+            <!-- partie Site Web -->
+            <ngb-tab title="Site Web" class="mb-3">
+                <ng-template ngbTabContent>
+                    <hr>
+                    <div class="form-group row">
+                        <div class="col-md-5 class-checkbox">
+                            <div class="form-group row">
+                                <label class="col-5 font-weight-bolder">Disponible</label>
+                                <div class="col-4 custom-control custom-radio">
+                                    <input type="checkbox" id="ouiD" name="enDisponible" value="oui"
+                                        (click)="clickButtonOuiNon2('enDisponible')"
+                                        [checked]="article.enDisponible == 'oui'">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label class="col-5 font-weight-bolder">Promotion</label>
+                                <div class="col-4 custom-control custom-radio">
+                                    <input type="checkbox" id="ouiP" name="promotion" value="oui"
+                                        (click)="clickButtonOuiNon2('enPromotion')"
+                                        [checked]="article.enPromotion == 'oui'">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-5 font-weight-bolder">Nouveau</label>
+                                <div class="col-4 custom-control custom-radio">
+                                    <input type="checkbox" id="ouiN" name="nouveau" value="oui"
+                                        (click)="clickButtonOuiNon2('enNouveau')"
+                                        [checked]="article.enNouveau == 'oui'">
+                                </div>
+
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-5 font-weight-bolder">Balance</label>
+                                <div class="col-4 custom-control custom-radio">
+                                    <input type="checkbox" id="ouiB" name="balance" value="oui"
+                                        (click)="clickButtonOuiNon2('enBalance')"
+                                        [checked]="article.enBalance == 'oui'">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5 class-checkbox">
+                            <div class="form-group row">
+                                <label class="col-5 font-weight-bolder">Vedette</label>
+                                <div class="col-4 custom-control custom-radio">
+                                    <input type="checkbox" id="ouiVe" name="vedette" value="oui"
+                                        (click)="clickButtonOuiNon2('enVedette')"
+                                        [checked]="article.enVedette == 'oui'">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-5 font-weight-bolder">Liquidation</label>
+                                <div class="col-4 custom-control custom-radio">
+                                    <input type="checkbox" id="ouiLi" name="liquidation" value="oui"
+                                        (click)="clickButtonOuiNon2('enLiquidation')"
+                                        [checked]="article.enLiquidation == 'oui'">
+                                </div>
+
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-5 font-weight-bolder">Archive</label>
+                                <div class="col-4 custom-control custom-radio">
+                                    <input type="checkbox" id="ouiA" name="enArchive" value="oui"
+                                        (click)="clickButtonOuiNon2('enArchive')"
+                                        [checked]="article.enArchive == 'oui'">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+
+
+        </ngb-tabset>
+    </div>
+
+    <app-add-famille-modal [isLoading]="isLoading" [isOpenModalAjoutFamille]="isOpenModalAjoutFamille"
+        [idAjoutFamilleModal]="idAjoutFamilleModal" (closeModalAjoutFamille)="closeModalAjoutFamille()"
+        [idCategorie]="article.categorie"></app-add-famille-modal>
+
+    <app-add-sous-famille-modal [isLoading]="isLoading" [isOpenModalAjoutSousFamille]="isOpenModalAjoutSousFamille"
+        [idAjoutSousFamilleModal]="idAjoutSousFamilleModal" (closeModalAjoutSousFamille)="closeModalAjoutSousFamille()"
+        [idFamille]="article.famille" [idCategorie]="article.categorie" [idFamille]="article.famille">
+    </app-add-sous-famille-modal>
+
+    <app-add-element-modal [isLoading]="isLoading" [isOpenModalAjoutElement]="isOpenModalAjoutElement"
+        [idAjoutElementModal]="idAjoutElementModal" (closeModalAjoutElement)="closeModalAjoutElement()"
+        [typeElement]="typeElement"></app-add-element-modal>

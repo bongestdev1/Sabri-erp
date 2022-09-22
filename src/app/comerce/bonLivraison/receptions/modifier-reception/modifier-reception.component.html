@@ -1,0 +1,99 @@
+<app-controle-acces [avoirAccee]="informationGenerale.verifierAccee('modifierReception')"></app-controle-acces>
+
+
+<div class="row" *ngIf="informationGenerale.verifierAccee('modifierReception')">
+    <div class="col-sm-12">
+        <app-card [hidHeader]="true">
+            <!-- Partie Header -->
+            <div class="form-group row">
+                    <div class="text-titre">
+                        <h3>Modifier Reception</h3>
+                    </div>
+                    <div style="margin-left: auto;">
+                        <button *ngIf="!isLoading" class="btn btn-primary"
+                            (click)="modifierReception()">
+                            Modifier
+                        </button>
+                        <button *ngIf="isLoading" class="btn btn-primary" disabled>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Chargement...
+                        </button>
+                    </div>
+            </div>
+            <hr>
+            <div class="row">
+                <!-- Partie formulaire à Gauche en haut -->
+                <div class="col-sm-6">
+                    <form action="javascript:">
+                        <div class="form-group row">
+                            <label for="transporteur" class="col-sm-4">Transporteur</label>
+                            <div class="col-sm-8">
+                                <app-autocomplete (addElementEvent)="setTransporteurID($event)" keySelected="nom" 
+                                [objet]="objetsAutocomplete.objetTransporteur" [articles]="allTransporteurs" 
+                                [idSelected]="newReception.transporteur" [idHtml]="500" 
+                                (openAddElementEvent)="openModalAjoutTransporteur()"></app-autocomplete>
+                            </div>
+                        </div> 
+                        <div class="form-group row">
+                            <label for="date-time" class="col-sm-4 col-form-label">Date</label>
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control" id="date" name="date"
+                                    [(ngModel)]="newReception.date">
+                            </div>
+                        </div> 
+                    </form>
+                </div>
+            </div>
+            <div class="form-group row" style=" margin-top: 10px;">
+            
+                <h5>Liste des articles</h5>
+                <div class="table-responsive">
+                     <table class="table table-striped" id="output" style="width: 100%; overflow-x: auto;">
+                         <thead>
+                             <tr>
+                                 <th *ngFor="let key of objectKeys(shemaArticle)">
+                                     <div class="th-tableau">
+                                         {{shemaArticle[key]}}
+                                     </div>
+                                 </th>
+                             </tr>
+                         </thead>
+                         <tbody *ngIf="newReception.articles.length > 0">
+                             <tr *ngFor="let item of newReception.articles">
+                                 <td *ngFor="let key of objectKeys(shemaArticle)">
+                                     <span *ngIf="!allTabNumbers.includes(key) && key!='lot' && key!='sousProduit'">{{item[key]}}</span>
+                                     <div *ngIf="tabNumbers.includes(key)" class="col-sm-12 collapse-input" style="width: 100%;">
+                                        <app-input-number-vergule isQuantite="1" [field]="item" [key]="key" idUnique="{{key+item['numero']}}" (ngModelChange)="changeQuantiteRestant()"></app-input-number-vergule>
+                                     </div>
+
+                                     <div *ngIf="key=='lot'" style="width: 100%;">
+                                         <input type="text" class="form-control" id="lot" name="lot"
+                                         [(ngModel)]="item.lot" style="margin-left:0px; margin-right: 0px;">
+                                     </div>
+
+                                     <div *ngIf="key=='sousProduit'" style="width: 100%;">
+                                         <select [(ngModel)]="item.sousProduit" style="width:100%;">
+                                             <option value=""></option>
+                                             <option *ngFor="let item of objetSousProduits[item.article]" value="{{item._id}}">{{item.reference}}</option>
+                                         </select>
+                                     </div>
+
+                                     <span *ngIf="tabNumbersLabel.includes(key)">{{getNumber(item[key])}}</span>
+                                 </td>
+                             </tr>
+                         </tbody>
+                         <tbody *ngIf="newReception.articles.length == 0">
+                             <tr>
+                                 <td style="text-align: center;" colspan="100">
+                                     <span style="color: rgb(26, 192, 26); font-weight: 900;"> <i
+                                             class="fas fa-check"></i> Tous vôtres articles sont expédiés </span>
+                                 </td>
+                             </tr>
+                         </tbody>
+                     </table>
+                 </div>
+          
+         </div>
+        </app-card>
+    </div>
+</div>

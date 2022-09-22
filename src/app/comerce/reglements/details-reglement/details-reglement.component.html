@@ -1,0 +1,29 @@
+
+<div class="row">
+    <div class="col-sm-12">
+        <app-card [hidHeader]="true">
+            <!-- Partie Header -->
+            <div class="form-group row" style="justify-content: space-between !important;">
+                <div class="text-titre">
+                    <h3>Reglement {{parametres2.titreAjouter}}</h3>
+                </div>
+                <div class="left-button">
+                    <button *ngIf="isLoading" class="btn btn-primary" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Chargement...
+                    </button>
+                </div>
+            </div>
+            <hr>
+            <app-reglement-details
+              [reglement]="reglement"
+              [parametres]="parametres"
+              [parametres2]="parametres2"
+              [isLoading]="isLoading"
+            >
+
+            </app-reglement-details>
+            
+        </app-card>
+    </div>
+</div>
