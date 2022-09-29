@@ -1,0 +1,73 @@
+<app-controle-acces [avoirAccee]="informationGenerale.verifierAccee('listCategories')"></app-controle-acces>
+
+<div class="col-xl-14" *ngIf="informationGenerale.verifierAccee('listCategories')">
+    <app-card cardTitle="Liste des categories" blockClass="table-border-style">
+        <form [formGroup]="formC">
+
+            <app-entete-page-list [list]="categories" [items]="items" [titreFile]="titreFile" [nameFile]="nameFile"
+                [acces]="'ajouterCategorie'" (gotToAdd)="openModalAjout()" [titreDocuments]="'Categorie'"
+                [itemsVariable]="itemsVariable" [control]="formC.controls['limit']" (getList)="getCategories()">
+            </app-entete-page-list>
+
+            <div class="table-responsive">
+                <table class="table table-striped" id="output">
+                    <thead>
+                        <tr class="rechercherligne">
+                            <th *ngFor="let key of objectKeys(itemsVariable)">
+                                <div class="form-group">
+                                    <input type="text" placeholder="Recherche" class="form-control"
+                                        [formControlName]="key">
+                                </div>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <thead>
+                        <tr>
+                            <th *ngFor="let key of objectKeys(itemsVariable)">
+                                <div class="th-tableau" (click)="changeCroissante(key)">
+                                    {{items[key]}}
+                                    <div class="buttons-croissante">
+                                        <i class="fas fa-caret-up croissante {{key}}-croissante"></i>
+                                        <i class="fas fa-caret-down croissante {{key}}-croissante"></i>
+                                    </div>
+                                </div>
+                            </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of categories">
+                            <td *ngFor="let key of objectKeys(itemsVariable)">{{item[key]}}</td>
+                            <td>
+                                <a *ngIf="informationGenerale.verifierAccee('modifierCategorie')" _ngcontent-myx-c121=""
+                                    (click)="openModalModifier(item.id)" class="btn btn-icon btn-outline-success"
+                                    style="margin-right: 5px;">
+                                    <i _ngcontent-myx-c121="" class="feather icon-edit"></i>
+                                </a>
+
+                                <a *ngIf="informationGenerale.verifierAccee('supprimerCategorie')"
+                                    _ngcontent-myx-c121="" href="javascript:" class="btn btn-icon btn-outline-danger"
+                                    (click)="openModalDelete(item.id,item.libelle)">
+                                    <i _ngcontent-myx-c121="" class="feather icon-trash-2"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <app-spinner2 *ngIf="isLoading"></app-spinner2>
+            <hr>
+            <app-pagination [page]="request.page" [totalPage]="totalPage" (setPageEvent)="setPage($event)">
+            </app-pagination>
+        </form>
+        <app-delete-modal [isLoading]="isLoading" [isOpenModalDelete]="isOpenModalDelete"
+            [idDeleteModal]="idDeleteModal" [params1Delete]="params1Delete" [params2Delete]="params2Delete"
+            (deleteItem)="deleteItem()" (closeModalDelete)="closeModalDelete()"></app-delete-modal>
+    </app-card>
+</div>
+
+
+<!-- <app-add-element-modal [isLoading]="isLoading" [isOpenModalAjoutElement]="isOpenModalAjoutElement"
+    [idAjoutElementModal]="idAjoutElementModal" (closeModalAjoutElement)="closeModalAjoutElement()"
+    [typeElement]="typeElement"></app-add-element-modal> -->

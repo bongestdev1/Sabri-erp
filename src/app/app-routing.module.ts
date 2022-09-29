@@ -176,10 +176,10 @@ const routes: Routes = [
           //     loadChildren: () => import('./comerce/parametres/parametres.module').then(module => module.ParametresModule)
           //   },
       
-          //  {
-          //    path: 'variable',
-          //    loadChildren: () => import('./comerce/variables/variables.module').then(module => module.VariablesModule)
-          //  }, 
+           {
+             path: 'variable',
+             loadChildren: () => import('./comerce/variables/variables.module').then(module => module.VariablesModule)
+           }, 
     {
       path: 'bonLivraison',
       loadChildren: () => import('./comerce/bonLivraison/bon-livrason.module').then(module => module.BonLivrasonModule)

@@ -192,7 +192,7 @@ import { AutocompleteSousFamilleComponent } from './autocompletes/autocomplete-s
     //       import { ModifierUtilisateurComponent } from './utilisateur/Components/modifier-utilisateur/modifier-utilisateur.component';
     //     import { AjoutCategoriesComponent } from './variables/categories/ajout-categories/ajout-categories.component';
     //     import { DetailsCategoriesComponent } from './variables/categories/details-categories/details-categories.component';
-    //     import { ListCategoriesComponent } from './variables/categories/list-categories/list-categories.component';
+        import { ListCategoriesComponent } from './variables/categories/list-categories/list-categories.component';
     //     import { ModifierCategoriesComponent } from './variables/categories/modifier-categories/modifier-categories.component';
     //     import { AjoutFamillesComponent } from './variables/familles/ajout-familles/ajout-familles.component';
     //     import { DetailsFamillesComponent } from './variables/familles/details-familles/details-familles.component';
@@ -534,7 +534,7 @@ import { AutocompleteSousFamilleComponent } from './autocompletes/autocomplete-s
               //    ModifierUtilisateurComponent,
               //  AjoutCategoriesComponent,
               //  DetailsCategoriesComponent,
-              //  ListCategoriesComponent,
+               ListCategoriesComponent,
               //  ModifierCategoriesComponent,
               //  AjoutFamillesComponent,
               //  DetailsFamillesComponent,
